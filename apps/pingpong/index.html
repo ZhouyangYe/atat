@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <h3 class="oppoName">Waiting for player . . .</h3>
+  <div class="table">
+    <h2 class="announce"></h2>
+    <div class="rival blade"></div>
+    <div class="ball"></div>
+    <div class="player blade"></div>
+    <button class="ready">Ready!</button>
+    <div class="net"></div>
+  </div>
+  <input type="text" id="name" maxlength="30" placeholder="Player name">
+  <p class="errorMessage"></p>
+  <script src="socket.io.js"></script>
+  <script src="./main.js"></script>
+</body>
+
+</html>
