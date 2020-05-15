@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+  <base href="pingpong/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./style.css">
+  <title>PingPong</title>
 </head>
 
 <body>
@@ -17,7 +21,7 @@
   </div>
   <input type="text" id="name" maxlength="30" placeholder="Player name">
   <p class="errorMessage"></p>
-  <script src="socket.io.js"></script>
+  <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
   <script src="./main.js"></script>
 </body>
 
