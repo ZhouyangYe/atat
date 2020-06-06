@@ -1,8 +1,8 @@
 
-const startPingPongLogic = require('./main');
+const startPingPongServer = require('./main');
 const pingpongHandler = require('./handler');
 
 module.exports = {
-  startPingPongLogic,
+  startPingPongServer,
   pingpongHandler
 };

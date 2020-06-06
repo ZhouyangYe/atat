@@ -11,7 +11,7 @@ var ball = {
 var gameStart = false;
 var readyToServe = false;
 
-function startPingPongLogic(io) {
+function startPingPongServer(io) {
   io.on('connection', (client) => {
     console.log(`Player [${client.id}] connected!'`);
     if (players.length < 2) {
@@ -211,4 +211,4 @@ function startPingPongLogic(io) {
   }
 }
 
-module.exports = startPingPongLogic;
+module.exports = startPingPongServer;
