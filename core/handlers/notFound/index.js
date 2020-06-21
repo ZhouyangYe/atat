@@ -1,12 +1,16 @@
-const fs = require('fs');
+const { deliverHtmlFile } = require('../utils');
 
-const { BASE_FILE, CONTENT_TYPE_MAPPING } = require('../../enum');
+const notFoundHandler = (req, res) => {
+  deliverHtmlFile('notFound', res);
+};
 
-module.exports = (req, res) => {
-  let filePath = `${BASE_FILE}/notFound/index.html`;
-  fs.readFile(filePath, function (err, data) {
-    res.writeHead(200, { 'Content-Type': CONTENT_TYPE_MAPPING['html'], 'Content-Length': data.length });
-    res.write(data);
-    res.end();
-  });
+const notFoundApiHandler = (req, res) => {
+  res.writeHead(404);
+  res.write('Not found api!');
+  res.end();
+};
+
+module.exports = {
+  notFoundHandler,
+  notFoundApiHandler,
 };

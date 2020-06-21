@@ -1,14 +1,13 @@
 const http = require('http');
 const { mainHandler } = require('./core/handlers');
-const routerList = require('./router');
+const bindAllRoutes = require('./router');
+const config = require('./config');
 
-const PORT = 18080;
+const PORT = config.WEB_PORT;
 
 const server = http.createServer(mainHandler);
 
-routerList.forEach((bindRouter) => {
-  bindRouter();
-});
+bindAllRoutes();
 
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`Listening on port ${PORT}`);

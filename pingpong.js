@@ -1,6 +1,7 @@
 const { startPingPongServer } = require('./core/pingpong');
+const config = require('./config');
 
-const PORT = 8080;
+const PORT = config.PINGPONG_PORT;
 var io = require('socket.io')();
 io.listen(PORT);
 

@@ -1,6 +1,7 @@
 const fs = require('fs');
+const config = require('../../config');
 
-const { BASE_FILE, CONTENT_TYPE_MAPPING } = require('../enum');
+const { CONTENT_TYPE_MAPPING } = require('../enum');
 
 module.exports = (req, res) => {
   let filePath = '';
@@ -9,7 +10,7 @@ module.exports = (req, res) => {
     temp.splice(0, 2);
     filePath = temp.join('/');
   } else {
-    filePath = `${BASE_FILE}${req.url}`;
+    filePath = `${config.WEB_BASE_FOLDER}${req.url}`;
   }
 
   fs.readFile(filePath, function (err, data) {

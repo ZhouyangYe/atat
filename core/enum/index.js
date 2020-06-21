@@ -1,5 +1,3 @@
-const BASE_FILE = 'apps';
-
 const CONTENT_TYPE_MAPPING = {
   'css': 'text/css',
   'js': 'text/javascript',
@@ -16,6 +14,5 @@ const CONTENT_TYPE_MAPPING = {
 }
 
 module.exports = {
-  BASE_FILE,
-  CONTENT_TYPE_MAPPING
+  CONTENT_TYPE_MAPPING,
 };

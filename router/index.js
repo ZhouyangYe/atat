@@ -1,25 +1,40 @@
-const { get } = require('../core/handlers');
-const { pingpongHandler } = require('../core/pingpong');
-const notFoundHandler = require('../core/handlers/notFound');
-const staticFileHandler = require('../core/handlers/staticFileHandler');
+const coreHandler = require('../core/handlers');
+const { COMMON_ROUTE, API_NOT_FOUND } = require('./enum');
+const config = require('../config');
 
-// static files
-const bindRoutesForStaticFiles = () => {
-  get(/(\.js|\.css|\.jpeg|\.jpg|\.png|\.gif|\.html|\.map|\.otf|\.woff|\.ttf|\.mp4|\.svg|\.ico)$/, staticFileHandler);
+const routeList = require('./routes');
+
+bindApis = (apis, prefix) => {
+  if (apis && apis.length > 0) {
+    apis.forEach(api => {
+      const { url, method, handler, middleware } = api;
+      
+      const combinedUrl = `${prefix}${url}`;
+      if (method && handler && url) {
+        coreHandler[method](combinedUrl, handler, middleware);
+      }
+
+      bindApis(api.children, combinedUrl);
+    });
+  }
 };
 
-// PingPong
-const bindRoutesForPingPong = () => {
-  get(/^\/pingpong$/, pingpongHandler);
+const bindAllRoutes = () => {
+  routeList.forEach(route => {
+    const { match, handler, namespace, apis } = route;
+    if (match && handler) {
+      coreHandler.get(match, handler);
+    }
+
+    if (namespace === API_NOT_FOUND) {
+      coreHandler.post(match, handler);
+    }
+
+    const baseUrl = config.API_BASE_URL;
+    const prefix = namespace === COMMON_ROUTE ? '' : `/${namespace}`;
+    const combinedUrl = `/${baseUrl}${prefix}`;
+    bindApis(apis, combinedUrl);
+  });
 };
 
-// Not Found
-const bindRouteForNotFound = () => {
-  get(/.*/, notFoundHandler);
-};
-
-module.exports = [
-  bindRoutesForStaticFiles,
-  bindRoutesForPingPong,
-  bindRouteForNotFound
-];
+module.exports = bindAllRoutes;
