@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     const temp = req.url.split('/');
     temp.splice(0, 2);
     filePath = temp.join('/');
-  } else if (/yzy_common/.test(req.url)) { // Get common functions when there is "apps_common" in the path
+  } else if (/yzy_common/.test(req.url)) { // Get common functions when there is "yzy_common" in the path
     const temp = req.url.split('/');
     temp.splice(0, 3);
     filePath = `${WEB_BASE_FOLDER}/common/${temp.join('/')}`;
