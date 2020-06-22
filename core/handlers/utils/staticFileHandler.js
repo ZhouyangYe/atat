@@ -1,16 +1,21 @@
 const fs = require('fs');
-const config = require('../../config');
+const config = require('../../../config');
 
-const { CONTENT_TYPE_MAPPING } = require('../enum');
+const { CONTENT_TYPE_MAPPING } = require('../../enum');
+const { WEB_BASE_FOLDER } = config;
 
 module.exports = (req, res) => {
   let filePath = '';
-  if (/node_modules/.test(req.url)) {
+  if (/node_modules/.test(req.url)) { // Get external libraries when there is "node_modules" in the path
     const temp = req.url.split('/');
     temp.splice(0, 2);
     filePath = temp.join('/');
+  } else if (/yzy_common/.test(req.url)) { // Get common functions when there is "apps_common" in the path
+    const temp = req.url.split('/');
+    temp.splice(0, 3);
+    filePath = `${WEB_BASE_FOLDER}/common/${temp.join('/')}`;
   } else {
-    filePath = `${config.WEB_BASE_FOLDER}${req.url}`;
+    filePath = `${WEB_BASE_FOLDER}${req.url}`;
   }
 
   fs.readFile(filePath, function (err, data) {

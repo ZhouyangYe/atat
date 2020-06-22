@@ -1,4 +1,4 @@
-const staticFileHandler = require('../../core/handlers/staticFileHandler');
+const { staticFileHandler } = require('../../core/handlers');
 
 const staticFileRoutes = {
   match: /(\.js|\.css|\.jpeg|\.jpg|\.png|\.gif|\.html|\.map|\.otf|\.woff|\.ttf|\.mp4|\.svg|\.ico)$/,

@@ -11,8 +11,14 @@ const CONTENT_TYPE_MAPPING = {
   'ico': 'image/x-icon',
   'map': 'application/json',
   'json': 'application/json'
-}
+};
+
+const METHOD_TYPE = {
+  GET: 'get',
+  POST: 'post'
+};
 
 module.exports = {
   CONTENT_TYPE_MAPPING,
+  METHOD_TYPE,
 };

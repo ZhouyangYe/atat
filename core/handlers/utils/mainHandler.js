@@ -1,25 +1,8 @@
-// Get and send html files
-const fs = require('fs');
-const config = require('../../config');
-const { CONTENT_TYPE_MAPPING } = require('../enum');
-
-const deliverHtmlFile = (appFolder, res) => {
-  let filePath = `${config.WEB_BASE_FOLDER}/${appFolder}/index.html`;
-  fs.readFile(filePath, function (err, data) {
-    res.writeHead(200, { 'Content-Type': CONTENT_TYPE_MAPPING['html'], 'Content-Length': data.length });
-    res.write(data);
-    res.end();
-  });
-};
-
-// Handle handlers
-const METHOD_TYPE = {
-  GET: 'GET',
-  POST: 'POST'
-};
+const { METHOD_TYPE } = require('../../enum');
 
 const handlers = [];
 
+// Iterate and run middleware
 const applyMiddleware = (req, res, middleware, cb) => {
   let shouldRunNext = true;
   middleware.forEach((func, index) => {
@@ -40,7 +23,7 @@ const getMethod = (type) => {
       const isRegex = typeof pattern === 'object';
 
       if (
-        req.method.toUpperCase() !== type ||
+        req.method.toLowerCase() !== type ||
         (isRegex && !pattern.test(req.url)) ||
         (!isRegex && pattern !== req.url)
       ) {
@@ -79,7 +62,6 @@ const mainHandler = (req, res) => {
 };
 
 module.exports = {
-  deliverHtmlFile,
   get,
   post,
   mainHandler,
