@@ -159,7 +159,7 @@
       "allow-declarations"
     ],
     "ordered-imports": [
-      true
+      false
     ],
     "prefer-const": true,
     "prefer-for-of": true,
