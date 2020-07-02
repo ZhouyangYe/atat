@@ -5,3 +5,4 @@ TODOs:
   2. Test apps common folder file reader logic
   3. dev tools
   4. tslint to eslint
+  5. webpack merge
