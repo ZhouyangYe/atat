@@ -6,9 +6,9 @@
   "scripts": {
     "start": "nodemon server.js",
     "start-pingpong": "nodemon pingpong.js",
-    "build": "cross-env NODE_ENV=production webpack --config ./apps/algorithms/webpack.config.js --mode=production",
-    "dev": "cross-env NODE_ENV=development webpack --config ./apps/algorithms/webpack.config.js --mode=development",
-    "lint": "eslint -c ./apps/.eslintrc.js ./apps/algorithms/src/**/*.ts"
+    "build": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=production",
+    "dev": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=development",
+    "lint": "eslint -c ./apps/.eslintrc.js ./apps/**/*.ts"
   },
   "keywords": [],
   "author": "",
