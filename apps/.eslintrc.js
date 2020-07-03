@@ -11,5 +11,6 @@ module.exports = {
       'error',
       { default: 'generic' }
     ],
+    '@typescript-eslint/no-var-requires': 0,
   },
 };
