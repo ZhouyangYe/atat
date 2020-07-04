@@ -93,7 +93,7 @@ function startPingPongServer(io) {
       }
     });
 
-    client.on('disconnect', function (data) {
+    client.on('disconnect', function () {
       if (players[0].id === client.id) {
         if (players[1]) {
           players[1].client.emit('oppoleft', players[0].name);

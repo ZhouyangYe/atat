@@ -4,7 +4,7 @@ const config = require('../config');
 
 const routeList = require('./routes');
 
-bindApis = (apis, prefix) => {
+const bindApis = (apis, prefix) => {
   if (apis && apis.length > 0) {
     apis.forEach(api => {
       const { url, method, handler, middleware } = api;

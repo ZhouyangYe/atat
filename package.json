@@ -4,16 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start-server": "nodemon server.js",
     "start-pingpong": "nodemon pingpong.js",
     "build": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=production",
     "dev": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=development",
-    "lint": "eslint -c ./apps/.eslintrc.js ./apps/**/*.ts"
+    "lint-client": "eslint -c ./apps/.eslintrc.js ./apps/**/*.ts",
+    "lint-server": "eslint -c .eslintrc .",
+    "tool": "node ./scripts/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "figlet": "^1.4.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
   },
