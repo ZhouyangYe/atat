@@ -1,19 +1,21 @@
 {
   "name": "atat",
   "version": "1.0.0",
-  "description": "",
+  "description": "a little bit this, a little bit that.",
   "main": "index.js",
   "scripts": {
     "start-server": "nodemon server.js",
     "start-pingpong": "nodemon pingpong.js",
     "build": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=production",
-    "dev": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=development",
+    "dev": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=development --watch",
     "lint-client": "eslint -c ./apps/.eslintrc.js ./apps/**/*.ts",
     "lint-server": "eslint -c .eslintrc .",
+    "link-common": "cd ./apps/common && npm link && cd ../.. && npm link atat-common",
+    "unlink-common": "npm unlink atat-common && cd ./apps/common && npm unlink",
     "scripts": "node ./scripts/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Zhouyang Ye",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.0",

@@ -7,7 +7,8 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js", ".json"], // import file extensions
     modules: [ // where to find the imported file
-      path.resolve(__dirname, "../node_modules")
+      path.resolve(__dirname, "../node_modules"),
+      path.resolve(__dirname, "../apps/common")
     ],
   },
   module: {
