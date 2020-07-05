@@ -1,19 +1,19 @@
-const chalk = require('chalk');
 const clear = require('clear');
-const figlet = require('figlet');
+const { getCustomText } = require('./text');
 
 const args = process.argv.splice(2);
 
 clear();
 
-const text = chalk.yellow(
-  figlet.textSync(args[0], (err, data) => {
-    if (err) {
-      console.dir(err);
-      return;
-    }
-    console.log(data);
-  })
-);
+const twirlTimer = (function() {
+  const P = ["\\", "|", "/", "-"];
+  let x = 0;
+  return setInterval(function() {
+    process.stdout.write("\r" + P[x++]);
+    x &= 3;
+  }, 250);
+})();
+
+const text = getCustomText(args[0], ['blue', 'bgRed']);
 
 console.log(text);
