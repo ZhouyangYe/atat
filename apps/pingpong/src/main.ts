@@ -1,15 +1,18 @@
+import io from 'socket.io-client';
+
+import './styles';
 
 var socket = io('http://localhost:8080');
 
-var table = document.querySelector('.table');
-var player = document.querySelector('.player');
-var rival = document.querySelector('.rival');
-var ball = document.querySelector('.ball');
-var startbutton = document.querySelector('.ready');
-var nameField = document.querySelector('#name');
-var errorMessage = document.querySelector('.errorMessage');
-var oppoName = document.querySelector('.oppoName');
-var announcement = document.querySelector('.announce');
+var table = document.querySelector('.table') as any;
+var player = document.querySelector('.player') as any;
+var rival = document.querySelector('.rival') as any;
+var ball = document.querySelector('.ball') as any;
+var startbutton = document.querySelector('.ready') as any;
+var nameField = document.querySelector('#name') as any;
+var errorMessage = document.querySelector('.errorMessage') as any;
+var oppoName = document.querySelector('.oppoName') as any;
+var announcement = document.querySelector('.announce') as any;
 
 ball.style.display = 'none';
 startbutton.style.display = 'none';
@@ -24,7 +27,7 @@ var isMyServe = false;
 var ballServePosition = 0;
 var gameStart = false;
 
-table.onmousemove = function (e) {
+table.onmousemove = function (e: any) {
   if (readyToServe) {
     e.stopPropagation();
     playerLeft = e.pageX - table.offsetLeft - player.offsetWidth / 2;
@@ -43,7 +46,7 @@ table.onmousemove = function (e) {
   }
 };
 
-socket.on('rivalmove', function (data) {
+socket.on('rivalmove', function (data: any) {
   console.log(data.ballLeft);
   rival.style.right = data.rivalLeft + 'px';
   if (playerType === 1) {
@@ -55,7 +58,7 @@ socket.on('rivalmove', function (data) {
   }
 });
 
-socket.on('checkin', function (type) {
+socket.on('checkin', function (type: any) {
   startbutton.style.display = 'block';
   playerType = type;
 });
@@ -90,12 +93,12 @@ socket.on('shoot', function () {
   isMyServe = true;
 });
 
-socket.on('opponame', function (name) {
+socket.on('opponame', function (name: any) {
   oppoName.innerHTML = name;
 });
 
-var announceTimer = null;
-socket.on('oppoescape', function (oppo) {
+var announceTimer = null as any;
+socket.on('oppoescape', function (oppo: any) {
   announcement.innerHTML = oppo + '<br/> Escaped!';
   clearTimeout(announceTimer);
   announceTimer = setTimeout(function () {
@@ -103,8 +106,8 @@ socket.on('oppoescape', function (oppo) {
   }, 1000);
 });
 
-var oppoNameTimer = null;
-socket.on('oppoleft', function (oppo) {
+var oppoNameTimer = null as any;
+socket.on('oppoleft', function (oppo: any) {
   var name = oppo ? oppo : 'Unknown Player';
   oppoName.innerHTML = '<b>\'' + name + '\'</b>' + ' left . . .';
   clearTimeout(oppoNameTimer);
@@ -138,7 +141,7 @@ document.onkeydown = function (e) {
   }
 }
 
-var messageTimer = null;
+var messageTimer = null as any;
 startbutton.onclick = function () {
   if (nameField.value) {
     socket.emit('playerready', nameField.value);

@@ -1,19 +1,34 @@
 const clear = require('clear');
 const { getCustomText } = require('./text');
+const { COMMANDS, appList, common } = require('./enum');
+const { buildAll } = require('./core');
 
 const args = process.argv.splice(2);
 
+const command = args[0];
+const option = args[1];
+
+const allApps = [...appList, common];
+
+switch (command) {
+  case COMMANDS.BUILD:
+    if (!option) {
+      buildAll();
+    } else if (allApps.includes(option)) {
+      break;
+    }
+    break;
+  case COMMANDS.DEV:
+
+    break;
+  default:
+    break;
+}
+
 clear();
 
-const twirlTimer = (function() {
-  const P = ["\\", "|", "/", "-"];
-  let x = 0;
-  return setInterval(function() {
-    process.stdout.write("\r" + P[x++]);
-    x &= 3;
-  }, 250);
-})();
+// process.stdout.write("\r" + P[x++]);
 
-const text = getCustomText(args[0], ['blue', 'bgRed']);
-
+const text = getCustomText('BT', ['red', 'bgYellow']);
 console.log(text);
+

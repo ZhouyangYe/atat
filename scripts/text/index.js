@@ -2,13 +2,12 @@ const chalk = require('chalk');
 const figlet = require('figlet');
 
 const getCustomText = (text, font, style) => {
-  let result = figlet.textSync(text, style, (err, data) => {
+  let result = figlet.textSync(text, style, (err) => {
     if (err) {
       console.log(`Can't create text!`);
       console.dir(err);
       return;
     }
-    console.log(data);
   });
 
   font.forEach((item) => {

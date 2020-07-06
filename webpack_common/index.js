@@ -5,17 +5,17 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   resolve: {
-    extensions: [".ts", ".js", ".json"], // import file extensions
+    extensions: ['.ts', '.js', '.json'], // import file extensions
     modules: [ // where to find the imported file
-      path.resolve(__dirname, "../node_modules"),
-      path.resolve(__dirname, "../apps/common")
+      path.resolve(__dirname, '../node_modules'),
+      path.resolve(__dirname, '../apps/common')
     ],
   },
   module: {
     rules: [
       {
         test: /\.ts?$/,
-        loader: "ts-loader", // compile typescript
+        loader: 'ts-loader', // compile typescript
         exclude: /node_modules/
       },
       {
@@ -23,10 +23,10 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,  // output css to file
           {
-            loader: "css-loader" // import css in javascript
+            loader: 'css-loader' // import css in javascript
           },
           {
-            loader: "less-loader" // compile less
+            loader: 'less-loader' // compile less
           }
         ]
       }
