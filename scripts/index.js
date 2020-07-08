@@ -1,5 +1,3 @@
-const clear = require('clear');
-const { getCustomText } = require('./text');
 const { COMMANDS, appList, common } = require('./enum');
 const { buildAll } = require('./core');
 
@@ -24,11 +22,3 @@ switch (command) {
   default:
     break;
 }
-
-clear();
-
-// process.stdout.write("\r" + P[x++]);
-
-const text = getCustomText('BT', ['red', 'bgYellow']);
-console.log(text);
-
