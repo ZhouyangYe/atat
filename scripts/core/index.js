@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const chalk = require('chalk');
+const log = require('single-line-log').stdout;
 
 const { MODE, common, appList } = require('../enum');
 const { clearScreen } = require('../utils');
@@ -22,7 +23,7 @@ const buildAll = () => {
     const bars = 20; // total / division
     const progress = (current / division).toFixed(0);
 
-    let progressBar = `\rCompiling [${chalk.cyan(common)}]: `;
+    let progressBar = `Building [${chalk.cyan(common)}]: `;
     const green = chalk.bgGreen(' ');
     const white = chalk.bgWhite(' ');
     for (let i = 0; i < bars; i++) {
@@ -32,7 +33,7 @@ const buildAll = () => {
         progressBar = `${progressBar}${white}`;
       }
     }
-    process.stdout.write(`${progressBar} ${current.toFixed(2)}%`);
+    log(`${progressBar} ${current.toFixed(2)}%`);
   };
 
   const plugin = new webpack.ProgressPlugin(handler);

@@ -1,5 +1,5 @@
 const clear = require('clear');
-const { getCustomText } = require('../text');
+const { getCustomText } = require('./text');
 
 const clearScreen = () => {
   const text = getCustomText('Hello BT!', ['cyan'], {
