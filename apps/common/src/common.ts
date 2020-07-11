@@ -1,3 +1,3 @@
 export default () => {
-  console.log('Hello common888!');
+  console.log('Hello common8881232222!');
 };

@@ -6,8 +6,8 @@
   "scripts": {
     "start-server": "nodemon server.js",
     "start-pingpong": "nodemon pingpong.js",
-    "build": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=production --progress",
-    "dev": "cross-env webpack --config ./apps/algorithms/webpack.config.js --mode=development --watch",
+    "build": "cross-env webpack --config ./apps/common/webpack.config.js --mode=production --progress",
+    "dev": "cross-env webpack --config ./apps/common/webpack.config.js --mode=development --watch",
     "lint-client": "eslint -c ./apps/.eslintrc.js ./apps/**/*.ts",
     "lint-server": "eslint -c .eslintrc .",
     "link-common": "cd ./apps/common && npm link && cd ../.. && npm link atat-common",
@@ -18,11 +18,13 @@
   "author": "Zhouyang Ye",
   "license": "ISC",
   "dependencies": {
-    "atat-common": "file:./apps/common",
+    "atat-common": "file:apps/common",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
+    "cli-cursor": "^3.1.0",
     "figlet": "^1.4.0",
-    "single-line-log": "^1.1.2",
+    "node-cmd": "^3.0.0",
+    "node-emoji": "^1.10.0",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0"
   },

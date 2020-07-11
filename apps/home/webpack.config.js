@@ -1,6 +1,6 @@
 const path = require('path');
 const merge = require('webpack-merge');
-const webpackCommon = require('../../webpack_common');
+const webpackCommon = require(path.resolve(__dirname, '../../webpack_common'));
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = merge(webpackCommon, {
