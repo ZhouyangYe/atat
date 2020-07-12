@@ -12,3 +12,4 @@ TODOs:
   5. webpack merge ✔
   6. pingpong migrate to ts and canvas
   7. common package ✔
+  8. add comments

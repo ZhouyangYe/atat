@@ -2,7 +2,7 @@ const { workerData, parentPort } = require('worker_threads');
 const path = require('path');
 const webpack = require('webpack');
 const { requireAsync } = require('../utils/file');
-const { WEBPACK_MODE, BUILD_MODE, INVOKE_MODE, WEBPACK_MESSAGE_TYPE } = require('../enum');
+const { WEBPACK_MODE, BUILD_MODE, WEBPACK_MESSAGE_TYPE } = require('../enum');
 
 const getPath = (name) => {
   return path.resolve(__dirname, `../../apps/${name}/webpack.config`);
@@ -13,7 +13,6 @@ const { name, mode } = workerData;
 requireAsync(getPath(name)).then((config) => {
   config.mode = mode === BUILD_MODE.BUILD ? WEBPACK_MODE.PROD : WEBPACK_MODE.DEV;
   const compiler = webpack(config);
-  const compileMethod = mode === BUILD_MODE.BUILD ? INVOKE_MODE.RUN : INVOKE_MODE.WATCH;
 
   const func = (percentage) => {
     parentPort.postMessage({
@@ -26,14 +25,23 @@ requireAsync(getPath(name)).then((config) => {
   const plugin = new webpack.ProgressPlugin(func);
   plugin.apply(compiler);
 
-  compiler[compileMethod]((err, stats) => {
+  const handler = (err, stats) => {
     const error = stats.hasErrors() ? stats.toString() : err;
     parentPort.postMessage({
       type: WEBPACK_MESSAGE_TYPE.DONE,
       err: error,
       name,
     });
-  });
+  };
+
+  if (mode === BUILD_MODE.BUILD) {
+    compiler.run(handler);
+  } else {
+    compiler.watch({
+      aggregateTimeout: 300,
+    }, handler);
+  }
+
 }).catch((err) => {
   parentPort.postMessage({
     type: WEBPACK_MESSAGE_TYPE.DONE,

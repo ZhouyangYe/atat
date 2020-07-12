@@ -1,3 +1,6 @@
+const chalk = require('chalk');
+const emoji = require('node-emoji');
+
 const COMMANDS = {
   BUILD: 'build',
   DEV: 'dev',
@@ -13,15 +16,21 @@ const BUILD_MODE = {
   BUILD: 'build',
 };
 
-const INVOKE_MODE = {
-  RUN: 'run',
-  WATCH: 'watch',
-};
-
 const WEBPACK_MESSAGE_TYPE = {
   HANDLER: 'handler',
   DONE: 'done',
 };
+
+const pointers = ['\\', '|', '/', '-'];
+
+const successIcon = chalk.green(emoji.get('heart'));
+const failIcon = chalk.red(emoji.get('x'));
+const errorMessage = `${chalk.blueBright('Something is wrong, please check the info above')} ${chalk.cyan(emoji.get('point_up'))}\n`;
+
+/** Terminal start line */
+const initLine = 6;
+/** Line space */
+const delta = 2;
 
 const appList = ['algorithms', 'hahaha', 'home', 'intro', 'notFound', 'pingpong'];
 const common = 'common';
@@ -30,8 +39,13 @@ module.exports = {
   COMMANDS,
   WEBPACK_MODE,
   BUILD_MODE,
-  INVOKE_MODE,
   WEBPACK_MESSAGE_TYPE,
   appList,
   common,
+  initLine,
+  delta,
+  pointers,
+  successIcon,
+  failIcon,
+  errorMessage,
 };

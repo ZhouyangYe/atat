@@ -1,23 +1,24 @@
 const cliCursor = require('cli-cursor');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
-const { common, appList, BUILD_MODE } = require('../enum');
+const { common, appList, BUILD_MODE, pointers, successIcon, failIcon, errorMessage } = require('../enum');
 const buildModule = require('./buildModule');
 const syncCommon = require('./syncCommon');
-const { writeOnLine } = require('../utils');
-
-const pointers = ['\\', '|', '/', '-'];
-
-const initLine = 6;
-const delta = 2; // controls line space
-
-const successIcon = chalk.green(emoji.get('heart'));
-const failIcon = chalk.red(emoji.get('x'));
+const { writeOnLine, startTimer } = require('../utils');
+const { getCurrentLine, drawProgress } = require('./common');
 
 const statusMetaMap = {
   [common]: {
+    /** Current line of the progress bar */
     line: 0,
+    /** If the compiling is done for the app */
     done: false,
+    /** Stop progress bar timer */
+    cancelTimer: null,
+    /** The current percentage */
+    percentage: 0,
+    /** Keep tracking for compilation error of each app */
+    error: null,
   },
 };
 
@@ -28,51 +29,15 @@ appList.forEach((app, index) => {
   };
 });
 
-const startTimer = (cb) => {
-  const timer = setInterval(() => {
-    cb();
-  }, 125);
-
-  return () => {
-    clearInterval(timer);
-  };
-};
-
-const getCurrentLine = (line) => {
-  return line * delta + initLine;
-};
-
 const handler = (name, percentage) => {
   statusMetaMap[name].percentage = percentage;
-};
-
-const drawProgress = (name, pointer) => {
-  const { percentage = 0 } = statusMetaMap[name];
-  const total = 100;
-  const division = 5;
-  const current = percentage * total;
-  const bars = 20; // total / division
-  const progress = (current / division).toFixed(0);
-  const currentLine = getCurrentLine(statusMetaMap[name].line);
-
-  let progressBar = `Building [${chalk.cyan(name)}]: `;
-  const green = chalk.bgGreen(' ');
-  const white = chalk.bgWhite(' ');
-  for (let i = 0; i < bars; i++) {
-    if (i < progress) {
-      progressBar = `${progressBar}${green}`;
-    } else {
-      progressBar = `${progressBar}${white}`;
-    }
-  }
-  writeOnLine(process.stdout, currentLine, `${pointer} ${progressBar} ${current.toFixed(2)}%`);
 };
 
 const start = (name) => {
   let index = 0;
   statusMetaMap[name].cancelTimer = startTimer(() => {
     index = index % 4;
-    drawProgress(name, pointers[index]);
+    drawProgress(name, pointers[index], statusMetaMap[name]);
     index++;
   });
 };
@@ -81,16 +46,16 @@ const done = (name, err) => {
   statusMetaMap[name].done = true;
   statusMetaMap[name].cancelTimer();
   const icon = err ? failIcon : successIcon;
-  const errorMessage = `${chalk.blueBright('Something is wrong, please check the info above')} ${chalk.cyan(emoji.get('point_up'))}\n`;
   const getErrorTitle = (title) => (`<${chalk.yellow('Error')}> ${chalk.cyan(title)} ------------------------>\n\n`);
 
-  drawProgress(name, icon);
+  drawProgress(name, icon, statusMetaMap[name]);
 
   if (name === common && !!err) {
     process.stdout.write('\n\n');
     process.stdout.write(getErrorTitle(common));
     console.error(err);
     process.stdout.write(`\n${errorMessage}`);
+    // Show the cursor when everything is done
     cliCursor.show();
     return;
   }
@@ -99,7 +64,7 @@ const done = (name, err) => {
     statusMetaMap[name].error = err;
   }
 
-  // if module 'common' has done building, sync it to node_modules and then start building other modules,
+  // If module 'common' has done building, sync it to node_modules and then start building other modules,
   // because all modules are dependent on 'common'.
   if (name === common && !err) {
     const currentLine = getCurrentLine(statusMetaMap[common].line + 1);
@@ -148,15 +113,15 @@ const done = (name, err) => {
 
     const text = hasError ? errorMessage : `${chalk.yellow(emoji.get('v'))}  ${chalk.green('All done!')}\n`;
     process.stdout.write(text);
+    // Show the cursor when everything is done
     cliCursor.show();
   }
 };
 
 const buildAll = () => {
+  // Hide the cursor before doing any animations, in case seeing the cursor moving back and forth all the time
   cliCursor.hide();
   buildModule(common, BUILD_MODE.BUILD, handler, start, done);
 };
 
-module.exports = {
-  buildAll,
-};
+module.exports = buildAll;

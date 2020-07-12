@@ -1,5 +1,5 @@
-const { COMMANDS, appList, common } = require('./enum');
-const { buildAll } = require('./core');
+const { COMMANDS, appList, common, BUILD_MODE } = require('./enum');
+const { buildAll, buildSingle } = require('./core');
 const { clearScreen, modifyConsole } = require('./utils');
 
 modifyConsole();
@@ -18,12 +18,17 @@ switch (command) {
     if (!option) {
       buildAll();
     } else if (allApps.includes(option)) {
-      break;
+      buildSingle(option, BUILD_MODE.BUILD);
     }
     break;
   case COMMANDS.DEV:
-
+    if (!option) {
+      console.warn('Please make sure which app you want to start dev.', true);
+    } else {
+      buildSingle(option, BUILD_MODE.DEV);
+    }
     break;
   default:
+    console.error('Command not valid!', true);
     break;
 }
