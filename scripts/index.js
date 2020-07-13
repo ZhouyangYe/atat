@@ -1,31 +1,42 @@
 const { COMMANDS, appList, common, BUILD_MODE } = require('./enum');
-const { buildAll, buildSingle } = require('./core');
+const { buildAll, buildSome } = require('./core');
 const { clearScreen, modifyConsole } = require('./utils');
 
 modifyConsole();
 
 const args = process.argv.splice(2);
 
-const command = args[0];
-const option = args[1];
+const [command, ...apps] = args;
 
 const allApps = [...appList, common];
 
 clearScreen();
 
+const contains = (allItems, items) => {
+  return items.reduce((result, current) => {
+    return allItems.includes(current) && result;
+  }, true);
+};
+
 switch (command) {
   case COMMANDS.BUILD:
-    if (!option) {
+    if (!apps) {
       buildAll();
-    } else if (allApps.includes(option)) {
-      buildSingle(option, BUILD_MODE.BUILD);
+    } else if (contains(allApps, apps)) {
+      buildSome(apps, BUILD_MODE.BUILD);
+    } else {
+      console.error('Invalid apps!', true);
+      console.info(`Apps should be within: ${allApps.join(', ')}.`);
     }
     break;
   case COMMANDS.DEV:
-    if (!option) {
-      console.warn('Please make sure which app you want to start dev.', true);
+    if (!apps) {
+      console.warn('Please make sure which apps you want to start dev.', true);
+    } else if (contains(allApps, apps)) {
+      buildSome(apps, BUILD_MODE.DEV);
     } else {
-      buildSingle(option, BUILD_MODE.DEV);
+      console.error('Invalid apps!', true);
+      console.info(`Apps should be within: ${allApps.join(', ')}.`);
     }
     break;
   default:

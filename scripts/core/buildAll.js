@@ -5,13 +5,13 @@ const { common, appList, BUILD_MODE, pointers, successIcon, failIcon, errorMessa
 const buildModule = require('./buildModule');
 const syncCommon = require('./syncCommon');
 const { writeOnLine, startTimer } = require('../utils');
-const { getCurrentLine, drawProgress } = require('./common');
+const { getCurrentLine, drawProgress, getErrorTitle } = require('./common');
 
 const statusMetaMap = {
   [common]: {
     /** Current line of the progress bar */
     line: 0,
-    /** If the compiling is done for the app */
+    /** Indicates if the compiling is done for the app */
     done: false,
     /** Stop progress bar timer */
     cancelTimer: null,
@@ -46,7 +46,6 @@ const done = (name, err) => {
   statusMetaMap[name].done = true;
   statusMetaMap[name].cancelTimer();
   const icon = err ? failIcon : successIcon;
-  const getErrorTitle = (title) => (`<${chalk.yellow('Error')}> ${chalk.cyan(title)} ------------------------>\n\n`);
 
   drawProgress(name, icon, statusMetaMap[name]);
 
@@ -95,6 +94,7 @@ const done = (name, err) => {
     });
   }
 
+  // All compilations are done
   if (appList.findIndex(module => statusMetaMap[module].done === false) === -1) {
     const lastApp = appList[appList.length - 1];
     const currentLine = getCurrentLine(statusMetaMap[lastApp].line + 1);

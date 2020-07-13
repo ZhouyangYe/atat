@@ -1,7 +1,7 @@
 const buildAll = require('./buildAll');
-const buildSingle = require('./buildSingle');
+const buildSome = require('./buildSome');
 
 module.exports = {
   buildAll,
-  buildSingle,
+  buildSome,
 };

@@ -27,7 +27,7 @@ const modifyConsole = () => {
   };
 
   console.info = (text, withIcon = false) => {
-    const content = withIcon ? `${emoji.get('information_source')} ${text}` : text;
+    const content = withIcon ? `${emoji.get('pencil2')} ${text}` : text;
     info(chalk.green(content));
   }
 

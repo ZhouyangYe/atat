@@ -27,7 +27,7 @@ const drawProgress = (name, icon, meta) => {
       progressBar = `${progressBar}${white}`;
     }
   }
-  writeOnLine(process.stdout, currentLine, `${icon} ${progressBar} ${current.toFixed(2)}%`);
+  writeOnLine(process.stdout, currentLine, `${icon} ${progressBar} ${current.toFixed(2)}%      `);
 };
 
 module.exports = drawProgress;
