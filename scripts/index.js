@@ -35,8 +35,8 @@ switch (command) {
     } else if (contains(allApps, apps)) {
       buildSome(apps, BUILD_MODE.DEV);
     } else {
-      console.error('Invalid apps!', true);
-      console.info(`Apps should be within: ${allApps.join(', ')}.`);
+      console.error('Invalid apps!\n', true);
+      console.info(`Apps should be one of these: ${allApps.join(', ')}.`, true);
     }
     break;
   default:
