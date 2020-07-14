@@ -13,6 +13,7 @@
     "lint-server": "eslint -c .eslintrc .",
     "link-common": "cd ./apps/common && npm link && cd ../.. && npm link atat-common",
     "unlink-common": "npm unlink atat-common && cd ./apps/common && npm unlink",
+    "sync-common": "npm install ./apps/common",
     "scripts": "node ./scripts/index.js"
   },
   "keywords": [],
