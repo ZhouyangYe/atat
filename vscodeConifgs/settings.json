@@ -1,0 +1,45 @@
+// Place your settings in this file to overwrite the default settings
+{
+  "editor.fontSize": 12,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "editor.quickSuggestionsDelay": 20,
+  "editor.mouseWheelScrollSensitivity": 2,
+  "editor.formatOnSave": false,
+  "terminal.integrated.shell.windows": "C:\\Program Files\\Git\\bin\\bash.exe",
+  "terminal.integrated.shellArgs.windows": [
+    "-l"
+  ],
+  "eslint.workingDirectories": ["./", "./apps"],
+  "window.zoomLevel": 0,
+  "typescript.tsdk": "C:\\Users\\zye08\\AppData\\Roaming\\npm\\node_modules\\typescript\\lib",
+  "explorer.openEditors.visible": 0,
+  "explorer.enableDragAndDrop": false,
+  "explorer.autoReveal": true,
+  "editor.formatOnType": false,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/dist": true,
+    "**/lib": true,
+  },
+  "files.defaultLanguage": "",
+  "editor.renderIndentGuides": false,
+  "explorer.confirmDelete": false,
+  "typescript.updateImportsOnFileMove.enabled": "never",
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  }
+}

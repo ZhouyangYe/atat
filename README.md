@@ -13,3 +13,5 @@ TODOs:
   6. pingpong migrate to ts and canvas
   7. common package ✔
   8. add comments
+  9. improve linting rules
+  10. fix linting errors and warnings

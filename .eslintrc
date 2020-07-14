@@ -8,6 +8,7 @@
     "no-console": "off",
     "quotes": ["warn", "single", {
       "allowTemplateLiterals": true
-    }]
+    }],
+    "no-var": 1
   }
 }
