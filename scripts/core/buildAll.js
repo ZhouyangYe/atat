@@ -5,7 +5,7 @@ const { common, appList, BUILD_MODE, pointers, successIcon, failIcon, errorMessa
 const buildModule = require('./buildModule');
 const syncCommon = require('./syncCommon');
 const { writeOnLine, startTimer } = require('../utils');
-const { getCurrentLine, drawProgress, getErrorTitle } = require('./common');
+const { getCurrentLine, drawProgress, getErrorTitle, handleErrors } = require('./common');
 
 const statusMetaMap = {
   [common]: {
@@ -97,19 +97,7 @@ const done = (name, err) => {
   // All compilations are done
   if (appList.findIndex(module => statusMetaMap[module].done === false) === -1) {
     const lastApp = appList[appList.length - 1];
-    const currentLine = getCurrentLine(statusMetaMap[lastApp].line + 1);
-    writeOnLine(process.stdout, currentLine, '');
-    let hasError = false;
-
-    appList.forEach((app) => {
-      const { error } = statusMetaMap[app];
-      if (error) {
-        hasError = true;
-        process.stdout.write(getErrorTitle(app));
-        console.error(error);
-        process.stdout.write('\n');
-      }
-    });
+    const hasError = handleErrors(appList, statusMetaMap, statusMetaMap[lastApp].line + 1);
 
     const text = hasError ? errorMessage : `${chalk.yellow(emoji.get('v'))}  ${chalk.green('All done!')}\n`;
     process.stdout.write(text);

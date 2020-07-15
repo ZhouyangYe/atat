@@ -2,8 +2,8 @@ const cliCursor = require('cli-cursor');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
 const { errorMessage, pointers, successIcon, failIcon } = require('../enum');
-const { drawProgress, getCurrentLine, getErrorTitle } = require('./common');
-const { startTimer, writeOnLine, clearScreen } = require('../utils');
+const { drawProgress, handleErrors } = require('./common');
+const { startTimer, clearScreen } = require('../utils');
 const buildModule = require('./buildModule');
 
 const metaDatas = {
@@ -49,17 +49,7 @@ const done = (name, err) => {
 
   // All compilations are done
   if (metaDatas.keys.findIndex(key => metaDatas[key].done === false) === -1) {
-    let hasError = false;
-
-    writeOnLine(process.stdout, getCurrentLine(metaDatas.lastLine + 1), '');
-    metaDatas.keys.forEach(key => {
-      if (metaDatas[key].error) {
-        hasError = true;
-        process.stdout.write(getErrorTitle(key));
-        console.error(metaDatas[key].error);
-        process.stdout.write('\n');
-      }
-    });
+    const hasError = handleErrors(metaDatas.keys, metaDatas, metaDatas.lastLine + 1);
 
     if (hasError) {
       process.stdout.write(`${errorMessage}`);

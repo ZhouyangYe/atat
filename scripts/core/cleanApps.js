@@ -2,7 +2,7 @@ const cmd = require('node-cmd');
 const cliCursor = require('cli-cursor');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
-const { getCurrentLine, getErrorTitle } = require('./common');
+const { getCurrentLine, handleErrors } = require('./common');
 const { writeOnLine, startTimer } = require('../utils');
 const { common, pointers, successIcon, failIcon, errorMessage } = require('../enum');
 
@@ -22,27 +22,6 @@ const cleanApps = (apps) => {
       done: false,
     };
   });
-
-  const handleErrors = () => {
-    let hasError = false;
-
-    writeOnLine(process.stdout, getCurrentLine(cleanMap.lastLine + 1), '');
-    apps.forEach(key => {
-      if (cleanMap[key].error) {
-        hasError = true;
-        process.stdout.write(getErrorTitle(key));
-        console.error(cleanMap[key].error);
-        process.stdout.write('\n');
-      }
-    });
-
-    if (hasError) {
-      process.stdout.write(`${errorMessage}`);
-      cliCursor.show();
-    }
-
-    return hasError;
-  };
 
   apps.map((app) => {
     // Draw spinning icons
@@ -76,7 +55,11 @@ const cleanApps = (apps) => {
       writeOnLine(process.stdout, currentLine, `${successIcon} cleaning [${chalk.cyan(name)}]: done!\n`);
 
       if (apps.findIndex(app => cleanMap[app].done === false) === -1) {
-        if (handleErrors()) return;
+        if (handleErrors(apps, cleanMap, cleanMap.lastLine + 1)) {
+          process.stdout.write(`${errorMessage}`);
+          cliCursor.show();
+          return;
+        }
 
         process.stdout.write(`${chalk.yellow(emoji.get('v'))}  ${chalk.green('All done!')}\n`);
         cliCursor.show();
@@ -89,7 +72,7 @@ const cleanApps = (apps) => {
       writeOnLine(process.stdout, currentLine, `${failIcon} cleaning [${chalk.cyan(app)}]: failed!\n`);
 
       if (apps.findIndex(app => cleanMap[app].done === false) === -1) {
-        handleErrors();
+        handleErrors(apps, cleanMap, cleanMap.lastLine + 1);
       }
     });
   });
