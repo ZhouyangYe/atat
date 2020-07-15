@@ -3,6 +3,7 @@
     "experimentalDecorators": true,
     "outDir": "./lib/",
     "sourceMap": true,
+    "declaration": true,
     "noImplicitAny": true,
     "moduleResolution": "node",
     "esModuleInterop": true,

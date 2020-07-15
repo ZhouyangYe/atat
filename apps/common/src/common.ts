@@ -1,3 +1,3 @@
-export default () => {
+export const common = (): void => {
   console.log('Hello common test!');
 };

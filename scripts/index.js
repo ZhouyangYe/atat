@@ -1,5 +1,5 @@
 const { COMMANDS, appList, common, BUILD_MODE } = require('./enum');
-const { buildAll, buildSome } = require('./core');
+const { buildAll, buildSome, cleanApps } = require('./core');
 const { clearScreen, modifyConsole } = require('./utils');
 
 modifyConsole();
@@ -20,7 +20,7 @@ const contains = (allItems, items) => {
 
 switch (command) {
   case COMMANDS.BUILD:
-    if (!apps) {
+    if (!apps.length) {
       buildAll();
     } else if (contains(allApps, apps)) {
       buildSome(apps, BUILD_MODE.BUILD);
@@ -30,10 +30,20 @@ switch (command) {
     }
     break;
   case COMMANDS.DEV:
-    if (!apps) {
+    if (!apps.length) {
       console.warn('Please make sure which apps you want to start dev.', true);
     } else if (contains(allApps, apps)) {
       buildSome(apps, BUILD_MODE.DEV);
+    } else {
+      console.error('Invalid apps!\n', true);
+      console.info(`Apps should be one of these: ${allApps.join(', ')}.`, true);
+    }
+    break;
+  case COMMANDS.CLEAN:
+    if (!apps.length) {
+      cleanApps(allApps);
+    } else if (contains(allApps, apps)) {
+      cleanApps(apps);
     } else {
       console.error('Invalid apps!\n', true);
       console.info(`Apps should be one of these: ${allApps.join(', ')}.`, true);

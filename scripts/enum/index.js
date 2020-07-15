@@ -4,6 +4,7 @@ const emoji = require('node-emoji');
 const COMMANDS = {
   BUILD: 'build',
   DEV: 'dev',
+  CLEAN: 'clean',
 };
 
 const WEBPACK_MODE = {

@@ -6,7 +6,7 @@ const { WEB_BASE_FOLDER } = config;
 
 module.exports = (req, res) => {
   let filePath = '';
-  if (/node_modules/.test(req.url)) { // Get external libraries when there is "node_modules" in the path
+  if (/\/resources\//.test(req.url) || /node_modules/.test(req.url)) { // Get external libraries when there is "node_modules" or "/resources/" in the path
     const temp = req.url.split('/');
     temp.splice(0, 2);
     filePath = temp.join('/');

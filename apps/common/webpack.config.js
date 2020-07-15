@@ -9,7 +9,7 @@ module.exports = merge(webpackCommon, {
     path: path.resolve(__dirname, "lib"),
     filename: "index.js",
     library: "atat-common",
-    libraryTarget: "commonjs2"
+    libraryTarget: "umd"
   },
   resolve: {
     modules: [ // where to find the imported file

@@ -1,3 +1,1 @@
-import common from './common';
-
-common();
+export * from './common';
