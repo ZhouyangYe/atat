@@ -1,4 +1,4 @@
-const { COMMANDS, appList, common, BUILD_MODE } = require('./enum');
+const { COMMANDS, appList, common, node_modules, BUILD_MODE } = require('./enum');
 const { buildAll, buildSome, cleanApps } = require('./core');
 const { clearScreen, modifyConsole } = require('./utils');
 
@@ -42,7 +42,7 @@ switch (command) {
   case COMMANDS.CLEAN:
     if (!apps.length) {
       cleanApps(allApps);
-    } else if (contains(allApps, apps)) {
+    } else if (contains([...allApps, node_modules], apps)) {
       cleanApps(apps);
     } else {
       console.error('Invalid apps!\n', true);

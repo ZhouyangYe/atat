@@ -9,6 +9,7 @@
     "build": "npm run scripts -- build",
     "dev": "npm run scripts -- dev",
     "clean": "npm run scripts -- clean",
+    "unlock-package": "rm -rf package-lock.json",
     "clean-modules": "rm -rf node_modules",
     "lint": "npm run lint-client && npm run lint-server",
     "lint-client": "eslint -c apps/.eslintrc --ignore-path apps/.eslintignore apps/**/*.ts",

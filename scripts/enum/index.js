@@ -35,6 +35,7 @@ const delta = 2;
 
 const appList = ['algorithms', 'hahaha', 'home', 'intro', 'notFound', 'pingpong'];
 const common = 'common';
+const node_modules = 'modules';
 
 module.exports = {
   COMMANDS,
@@ -43,6 +44,7 @@ module.exports = {
   WEBPACK_MESSAGE_TYPE,
   appList,
   common,
+  node_modules,
   initLine,
   delta,
   pointers,

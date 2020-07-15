@@ -4,7 +4,7 @@ const chalk = require('chalk');
 const emoji = require('node-emoji');
 const { getCurrentLine, handleErrors } = require('./common');
 const { writeOnLine, startTimer } = require('../utils');
-const { common, pointers, successIcon, failIcon, errorMessage } = require('../enum');
+const { common, pointers, successIcon, failIcon, errorMessage, node_modules } = require('../enum');
 
 /**
  * @description Remove build dist folder from apps
@@ -38,7 +38,7 @@ const cleanApps = (apps) => {
     });
 
     return new Promise((res, rej) => {
-      const command = app === common ? 'rm -rf ./apps/common/lib' : `rm -rf ./apps/${app}/dist`;
+      const command = app === common ? 'rm -rf ./apps/common/lib' : app === node_modules ? 'rm -rf ./node_modules' : `rm -rf ./apps/${app}/dist`;
       cmd.get(command, (err) => {
         if (err) {
           rej({ err, app });
