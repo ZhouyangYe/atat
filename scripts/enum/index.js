@@ -33,7 +33,7 @@ const initLine = 6;
 /** Line space */
 const delta = 2;
 
-const appList = ['algorithms', 'hahaha', 'home', 'intro', 'notFound', 'pingpong'];
+const appList = ['algorithms', 'hahaha', 'home', 'intro', 'notFound', 'pingpong', 'admin'];
 const common = 'common';
 const node_modules = 'modules';
 

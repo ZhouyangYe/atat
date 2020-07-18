@@ -6,7 +6,7 @@ const { WEB_BASE_FOLDER } = config;
 
 module.exports = (req, res) => {
   let filePath = '';
-  if (/\/resources\//.test(req.url) || /node_modules/.test(req.url)) { // Get external libraries when there is "node_modules" or "/resources/" in the path
+  if (/\/resources\//.test(req.url) || /node_modules/.test(req.url)) { // Send static files when there is "node_modules" or "/resources/" in the path
     const temp = req.url.split('/');
     temp.splice(0, 2);
     filePath = temp.join('/');
@@ -19,7 +19,7 @@ module.exports = (req, res) => {
   }
 
   fs.readFile(filePath, function (err, data) {
-    if (!data) {
+    if (!!err || !data) {
       res.writeHead(404);
       res.write('Not Found!');
       res.end();

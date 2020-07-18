@@ -10,7 +10,6 @@
     "dev": "npm run scripts -- dev",
     "clean": "npm run scripts -- clean",
     "unlock-package": "rm -rf package-lock.json",
-    "clean-modules": "rm -rf node_modules",
     "lint": "npm run lint-client && npm run lint-server",
     "lint-client": "eslint -c apps/.eslintrc --ignore-path apps/.eslintignore apps/**/*.ts",
     "lint-server": "eslint -c .eslintrc --ignore-path .eslintignore **/*.js",
@@ -32,7 +31,7 @@
   "author": "Zhouyang Ye",
   "license": "ISC",
   "dependencies": {
-    "atat-common": "file:apps/common",
+    "atat-common": "file:./apps/common",
     "chalk": "^4.1.0",
     "clear": "^0.1.0",
     "cli-cursor": "^3.1.0",
