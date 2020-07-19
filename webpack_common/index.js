@@ -19,11 +19,14 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.less$/,
+        test: /\.(less|css)$/,
         use: [
           MiniCssExtractPlugin.loader,  // output css to file
           {
-            loader: 'css-loader' // import css in javascript
+            loader: 'css-loader', // import css in javascript
+            options: {
+              url: false
+            }
           },
           {
             loader: 'less-loader' // compile less

@@ -4,8 +4,7 @@ const figlet = require('figlet');
 const getCustomText = (text, font, style) => {
   let result = figlet.textSync(text, style, (err) => {
     if (err) {
-      console.log(`Can't create text!`);
-      console.dir(err);
+      console.error(err);
       return;
     }
   });

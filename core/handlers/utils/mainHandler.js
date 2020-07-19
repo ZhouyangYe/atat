@@ -1,4 +1,6 @@
-const { METHOD_TYPE } = require('../../enum');
+const { METHOD_TYPE } = require('@/core/enum');
+const decorateRequest = require('./serverIO/request');
+const decorateResponse = require('./serverIO/response');
 
 const handlers = [];
 
@@ -46,8 +48,16 @@ const getMethod = (type) => {
 const get = getMethod(METHOD_TYPE.GET);
 const post = getMethod(METHOD_TYPE.POST);
 
+const decorateIO = (req, res) => {
+  decorateRequest(req);
+  decorateResponse(res);
+}
+
 const mainHandler = (req, res) => {
   let found = false;
+
+  // Add custom functions to req and res
+  decorateIO(req, res);
 
   for (const index in handlers) {
     found = handlers[index](req, res);

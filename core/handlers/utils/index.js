@@ -3,9 +3,9 @@ const { deliverHtmlFile } = require('./deliverHtmlFile');
 const staticFileHandler = require('./staticFileHandler');
 
 module.exports = {
-  staticFileHandler,
-  deliverHtmlFile,
   get,
   post,
+  deliverHtmlFile,
   mainHandler,
+  staticFileHandler,
 };

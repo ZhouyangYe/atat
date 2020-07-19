@@ -18,7 +18,20 @@ const METHOD_TYPE = {
   POST: 'post'
 };
 
+const ROLE = {
+  ADMIN: 'admin',
+  VISITOR: 'visitor',
+};
+
+const IMAGE_TYPE = {
+  PROFILE: 'profile',
+  ALBUM: 'album',
+  VIDEO: 'video',
+};
+
 module.exports = {
   CONTENT_TYPE_MAPPING,
   METHOD_TYPE,
+  IMAGE_TYPE,
+  ROLE,
 };

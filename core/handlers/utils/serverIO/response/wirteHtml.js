@@ -1,4 +1,5 @@
 /** Read and send html files */
+// TODO: decorate res
 const fs = require('fs');
 const config = require('@/config');
 const { CONTENT_TYPE_MAPPING } = require('@/core/enum');
