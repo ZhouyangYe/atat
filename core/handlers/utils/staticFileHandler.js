@@ -8,7 +8,7 @@ module.exports = (req, res) => {
   let filePath = '';
   // When there is a @/ sign, means it's absolute path
   if (/@\//.test(req.url)) {
-    filePath = req.url.split('@/')[1];
+    filePath = req.url.split('@/').slice(1).join('@/');
   } else {
     filePath = `${WEB_BASE_FOLDER}${req.url}`;
   }
