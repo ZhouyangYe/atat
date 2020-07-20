@@ -1,7 +1,5 @@
-const { deliverHtmlFile } = require('../utils');
-
 const notFoundHandler = (req, res) => {
-  deliverHtmlFile('notFound', res);
+  res.html('notFound');
 };
 
 const notFoundApiHandler = (req, res) => {

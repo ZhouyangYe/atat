@@ -1,7 +1,7 @@
 A little bit this, a little bit that.
 
 利用空余时间做一个个人网站，顺便锻炼一下自己的编程能力。
-开发工具：cmder + git, vscode, phpmyadmin.
+开发工具：cmder + git bash, vscode, phpmyadmin.
 
 Creating this personal website just for fun. In the meantime, as a practice, to improve my coding skills.
 
@@ -21,3 +21,4 @@ TODOs:
   13. fix server console color issue
   14. custom font
   15. intro page
+  16. ajax

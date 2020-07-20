@@ -1,7 +1,5 @@
-const { deliverHtmlFile } = require('../utils');
-
 const pingpongHandler = (req, res) => {
-  deliverHtmlFile('pingpong', res);
+  res.html('pingpong');
 };
 
 module.exports = {

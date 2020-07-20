@@ -1,10 +1,9 @@
 const db = require('@/db');
 const logger = require('@/utils/logger');
 const { IMAGE_TYPE } = require('@/core/enum');
-const { deliverHtmlFile } = require('../utils');
 
 const introHandler = (req, res) => {
-  deliverHtmlFile('intro', res);
+  res.html('intro');
 };
 
 const getIntroInfo = (req, res) => {

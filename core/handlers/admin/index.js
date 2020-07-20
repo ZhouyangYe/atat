@@ -1,7 +1,5 @@
-const { deliverHtmlFile } = require('../utils');
-
 const adminHandler = (req, res) => {
-  deliverHtmlFile('admin', res);
+  res.html('admin');
 };
 
 module.exports = {

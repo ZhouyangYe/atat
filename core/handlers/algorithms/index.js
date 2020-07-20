@@ -1,7 +1,5 @@
-const { deliverHtmlFile } = require('../utils');
-
 const algorithmsHandler = (req, res) => {
-  deliverHtmlFile('algorithms', res);
+  res.html('algorithms');
 };
 
 module.exports = {
