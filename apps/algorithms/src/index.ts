@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { test as test2 } from 'test';
+import { test as test2 } from '@/test';
 
 import './styles';
 

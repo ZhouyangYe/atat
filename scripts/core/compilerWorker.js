@@ -12,6 +12,7 @@ const { name, mode } = workerData;
 
 requireAsync(getPath(name)).then((config) => {
   config.mode = mode === BUILD_MODE.BUILD ? WEBPACK_MODE.PROD : WEBPACK_MODE.DEV;
+  config.devtool = mode === BUILD_MODE.BUILD ? undefined : 'cheap-module-eval-source-map';
   const compiler = webpack(config);
 
   const func = (percentage) => {

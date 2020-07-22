@@ -41,7 +41,6 @@ module.exports = {
       new TerserPlugin({ // uglify js
         cache: true,
         parallel: true,
-        sourceMap: false,
         terserOptions: {}
       })
     ]
