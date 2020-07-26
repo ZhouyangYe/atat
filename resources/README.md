@@ -1,6 +1,6 @@
-用来存放动态文件和静态文件
+Store static and dynamic files
 
-动态文件：
-  1. /dynamic/images/album --- 相册
-  2. /dynamic/images/profile --- 个人图片
+Dynamic files：
+  1. /dynamic/images/album --- album
+  2. /dynamic/images/profile --- profile pics
 

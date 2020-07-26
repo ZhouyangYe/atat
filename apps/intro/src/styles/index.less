@@ -1,3 +1,11 @@
+section {
+  .wrap {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 6px 0 8px;
+  }
+}
+
 .profile {
   background-attachment: fixed;
   background-position: center;
@@ -5,20 +13,42 @@
   background-size: cover;
 
   .wrap {
-    max-width: 1350px;
-    margin: 0 auto;
-    padding: 39px 0 55px;
-
-
     h1 {
-      padding-left: 49px;
+      padding-left: 36px;
       color: #fff;
       font-size: 58px;
     }
-  
+
     small {
       color: #ddd;
       font-size: 26px;
+    }
+  }
+}
+
+.about {
+  h2 {
+    font-size: 66px;
+    padding-left: 36px;
+  }
+
+  .container {
+    padding-right: 60px;
+
+    .profile-pic {
+      margin-bottom: 32px;
+      float: right;
+      width: 288px;
+      border-radius: 5px;
+    }
+
+    .intro {
+      white-space: break-spaces;
+      color: #555;
+      max-width: 760px;
+      margin: 0;
+      padding-left: 70px;
+      font-size: 22px;
     }
   }
 }

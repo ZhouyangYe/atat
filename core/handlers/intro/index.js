@@ -7,23 +7,29 @@ const introHandler = (req, res) => {
 };
 
 const getIntroInfo = (req, res) => {
-  const sql = `SELECT path,name,orders FROM images WHERE type = '${IMAGE_TYPE.ALBUM}' AND picked = 1`;
-  db.query(sql).then((result) => {
-    const data = result.sort(
-      (prev, next) => prev.orders - next.orders
-    ).map(
-      item => `${item.path}/${item.name}`
-    );
+  const backgroundSql = `SELECT path,name,orders FROM images WHERE type = '${IMAGE_TYPE.ALBUM}' AND picked = 1`;
+  const queryBackground = db.query(backgroundSql);
+
+  const profileSql = `SELECT path,name,orders FROM images WHERE type = '${IMAGE_TYPE.PROFILE}' AND picked = 1`;
+  const queryProfile = db.query(profileSql);
+
+  Promise.all([queryBackground, queryProfile]).then((values) => {
+    const backgroundData = values[0];
+    const profileData = values[1];
+
     res.json({
-      data,
+      data: {
+        backgrounds: backgroundData,
+        profile: profileData[0],
+      },
       success: true,
     });
-  }).catch(err => {
+  }).catch((err) => {
     logger.error(err);
     res.json({
       success: false,
       errorCode: 500,
-      errorMessage: '获取图片失败！',
+      errorMessage: 'Failed to get info!',
     });
   });
 };

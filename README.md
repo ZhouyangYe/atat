@@ -4,6 +4,7 @@ A little bit this, a little bit that.
 开发工具：cmder + git bash, vscode, phpmyadmin.
 
 Creating this personal website just for fun. In the meantime, as a practice, to improve my coding skills.
+Dev tools：cmder + git bash, vscode, phpmyadmin.
 
 TODOs:
   1. Test nested api path logic ✔
