@@ -5,7 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   resolve: {
-    extensions: ['.ts', '.js', '.json'], // import file extensions
+    extensions: ['.js', '.ts', '.json'], // import file extensions
     modules: [ // where to find the imported file
       path.resolve(__dirname, '../node_modules'),
       path.resolve(__dirname, '../apps/common')
@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts?$/,
+        test: /\.ts$/,
         loader: 'ts-loader', // compile typescript
         exclude: /node_modules/
       },

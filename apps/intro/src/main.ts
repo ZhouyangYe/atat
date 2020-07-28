@@ -4,8 +4,6 @@ const getScreenHeight = () => {
   return `${window.innerHeight}px`;
 }
 
-console.log('hello');
-
 const main = (): void => {
   const profileSection = document.querySelector<HTMLElement>('.profile');
   const profilePic = document.querySelector<HTMLImageElement>('.profile-pic');

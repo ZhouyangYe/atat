@@ -13,7 +13,7 @@ const { name, mode } = workerData;
 requireAsync(getPath(name)).then((config) => {
   config.mode = mode === BUILD_MODE.BUILD ? WEBPACK_MODE.PROD : WEBPACK_MODE.DEV;
   // Disable source-map when it's prod
-  config.devtool = mode === BUILD_MODE.BUILD ? undefined : 'cheap-source-map';
+  config.devtool = mode === BUILD_MODE.BUILD ? undefined : 'source-map';
   // Disable less source-map when it's prod
   config.optimization.minimizer[0].cssProcessorOptions = mode === BUILD_MODE.BUILD ? undefined : {
     map: {
