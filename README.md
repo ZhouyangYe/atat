@@ -23,4 +23,5 @@ TODOs:
   14. custom font
   15. intro page
   16. ajax
-  17. fix sourcemap
+  17. fix sourcemap ✔
+  18. fix static file handler security issue
