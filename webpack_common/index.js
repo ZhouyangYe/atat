@@ -21,15 +21,24 @@ module.exports = {
       {
         test: /\.(less|css)$/,
         use: [
-          MiniCssExtractPlugin.loader,  // output css to file
+          {
+            loader: MiniCssExtractPlugin.loader,  // output css to file
+            options: {
+              sourceMap: true
+            }
+          },
           {
             loader: 'css-loader', // import css in javascript
             options: {
+              sourceMap: true,
               url: false
             }
           },
           {
-            loader: 'less-loader' // compile less
+            loader: 'less-loader', // compile less
+            options: {
+              sourceMap: true
+            }
           }
         ]
       }
@@ -46,6 +55,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin() // output css to file
+    new MiniCssExtractPlugin({
+      filename: 'main.css'
+    }) // output css to file
   ]
 };

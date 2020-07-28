@@ -1,8 +1,15 @@
+@titleOpacity: 0.5;
+
 section {
+  box-sizing: border-box;
+
   .wrap {
     max-width: 1350px;
     margin: 0 auto;
-    padding: 6px 0 8px;
+  }
+
+  .title {
+    opacity: @titleOpacity;
   }
 }
 
@@ -27,28 +34,127 @@ section {
 }
 
 .about {
-  h2 {
-    font-size: 66px;
-    padding-left: 36px;
-  }
+  .wrap {
+    padding: 20px 0;
 
-  .container {
-    padding-right: 60px;
-
-    .profile-pic {
-      margin-bottom: 32px;
-      float: right;
-      width: 288px;
-      border-radius: 5px;
+    h2 {
+      font-size: 66px;
+      padding-left: 36px;
     }
+  
+    .container {
+      padding-right: 60px;
+  
+      &::after {
+        content: '.';
+        display: block;
+        height: 0;
+        visibility: hidden;
+        clear: both;
+      }
+  
+      .profile-pic {
+        margin-bottom: 32px;
+        float: right;
+        width: 288px;
+        border-radius: 5px;
+      }
+  
+      .intro {
+        white-space: break-spaces;
+        color: #555;
+        max-width: 760px;
+        margin: 0;
+        padding-left: 70px;
+        font-size: 22px;
+      }
+    }
+  }
+}
 
-    .intro {
-      white-space: break-spaces;
-      color: #555;
-      max-width: 760px;
-      margin: 0;
-      padding-left: 70px;
-      font-size: 22px;
+.home-title {
+  height: 518px;
+  padding-top: 200px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  h2 {
+    color: #fff;
+    font-size: 88px;
+    text-align: center;
+  }
+}
+
+.home {
+  .wrap {
+    padding: 39px 0 58px;
+    max-width: 1350px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 66px;
+      padding-left: 49px;
+      margin-bottom: 32px;
+    }
+  }
+}
+
+.algorithms-title {
+  height: 518px;
+  padding-top: 200px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  h2 {
+    color: #fff;
+    font-size: 88px;
+    text-align: center;
+  }
+}
+
+.algorithms {
+  .wrap {
+    padding: 39px 0 58px;
+    max-width: 1350px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 66px;
+      padding-left: 49px;
+      margin-bottom: 32px;
+    }
+  }
+}
+
+.apps-title {
+  height: 518px;
+  padding-top: 200px;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  h2 {
+    color: #fff;
+    font-size: 88px;
+    text-align: center;
+  }
+}
+
+.apps {
+  .wrap {
+    padding: 39px 0 58px;
+    max-width: 1350px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 66px;
+      padding-left: 49px;
+      margin-bottom: 32px;
     }
   }
 }
