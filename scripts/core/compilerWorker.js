@@ -2,7 +2,8 @@ const { workerData, parentPort } = require('worker_threads');
 const path = require('path');
 const webpack = require('webpack');
 const { requireAsync } = require('../utils/file');
-const { WEBPACK_MODE, BUILD_MODE, WEBPACK_MESSAGE_TYPE } = require('../enum');
+const { BUILD_MODE, WEBPACK_MESSAGE_TYPE } = require('../enum');
+const { buildDevConfig, buildProdConfig } = require('./buildWebpackConfig');
 
 const getPath = (name) => {
   return path.resolve(__dirname, `../../apps/${name}/webpack.config`);
@@ -11,16 +12,8 @@ const getPath = (name) => {
 const { name, mode } = workerData;
 
 requireAsync(getPath(name)).then((config) => {
-  config.mode = mode === BUILD_MODE.BUILD ? WEBPACK_MODE.PROD : WEBPACK_MODE.DEV;
-  // Disable source-map when it's prod
-  config.devtool = mode === BUILD_MODE.BUILD ? undefined : 'source-map';
-  // Disable less source-map when it's prod
-  config.optimization.minimizer[0].cssProcessorOptions = mode === BUILD_MODE.BUILD ? undefined : {
-    map: {
-      inline: false,
-      annotation: true
-    }
-  };
+  config = mode === BUILD_MODE.BUILD ?
+    buildProdConfig(config, name) : buildDevConfig(config, name);
 
   const compiler = webpack(config);
 
