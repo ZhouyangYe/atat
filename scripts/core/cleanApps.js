@@ -38,6 +38,7 @@ const cleanApps = (apps) => {
     });
 
     return new Promise((res, rej) => {
+      // remove dist or lib node_modules based on app name
       const command = app === common ? 'rm -rf ./apps/common/lib' : app === node_modules ? 'rm -rf ./node_modules' : `rm -rf ./apps/${app}/dist`;
       cmd.get(command, (err) => {
         if (err) {
@@ -52,15 +53,19 @@ const cleanApps = (apps) => {
       cleanMap[name].done = true;
       cleanMap[name].cancelTimer();
       const currentLine = getCurrentLine(cleanMap[name].line);
+      // update status info for specific app progress
       writeOnLine(process.stdout, currentLine, `${successIcon} cleaning [${chalk.cyan(name)}]: done!\n`);
 
+      // all done
       if (apps.findIndex(app => cleanMap[app].done === false) === -1) {
         if (handleErrors(apps, cleanMap, cleanMap.lastLine + 1)) {
+          // write end line error message
           process.stdout.write(`${errorMessage}`);
           cliCursor.show();
           return;
         }
 
+        // write end line success message
         process.stdout.write(`${chalk.yellow(emoji.get('v'))}  ${chalk.green('All done!')}\n`);
         cliCursor.show();
       }
@@ -69,9 +74,11 @@ const cleanApps = (apps) => {
       cleanMap[app].error = err;
       cleanMap[app].cancelTimer();
       const currentLine = getCurrentLine(cleanMap[app].line);
+      // update status info for specific app progress
       writeOnLine(process.stdout, currentLine, `${failIcon} cleaning [${chalk.cyan(app)}]: failed!\n`);
 
-      if (apps.findIndex(app => cleanMap[app].done === false) === -1) {
+      // all done
+      if (apps.findIndex(name => cleanMap[name].done === false) === -1) {
         handleErrors(apps, cleanMap, cleanMap.lastLine + 1);
       }
     });

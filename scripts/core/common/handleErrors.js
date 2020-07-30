@@ -5,8 +5,10 @@ const { writeOnLine } = require('../../utils');
 const handleErrors = (apps, dataMap, line) => {
   let hasError = false;
 
+  // move cursor to target line
   writeOnLine(process.stdout, getCurrentLine(line), '');
   apps.forEach(key => {
+    // write all errors of apps to console
     if (dataMap[key].error) {
       hasError = true;
       process.stdout.write(getErrorTitle(key));

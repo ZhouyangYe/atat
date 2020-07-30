@@ -85,11 +85,11 @@ const done = (name, err) => {
       appList.forEach((app) => {
         buildModule(app, BUILD_MODE.BUILD, handler, start, done);
       });
-    }).catch((err) => {
+    }).catch((error) => {
       cancelTimer();
       writeOnLine(process.stdout, currentLine, `${failIcon} Synchronizing [${chalk.cyan(common)}]: failed!\n\n`);
       process.stdout.write(getErrorTitle(common));
-      console.error(err);
+      console.error(error);
       process.stdout.write(`${errorMessage}`);
     });
   }

@@ -54,17 +54,13 @@ const decorateIO = (req, res) => {
 }
 
 const mainHandler = (req, res) => {
-  let found = false;
-
   // Add custom functions to req and res
   decorateIO(req, res);
 
   for (const index in handlers) {
-    found = handlers[index](req, res);
-    if (found) break;
+    const found = handlers[index](req, res);
+    if (found) return;
   }
-
-  if (found) return;
 
   res.writeHead(404);
   res.write('Not found!');
