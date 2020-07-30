@@ -11,7 +11,7 @@ const getPath = (name) => {
 
 const { name, mode } = workerData;
 
-requireAsync(getPath(name)).then((config) => {
+requireAsync(getPath(name)).then((config = {}) => {
   config = mode === BUILD_MODE.BUILD ?
     buildProdConfig(config, name) : buildDevConfig(config, name);
 

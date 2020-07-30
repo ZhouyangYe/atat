@@ -10,10 +10,10 @@ const isFileExist = (filePath) => {
 };
 
 const requireAsync = (filePath) => {
-  return new Promise((res, rej) => {
+  return new Promise((res) => {
     fs.readFile(`${filePath}.js`, 'utf-8', (err, data) => {
       if (err) {
-        rej(err);
+        res();
         return;
       }
       module._compile(data, filePath);

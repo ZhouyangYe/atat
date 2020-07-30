@@ -9,6 +9,7 @@
     "quotes": ["warn", "single", {
       "allowTemplateLiterals": true
     }],
-    "no-var": 1
+    "no-var": 1,
+    "no-shadow": 2
   }
 }

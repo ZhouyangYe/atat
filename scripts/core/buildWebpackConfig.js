@@ -13,6 +13,13 @@ const getAppPath = (name, subPath) => {
 
 // build path related configs
 const buildCommonConfig = (config, name) => {
+  if (!config.output) { // if output is not set, use the default output path and filename
+    config.output = {
+      path: getAppPath(name, '/dist'), // default output path
+      filename: 'main.js', // default filename
+    };
+  }
+
   config.entry = getAppPath(name, '/src/index.ts'); // entry file
   config.resolve.modules.push(getAppPath(name, '/src')); // where to find the imported file in specific app folder
   
