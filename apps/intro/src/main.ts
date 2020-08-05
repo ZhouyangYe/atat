@@ -8,11 +8,11 @@ const main = (): void => {
   const profileSection = document.querySelector<HTMLElement>('.profile');
   const profilePic = document.querySelector<HTMLImageElement>('.profile-pic');
 
-  const algorithmsSection = document.querySelector<HTMLElement>('.algorithms-title');
+  const homeSection = document.querySelector<HTMLElement>('.frontend-title');
 
-  const homeSection = document.querySelector<HTMLElement>('.home-title');
+  const algorithmsSection = document.querySelector<HTMLElement>('.backend-title');
   
-  const appsSection = document.querySelector<HTMLElement>('.apps-title');
+  const appsSection = document.querySelector<HTMLElement>('.devtools-title');
 
   profileSection.style.height = getScreenHeight();
 
