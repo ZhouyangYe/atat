@@ -31,12 +31,13 @@
 
     对于个人来说，每个团队之间都是完全独立的，除了自己所属团队的项目以外，其它的部分基本就是一团迷雾。
 
-    当然，在现实工作中，并不需要你去了解一个大型应用开发过程中的所有技术环节。但是对于我来说，编程并不仅仅只是工作，也是我的一个爱好。就像是玩一款经营模拟类游戏，当你造出一座完整的城市，心里会有很强的满足感。所以我不想只了解其中微小的一部分，我想要尝试着去掌握一个完整的程序开发出来的全过程，从架构到前后端开发到数据库等等等等。
+    当然，在现实工作中，并不需要你去了解一个大型应用开发过程中的所有技术环节。但是对于我来说，编程并不仅仅只是工作，也是我的一个爱好。就像是玩一款经营模拟类游戏，当你造出一座完整的城市，心里会有很强的满足感。所以我不想只了解其中微小的一部分，我想要尝试着去掌握一个完整的程序开发出来的全过程，从架构到前后端开发到数据库等等等等。可能并不足够专业，但至少掌握基本的流程和需要应用到的技术。
 
     所以仅以此网站作为自己练手的工具，开发一些自己觉得有意思的东西，其中会尝试用一些比较前沿时髦的新技术~ 踩一踩坑，锻炼一下自己技术层面的能力。
 
     网站使用原生ts和js，不使用任何框架，从底层开始开发。会用一些外界的工具和库，但能不用就尽量不用。
         </pre>
+        <p>代码地址：<a href="GitHub：https://github.com/ZhouyangYe/atat">https://github.com/ZhouyangYe/atat</a></p>
       </div>
     </div>
   </section>
@@ -46,11 +47,77 @@
   <section class="frontend">
     <div class="wrap" >
       <h2>前端</h2>
-      <section class="paragraph-one">
+      <div class="paragraph">
         <h3>前端准备做八个模块：admin、algorithms、common、hahaha、home、intro、notFound、pingpong。</h3>
+        <h3>构建工具：Webpack</h3>
+        <h3>相关技术：TypeScript，ES6+语法，LESS，HTML</h3>
+      </div>
+      <div class="paragraph">
+        <h4>Admin</h4>
         <pre>
+    admin模块主要用来管理网站的一些资源：图片管理、页面展示、登陆等功能，是后台操作页面。
+    
+    技术方面的话会用到stream、buffer、pipe之类的数据传递技术，还有session、cookie、password加密之类的账号相关技术等。
         </pre>
-      </section>
+      </div>
+      <div class="paragraph">
+        <h4>Algorithms - <a href="/algorithms">前往页面</a></h4>
+        <pre>
+    algorithms模块准备做成一个文件夹，类似Windows系统那样的文件夹，用来管理自己写的算法，以后会多刷一刷力扣上的题上传到这个algorithms模块。
+
+    技术方面会用到树形数据结构和一些节点相关的操作，还可能用到类似highlight.js这样的库来给代码做高亮。
+    
+    计划在GitHub上开一个新的algorithms仓库，算法代码统一提交到这个仓库，然后页面调用GitHub接口获取这些文件展示在我自己的网站上。
+        </pre>
+      </div>
+      <div class="paragraph">
+        <h4>Common</h4>
+        <pre>
+    common模块并不是一个页面，是一个库，里面用来放一些各个模块都会用到的通用方法，比如ajax、一些dom操作的封装、通用样式等等。
+
+    common是以本地包的形式被安装到node_modules，然后被其它的模块以包的形式引入，以<span class="command">npm link</span>的方式开发。因为每个模块之间都是独立的，从构建角度来说，每个模块都有自己的webpack配置，只能用这种方法来抽离通用逻辑。
+        </pre>
+      </div>
+      <div class="paragraph">
+        <h4>Hahaha - <a href="/hahaha">前往页面</a></h4>
+        <pre>
+    hahaha模块准备做成一个SPA，因为不知道该叫什么所以随便起了个名字。
+    
+    这个页面的设想比较复杂一些，准备做成类似微服务那样的架构，可以自己在上面开发和安装各种应用。
+
+    另外，希望能通过这个页面沉淀出一个类似react、angular那样的前端框架，当然不可能像那些知名框架一样全面，开发一个成熟的框架工作量很大，不是一个人可以轻易完成的。
+
+    其中的技术主要包含各种dom操作，路由等。难点在于前后端架构设计。
+        </pre>
+      </div>
+      <div class="paragraph">
+        <h4>Home - <a href="/home">前往页面</a></h4>
+        <pre>
+    home模块打算做成一个3D的“家”的模型，里面可以放各种物件，家具之类的，还有和其它页面联动的功能。
+    
+    技术方面主要用到css3的3D功能（以后可能会考虑使用webgl，因为我也在学习开发游戏引擎）。
+        </pre>
+      </div>
+      <div class="paragraph">
+        <h4>Intro</h4>
+        <pre>
+    intro模块就是我们当前所在页面，算是一个欢迎页面。
+        </pre>
+      </div>
+      <div class="paragraph">
+        <h4>NotFound - <a href="/page-that-not-exists">前往页面</a></h4>
+        <pre>
+    notFound顾名思义，就是在页面不存在的情况下展示的页面，里面打算放些彩蛋之类的东西，比如贪吃蛇小游戏或者俄罗斯方块等的东西。
+        </pre>
+      </div>
+      <div class="paragraph">
+        <h4>Pingpong - <a href="/pingpong">前往页面</a></h4>
+        <pre>
+    pingpong模块准备用来做一个打乒乓的网络游戏，这个会在服务器上单独开一个端口给socket.io使用。
+    
+    我已经用socket.io-client、socket.io、html和css做了一版，用户可以进行自由匹配对战，但是这个版本有很多缺陷，打算换成canvas重新开发一版。
+        </pre>
+      </div>
     </div>
   </section>
   <section class="backend-title">
@@ -59,7 +126,11 @@
   <section class="backend">
     <div class="wrap" >
       <h2>后端</h2>
-      Backend Introduction
+      <div class="paragraph">
+        <h3>前端准备做八个模块：admin、algorithms、common、hahaha、home、intro、notFound、pingpong。</h3>
+        <h3>构建工具：Webpack</h3>
+        <h3>相关技术：TypeScript，ES6+语法，LESS，HTML</h3>
+      </div>
     </div>
   </section>
   <section class="devtools-title">
@@ -68,7 +139,11 @@
   <section class="devtools">
     <div class="wrap" >
       <h2>开发小工具</h2>
-      Dev tools Introduction
+      <div class="paragraph">
+        <h3>前端准备做八个模块：admin、algorithms、common、hahaha、home、intro、notFound、pingpong。</h3>
+        <h3>构建工具：Webpack</h3>
+        <h3>相关技术：TypeScript，ES6+语法，LESS，HTML</h3>
+      </div>
     </div>
   </section>
   <script src="./dist/main.js"></script>

@@ -12,6 +12,35 @@ section {
   .title {
     opacity: @titleOpacity;
   }
+
+  pre {
+    white-space: break-spaces;
+  }
+
+  h4 {
+    a {
+      color: lightblue;
+      text-decoration: none;
+      font-size: small;
+      vertical-align: bottom;
+
+      &:hover {
+        color: lightgreen;
+        transition: color 1s ease;
+      }
+    }
+  }
+
+  .paragraph {
+    padding: 0 70px;
+  }
+
+  .command {
+    display: inline-block;
+    padding: 0 3px;
+    color: rgb(146, 145, 238);
+    background-color: rgb(208, 209, 211);
+  }
 }
 
 .profile {
@@ -64,11 +93,20 @@ section {
       }
   
       .intro {
-        white-space: break-spaces;
         max-width: 1000px;
         margin: 0;
         padding-left: 70px;
         font-size: 22px;
+      }
+
+      p {
+        max-width: 1000px;
+        padding-left: 70px;
+        font-size: 16px;
+
+        a {
+          color: darkcyan;
+        }
       }
     }
   }
@@ -99,10 +137,6 @@ section {
       font-size: 66px;
       padding-left: 49px;
       margin-bottom: 32px;
-    }
-
-    .paragraph-one {
-      padding: 0 70px;
     }
   }
 }
