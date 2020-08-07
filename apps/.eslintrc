@@ -11,11 +11,8 @@
     "sourceType": "module"
   },
   "rules": {
-    "@typescript-eslint/array-type": [
-      "error",
-      { "default": "generic" }
-    ],
     "@typescript-eslint/no-var-requires": 0,
-    "no-var": 1
+    "no-var": 1,
+    "no-magic-numbers": "warn"
   }
 }

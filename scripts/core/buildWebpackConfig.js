@@ -1,6 +1,7 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
@@ -20,7 +21,9 @@ const buildCommonConfig = (config, name) => {
     };
   }
 
-  config.entry = getAppPath(name, '/src/index.ts'); // entry file
+  if (!config.entry) { // if entry file is not set, use the default one
+    config.entry = getAppPath(name, '/src/index.ts');
+  }
   config.resolve.modules.push(getAppPath(name, '/src')); // where to find the imported file in specific app folder
   
   const customTsconfigPlugin = new TsconfigPathsPlugin({ // custom tsconfig.json file path
@@ -30,6 +33,14 @@ const buildCommonConfig = (config, name) => {
     config.resolve.plugins.push(customTsconfigPlugin);
   } else {
     config.resolve.plugins = [customTsconfigPlugin];
+  }
+
+  if (!config.plugins) {
+    config.plugins = [
+      new MiniCssExtractPlugin({ // output css to file
+        filename: 'main.css',
+      }),
+    ];
   }
 
   return config;

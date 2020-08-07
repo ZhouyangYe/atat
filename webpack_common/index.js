@@ -35,9 +35,4 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new MiniCssExtractPlugin({ // output css to file
-      filename: 'main.css',
-    }),
-  ],
 };

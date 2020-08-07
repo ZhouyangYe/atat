@@ -3,6 +3,7 @@ import { REQUEST_TYPE } from './enum';
 
 const ERROR_CODE = 900821;
 const TIMEOUT = 10000;
+const SUCCESS_CODE = 200;
 
 const getMethod = (type: string) => {
   return <T>(url: string, params: { [key: string]: string | undefined } = {}): Promise<T> => {
@@ -25,7 +26,7 @@ const getMethod = (type: string) => {
       xhr.send();
     
       xhr.onload = () => {
-        if (xhr.status !== 200) {
+        if (xhr.status !== SUCCESS_CODE) {
           rej({
             errorCode: xhr.status,
             errorMessage: xhr.statusText,

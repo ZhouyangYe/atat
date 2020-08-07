@@ -1,8 +1,44 @@
-import { services, utils } from 'atat-common';
+import { getIntroInfo } from 'atat-common/lib/services/intro';
+import { getFullUrl } from 'atat-common/lib/utils';
+import { handleLoading, ITaskMeta } from 'atat-common/lib/modules/loading';
+import 'atat-common/src/modules/loading/index.less';
 
 const getScreenHeight = () => {
   return `${window.innerHeight}px`;
 }
+
+const handleLoadResources = (pics: string[], initPercent: number): ITaskMeta[] => {
+  const images = [
+    ...pics,
+    getFullUrl('/@resources/static/screenshots/package.png'),
+    getFullUrl('/@resources/static/screenshots/scripts.png'),
+    getFullUrl('/@resources/static/materials/water.png'),
+    getFullUrl('/@resources/static/materials/maple.png'),
+  ];
+
+  const total = 100 - initPercent;
+  const { length } = images;
+  const percentage = total / length;
+
+  const tasks = images.map(url => {
+    const task = new Promise<void>((res) => {
+      const img = document.createElement('IMG') as HTMLImageElement;
+
+      img.src = url;
+      img.onload = () => {
+        res();
+        img.onload = undefined;
+      };
+    });
+
+    return {
+      task,
+      percent: percentage,
+    };
+  });
+
+  return tasks;
+};
 
 const main = (): void => {
   const profileSection = document.querySelector<HTMLElement>('.profile');
@@ -11,42 +47,49 @@ const main = (): void => {
   const homeSection = document.querySelector<HTMLElement>('.frontend-title');
 
   const algorithmsSection = document.querySelector<HTMLElement>('.backend-title');
-  
+
   const appsSection = document.querySelector<HTMLElement>('.devtools-title');
 
   profileSection.style.height = getScreenHeight();
 
-  services.getIntroInfo().then(res => {
+  getIntroInfo().then(res => {
     if (res.success) {
       if (!res.data) {
         return;
       }
-      // Background pictures
-      const { backgrounds } = res.data;
 
-      const background1 = backgrounds?.find(item => item.orders === 1);
-      if (background1) {
-        profileSection.style.backgroundImage = `url(${utils.getFullUrl(`${background1.path}/${background1.name}`)})`;
-      }
+      const { backgrounds, profile } = res.data;
+      const pictures = [...backgrounds, profile].map(bg => getFullUrl(`${bg.path}/${bg.name}`));
 
-      const background2 = backgrounds?.find(item => item.orders === 2);
-      if (background2) {
-        homeSection.style.backgroundImage = `url(${utils.getFullUrl(`${background2.path}/${background2.name}`)})`;
-      }
+      const initPercent = 6;
+      const tasks = handleLoadResources(pictures, initPercent);
 
-      const background3 = backgrounds?.find(item => item.orders === 3);
-      if (background3) {
-        algorithmsSection.style.backgroundImage = `url(${utils.getFullUrl(`${background3.path}/${background3.name}`)})`;
-      }
+      // Loading screen
+      handleLoading(tasks, initPercent).then(() => {
+        const background1 = backgrounds?.find(item => item.orders === 1);
+        if (background1) {
+          profileSection.style.backgroundImage = `url(${getFullUrl(`${background1.path}/${background1.name}`)})`;
+        }
 
-      const background4 = backgrounds?.find(item => item.orders === 4);
-      if (background4) {
-        appsSection.style.backgroundImage = `url(${utils.getFullUrl(`${background4.path}/${background4.name}`)})`;
-      }
+        const background2 = backgrounds?.find(item => item.orders === 2);
+        if (background2) {
+          homeSection.style.backgroundImage = `url(${getFullUrl(`${background2.path}/${background2.name}`)})`;
+        }
 
-      // Profile picture
-      const { profile } = res.data;
-      profilePic.src = utils.getFullUrl(`${profile.path}/${profile.name}`);
+        const background3 = backgrounds?.find(item => item.orders === 3);
+        if (background3) {
+          algorithmsSection.style.backgroundImage = `url(${getFullUrl(`${background3.path}/${background3.name}`)})`;
+        }
+
+        const background4 = backgrounds?.find(item => item.orders === 4);
+        if (background4) {
+          appsSection.style.backgroundImage = `url(${getFullUrl(`${background4.path}/${background4.name}`)})`;
+        }
+
+        profilePic.src = getFullUrl(`${profile.path}/${profile.name}`);
+      }).catch((err: Error) => {
+        console.error(err);
+      });
     }
   });
 

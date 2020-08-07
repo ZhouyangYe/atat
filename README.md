@@ -1,11 +1,11 @@
 A little bit this, a little bit that.
 
-利用空余时间做一个个人网站，顺便锻炼一下自己的编程能力。
-开发工具：cmder + git bash, vscode, phpmyadmin.
-
-Creating this personal website just for fun. In the meantime, as a practice, to improve my coding skills.
-Dev tools：cmder + git bash, vscode, phpmyadmin.
-
+利用空余时间做一个个人网站，顺便锻炼一下自己的编程能力。  
+开发工具：cmder + git bash, vscode, phpmyadmin.  
+  
+Creating this personal website just for fun. In the meantime, as a practice, to improve my coding skills.  
+Dev tools：cmder + git bash, vscode, phpmyadmin.  
+  
 TODOs:
   1. Test nested api path logic ✔
   2. Test apps common folder file reader logic ✔
@@ -26,3 +26,4 @@ TODOs:
   17. fix sourcemap ✔
   18. fix static file handler security issue ✔
   19. custom scroll bar
+  20. full screen
