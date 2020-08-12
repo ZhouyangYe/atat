@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 import './styles';
 
-var socket = io('http://localhost:8080');
+var socket = io(`${document.location.protocol}//${document.location.hostname}:8080`);
 
 var table = document.querySelector('.table') as any;
 var player = document.querySelector('.player') as any;

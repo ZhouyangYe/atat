@@ -27,3 +27,4 @@ TODOs:
   18. fix static file handler security issue ✔
   19. custom scroll bar
   20. full screen
+  21. multiple loading page

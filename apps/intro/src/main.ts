@@ -1,4 +1,5 @@
-import { getIntroInfo } from 'atat-common/lib/services/intro';
+import { getIntroInfo, IIntroInfoData } from 'atat-common/lib/services/intro';
+import { IResponse } from 'atat-common/lib/services/interface';
 import { getFullUrl } from 'atat-common/lib/utils';
 import { handleLoading, ITaskMeta } from 'atat-common/lib/modules/loading';
 import 'atat-common/src/modules/loading/index.less';
@@ -7,7 +8,7 @@ const getScreenHeight = () => {
   return `${window.innerHeight}px`;
 }
 
-const handleLoadResources = (pics: string[], initPercent: number): ITaskMeta[] => {
+const handleLoadResources = (pics: string[]): ITaskMeta[] => {
   const images = [
     ...pics,
     getFullUrl('/@resources/static/screenshots/package.png'),
@@ -16,7 +17,7 @@ const handleLoadResources = (pics: string[], initPercent: number): ITaskMeta[] =
     getFullUrl('/@resources/static/materials/maple.png'),
   ];
 
-  const total = 100 - initPercent;
+  const total = 100;
   const { length } = images;
   const percentage = total / length;
 
@@ -52,7 +53,8 @@ const main = (): void => {
 
   profileSection.style.height = getScreenHeight();
 
-  getIntroInfo().then(res => {
+  handleLoading([{ task: getIntroInfo(), percent: 6 }], 6).then((result) => {
+    const res = result.values[0] as IResponse<IIntroInfoData>;
     if (res.success) {
       if (!res.data) {
         return;
@@ -61,11 +63,10 @@ const main = (): void => {
       const { backgrounds, profile } = res.data;
       const pictures = [...backgrounds, profile].map(bg => getFullUrl(`${bg.path}/${bg.name}`));
 
-      const initPercent = 6;
-      const tasks = handleLoadResources(pictures, initPercent);
+      const tasks = handleLoadResources(pictures);
 
       // Loading screen
-      handleLoading(tasks, initPercent).then(() => {
+      handleLoading(tasks, 100, result.finish).then(() => {
         const background1 = backgrounds?.find(item => item.orders === 1);
         if (background1) {
           profileSection.style.backgroundImage = `url(${getFullUrl(`${background1.path}/${background1.name}`)})`;

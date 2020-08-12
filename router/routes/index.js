@@ -6,6 +6,7 @@ const { homeRoutes } = require('./homeRoutes');
 const { introRoutes } = require('./introRoutes');
 const { pingpongRoutes } = require('./pingpongRoutes');
 const { adminRoutes } = require('./adminRoutes');
+const { reactRoutes } = require('./reactRoutes');
 
 const { commonRoutes } = require('./commonRoutes');
 const { notFoundRoutes, notFoundApiRoutes } = require('./notFoundRoutes');
@@ -20,6 +21,7 @@ module.exports = [
   introRoutes,
   pingpongRoutes,
   adminRoutes,
+  reactRoutes,
   // Common api routes
   commonRoutes,
   // Not found
