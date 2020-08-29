@@ -1,195 +1,55 @@
-#main {
-  section {
-    color: #525252;
-    box-sizing: border-box;
-  
-    &[class$="-title"],
-    &.profile {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-  
-    &[class$="-title"] {
-      height: 518px;
-      padding-top: 200px;
-  
-      h2 {
-        color: #fff;
-        font-size: 88px;
-        text-align: center;
-      }
-    }
-  
-    .wrap {
-      max-width: 1350px;
-      margin: 0 auto;
-    }
-  
-    .title {
-      opacity: 0.8;
-    }
-  
-    pre {
-      white-space: break-spaces;
-    }
-  
-    h4 {
-      a {
-        color: lightblue;
-        text-decoration: none;
-        font-size: small;
-        vertical-align: bottom;
-  
-        &:hover {
-          color: lightgreen;
-          transition: color 1s ease;
+html {
+  height: 100%;
+
+  body {
+    height: 100%;
+
+    #app {
+      height: 100vh;
+
+      section {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        overflow: hidden;
+        box-sizing: border-box;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+
+        a.reference {
+          color: darkcyan;
         }
       }
-    }
-  
-    .paragraph {
-      padding: 0 70px;
-  
-      @media only screen and (max-width: 700px) {
-        padding: 0 10px;
-      }
-    }
-  
-    .command {
-      display: inline-block;
-      padding: 0 3px;
-      color: rgb(146, 145, 238);
-      background-color: rgb(208, 209, 211);
-    }
-  
-  
-    a.reference {
-      color: darkcyan;
-    }
-  
-    pre {
-      color: #08161b;
-    }
-  }
-  
-  .profile {
-    .wrap {
-      h1 {
-        padding-left: 36px;
-        color: #fff;
-        font-size: 58px;
-      }
-  
-      small {
-        color: #ddd;
-        font-size: 26px;
-      }
-    }
-  }
-  
-  .about {
-    .wrap {
-      padding: 20px 0;
-  
-      h2 {
-        font-size: 66px;
-        padding-left: 36px;
-      }
-  
-      .container {
-        padding-right: 60px;
-  
-        @media only screen and (max-width: 700px) {
-          padding-right: 10px;
-        }
-  
-        &::after {
-          content: '.';
-          display: block;
-          height: 0;
-          visibility: hidden;
-          clear: both;
-        }
-  
-        .profile-pic {
-          margin-bottom: 16px;
-          margin-left: 16px;
-          float: right;
-          height: 520px;
-          border-radius: 5px;
-        }
-  
-        .intro {
-          max-width: 1000px;
-          margin: 16px 0 0 0;
-          padding-left: 70px;
-          font-size: 22px;
-  
-          @media only screen and (max-width: 700px) {
-            padding-left: 10px;
+
+      #about {
+        position: relative;
+        height: auto;
+
+        .why {
+          opacity: 0.6;
+          box-sizing: border-box;
+          font-size: 20px;
+          line-height: 50px;
+          color: rgb(78, 126, 158);
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 36px 18px;
+
+          p {
+            text-indent: 40px;
           }
-        }
-  
-        p {
-          max-width: 1000px;
-          padding-left: 70px;
-          font-size: 16px;
-  
+
           @media only screen and (max-width: 700px) {
-            padding-left: 10px;
+            padding: 8px;
+            font-size: 18px;
+            margin-bottom: 16px;
           }
-        }
-      }
-    }
-  }
-  
-  .wrap-mixin() {
-    padding: 39px 0 58px;
-    max-width: 1350px;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-position: right bottom;
-  
-    @media only screen and (max-width: 700px) {
-      background-size: 0;
-    }
-  
-    h2 {
-      font-size: 56px;
-      padding-left: 49px;
-      margin-bottom: 32px;
-    }
-  }
-  
-  .frontend {
-    .wrap {
-      .wrap-mixin();
-      background-image: url("/@resources/static/materials/water.png");
-      background-size: 288px 384px;
-    }
-  }
-  
-  .backend {
-    .wrap {
-      .wrap-mixin();
-      background-image: url("/@resources/static/materials/maple.png");
-      background-size: 500px 365px;
-    }
-  }
-  
-  .devtools {
-    .wrap {
-      .wrap-mixin();
-  
-      .screenshot {
-        height: 400px;
-        margin-bottom: 8px;
-  
-        @media only screen and (max-width: 700px) {
-          height: auto;
-          width: 100%;
         }
       }
     }

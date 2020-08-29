@@ -28,3 +28,4 @@ TODOs:
   19. custom scroll bar
   20. full screen
   21. multiple loading page
+  22. improve scrollable component logic

@@ -2,4 +2,4 @@ import main from './main';
 
 import './styles';
 
-main();
+main(document.querySelector('#app'));
