@@ -9,13 +9,16 @@ export interface IConfig {
   sensitiveIndicator?: number;
   /** auto hide scroll bar delay */
   delay?: number;
+  /** indicate whether to scroll smoothly when dragging scroll bar */
+  smoothScrolling?: boolean;
 }
 
 const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
-  const { speed = 200 } = config || {};
+  const { speed = 200, color = '#000', smoothScrolling = false } = config || {};
 
   const scrollBar = document.createElement('div');
   scrollBar.className = 'scroll-bar';
+  scrollBar.style.background = color;
 
   scrollContainer.appendChild(scrollBar);
 
@@ -43,7 +46,7 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
     };
 
     const scrollTo = (yAxis: number) => {
-      content.style.top = `${yAxis}px`;
+      content.style.top = `${Math.floor(yAxis)}px`;
     };
 
     let y = getTop(content.offsetTop);
@@ -82,6 +85,9 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
       const initTop = scrollBar.offsetTop;
       scrollBar.style.transition = 'none';
       scrollBar.style.opacity = '0.7';
+      if (!smoothScrolling) {
+        content.style.transition = 'none';
+      }
 
       document.onmousemove = (evt) => {
         const bDelta = evt.clientY - initY;
@@ -97,6 +103,9 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
         document.onmouseup = undefined;
         scrollBar.style.transition = 'all 0.7s ease';
         scrollBar.style.opacity = '0.5';
+        if (!smoothScrolling) {
+          content.style.transition = 'top 0.7s ease';
+        }
       };
     }
   };
