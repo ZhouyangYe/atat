@@ -18,7 +18,7 @@ export const createDoor = (config?: IConfig): HTMLElement => {
     text = 'Entry',
     backgroundUrl = '@resources/static/materials/path3.png',
     doorColor = '#d19c6d',
-    rimColor = 'rgb(68, 35, 35)',
+    rimColor = '#333',
     stoneColor = '#333',
     stoneSurfaceColor = '#555',
     signColor = 'rgb(80, 9, 94)',
