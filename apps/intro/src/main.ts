@@ -1,5 +1,8 @@
 import { getIntroInfo } from 'atat-common/lib/services/intro';
 import { getFullUrl } from 'atat-common/lib/utils';
+import { getScrollContainer } from 'atat-common/lib/modules/scrollable';
+
+import 'atat-common/lib/modules/scrollable/index.css';
 
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
@@ -42,132 +45,6 @@ const createContentSection = () => {
   contentSection.id = 'content';
 
   return contentSection;
-};
-
-interface Config {
-  speed?: number;
-  color?: string;
-  width?: number;
-}
-const getScrollBar = (scrollContainer: HTMLElement, config?: Config) => {
-  const scrollBar = document.createElement('div');
-  scrollBar.className = 'scroll-bar';
-
-  scrollContainer.appendChild(scrollBar);
-
-  const speed = config?.speed || 200;
-
-  const onResize = (container: HTMLElement, content: HTMLElement) => {
-    const containerHeight = container.clientHeight;
-    const contentHeight = content.clientHeight;
-    const ratio = containerHeight / contentHeight;
-    const height = scrollContainer.clientHeight * ratio;
-    scrollBar.style.height = height > 10 ? `${Math.floor(height)}px` : '10px';
-    const delta = containerHeight - contentHeight;
-    const deltaHeight = containerHeight - height;
-
-    const getTop = (top: number) => {
-      if (top > 0) {
-        return 0;
-      } else if (top < delta) {
-        return delta;
-      }
-
-      return top;
-    };
-
-    const onScroll = (yAxis: number) => {
-      content.style.top = `${yAxis}px`;
-    };
-
-    let y = getTop(content.offsetTop);
-    onScroll(y);
-
-    container.onwheel = (evt) => {
-      if (evt.deltaY > 0) {
-        y -= speed;
-      } else {
-        y += speed;
-      }
-
-      y = getTop(y);
-
-      const barRatio = y / delta;
-      const barTop = deltaHeight * barRatio;
-      scrollBar.style.top = `${barTop}px`;
-
-      onScroll(y);
-    };
-
-    const barDelta = containerHeight - height;
-    const getBarTop = (barY: number) => {
-      if (barY < 0) {
-        return 0;
-      } else if (barY > barDelta) {
-        return barDelta;
-      }
-
-      return barY;
-    };
-
-    scrollBar.onmousedown = (event) => {
-      const initY = event.clientY;
-      const initTop = scrollBar.offsetTop;
-      scrollBar.style.transition = 'none';
-
-      document.onmousemove = (evt) => {
-        const bDelta = evt.clientY - initY;
-        const top = getBarTop(initTop + bDelta);
-        const barRatio = top / deltaHeight;
-        y = getTop(barRatio * delta);
-        scrollBar.style.top = `${top}px`;
-        onScroll(y);
-      }
-
-      document.onmouseup = () => {
-        document.onmousemove = undefined;
-        document.onmouseup = undefined;
-        scrollBar.style.transition = 'all 0.7s ease';
-      };
-    }
-  };
-
-  return {
-    scrollBar,
-    onResize,
-  };
-};
-
-const getScrollContainer = (dom: HTMLElement) => {
-  dom.style.overflow = 'hidden';
-  dom.style.position = 'relative';
-  const wrap = document.createElement('div');
-  wrap.className = 'scroll-content';
-
-  const scrollContainer = document.createElement('div');
-  scrollContainer.className = 'scroll-bar-container';
-  const { onResize: onScrollBarResize } = getScrollBar(scrollContainer);
-
-  dom.appendChild(wrap);
-  dom.appendChild(scrollContainer);
-
-  const onResize = () => {
-    const height = dom.clientHeight;
-    const wrapHeight = wrap.clientHeight;
-
-    // Need to add scroll bar
-    if (height < wrapHeight) {
-      scrollContainer.style.display = 'block';
-      onScrollBarResize(dom, wrap);
-    } else {
-      scrollContainer.style.display = 'none';
-    }
-  };
-
-  return {
-    onResize,
-    container: wrap,
-  };
 };
 
 const main = (app: HTMLElement): void => {

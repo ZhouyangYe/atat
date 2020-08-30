@@ -10,6 +10,7 @@ module.exports = {
     framework: path.resolve(__dirname, './src/framework/index.ts'),
     ['services/intro']: path.resolve(__dirname, './src/services/intro/index.ts'),
     ['modules/loading']: path.resolve(__dirname, './src/modules/loading/index.ts'),
+    ['modules/scrollable']: path.resolve(__dirname, './src/modules/scrollable/index.ts'),
   },
   output: { // output location
     path: path.resolve(__dirname, "lib"),
