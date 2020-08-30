@@ -11,6 +11,7 @@ module.exports = {
     ['services/intro']: path.resolve(__dirname, './src/services/intro/index.ts'),
     ['modules/loading']: path.resolve(__dirname, './src/modules/loading/index.ts'),
     ['modules/scrollable']: path.resolve(__dirname, './src/modules/scrollable/index.ts'),
+    ['modules/door']: path.resolve(__dirname, './src/modules/door/index.ts'),
   },
   output: { // output location
     path: path.resolve(__dirname, "lib"),

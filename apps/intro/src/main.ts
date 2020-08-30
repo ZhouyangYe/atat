@@ -1,8 +1,10 @@
 import { getIntroInfo } from 'atat-common/lib/services/intro';
 import { getFullUrl } from 'atat-common/lib/utils';
 import { getScrollContainer } from 'atat-common/lib/modules/scrollable';
+import { createDoor } from 'atat-common/lib/modules/door';
 
 import 'atat-common/lib/modules/scrollable/index.css';
+import 'atat-common/lib/modules/door/index.css';
 
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
@@ -52,6 +54,9 @@ const main = (app: HTMLElement): void => {
   const welcomeSection = createWelcomeSection();
   const aboutSection = createAboutSection();
   const contentSection = createContentSection();
+  const door = createDoor();
+
+  app.appendChild(door);
 
   container.appendChild(welcomeSection);
   container.appendChild(aboutSection);

@@ -1,0 +1,344 @@
+@doorColor: #d19c6d;
+@edgeColor: rgb(20, 88, 24);
+
+/*door*/
+#door {
+  font-size: 10px;
+  display: block;
+  position: fixed;
+  height: 14.1em;
+  width: 8.3em;
+  bottom: 5.6em;
+  left: 4em;
+  background: #000;
+  perspective: 40em;
+  perspective-origin: left 4em;
+  opacity: 0.7;
+  transition: opacity 0.4s ease;
+  z-index: 88;
+  transition: background 0.5s ease;
+}
+
+#door .pivot {
+  transform-style: preserve-3d;
+  position: absolute;
+  transform: translateZ(-0.8em);
+  left: -0.2em;
+  height: 1.8em;
+  width: 0.8em;
+  background: #ddd;
+}
+
+#door .pivot:nth-of-type(1) {
+  top: 1.8em;
+}
+
+#door .pivot:nth-of-type(2) {
+  top: 10.2em;
+}
+
+#door .cover {
+  position: absolute;
+  height: 14em;
+  width: 8em;
+  border: 1em solid @edgeColor;
+  border-top: 1.4em solid @edgeColor;
+  border-bottom: none;
+  left: -0.8em;
+  top: -1.3em;
+  border-radius: 1em 1em 0 0;
+  z-index: 2;
+}
+
+#door .sign {
+  position: absolute;
+  width: 2.8em;
+  height: 1.3em;
+  left: calc(50% - 1.5em);
+  top: -2.6em;
+  background: rgb(80, 9, 94);
+  border-radius: 0.2em;
+  text-align: center;
+  border: 1px solid #666;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: -0.2em 0.1em 0.4em #222;
+  font-size: 1.6em;
+  line-height: 1.3em;
+}
+
+#door .inner {
+  position: absolute;
+  width: 0;
+  height: 14em;
+  left: 0.2em;
+  top: 0.1em;
+  transition: transform 1s ease;
+  transition-delay: 1s;
+  transform-style: preserve-3d;
+  transform-origin: left center -1.1em;
+  z-index: 1;
+}
+
+#door .tEdge {
+  position: absolute;
+  width: 7.8em;
+  height: 0.6em;
+  top: -0.7em;
+  left: 0;
+  transform-style: preserve-3d;
+  transform-origin: bottom;
+  transform: rotateX(80deg);
+  background: @doorColor;
+  box-shadow: -0.1em -0.1em 0.5em #000 inset;
+}
+
+#door .lEdge {
+  position: absolute;
+  width: 0.8em;
+  height: 14em;
+  top: -0.1em;
+  left: -0.7em;
+  transform-style: preserve-3d;
+  transform-origin: right;
+  transform: rotateY(-80deg);
+  background: @doorColor;
+  box-shadow: -0.1em -0.1em 1em #888 inset;
+}
+
+#door .window {
+  position: absolute;
+  width: 0;
+  height: 4em;
+  z-index: 1;
+  transform-style: preserve-3d;
+}
+
+#over {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+#over .overlap {
+  position: absolute;
+  z-index: 10;
+  background: @doorColor;
+}
+
+#over .overlap:nth-of-type(1) {
+  left: 0em;
+  width: 1em;
+  height: 13em;
+}
+
+#over .overlap:nth-of-type(2) {
+  left: 3.4em;
+  width: 1.2em;
+  height: 13em;
+}
+
+#over .overlap:nth-of-type(3) {
+  left: 7em;
+  width: 1em;
+  height: 13em;
+}
+
+#over .overlap:nth-of-type(4) {
+  left: 0.1em;
+  top: -0.1em;
+  width: 7.9em;
+  height: 2.1em;
+}
+
+#over .overlap:nth-of-type(5) {
+  left: 0.1em;
+  top: 6em;
+  width: 7.9em;
+  height: 1.8em;
+}
+
+#over .overlap:nth-of-type(6) {
+  left: 0em;
+  top: 11.8em;
+  width: 8em;
+  height: 2em;
+  border-bottom: 0.1em solid #888;
+}
+
+#door .window:nth-of-type(1) {
+  left: 1em;
+  top: 2em;
+}
+
+#door .window:nth-of-type(2) {
+  left: 4.6em;
+  top: 2em;
+}
+
+#door .window:nth-of-type(3) {
+  left: 1em;
+  top: 7.8em;
+}
+
+#door .window:nth-of-type(4) {
+  left: 4.6em;
+  top: 7.8em;
+}
+
+#door .handler {
+  position: absolute;
+  top: 6.6em;
+  left: 6em;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background: url('@resources/static/materials/handler.png') no-repeat;
+  background-size: 100% 100%;
+  z-index: 2;
+  transition: transform 1s ease;
+}
+
+#door .edge {
+  position: absolute;
+  transform-style: preserve-3d;
+  box-shadow: 0.2em 0.2em 0.6em #000 inset;
+  transition: box-shadow 0.5s ease;
+}
+
+#door .window:nth-of-type(1) .edge:nth-of-type(1),
+#door .window:nth-of-type(1) .edge:nth-of-type(2),
+#door .window:nth-of-type(2) .edge:nth-of-type(1),
+#door .window:nth-of-type(2) .edge:nth-of-type(2),
+#door .window:nth-of-type(3) .edge:nth-of-type(1),
+#door .window:nth-of-type(3) .edge:nth-of-type(2),
+#door .window:nth-of-type(4) .edge:nth-of-type(1),
+#door .window:nth-of-type(4) .edge:nth-of-type(2) {
+  height: 0.6em;
+  width: 2.4em;
+  background: @doorColor;
+}
+
+#door .window:nth-of-type(1) .edge:nth-of-type(1),
+#door .window:nth-of-type(2) .edge:nth-of-type(1),
+#door .window:nth-of-type(3) .edge:nth-of-type(1),
+#door .window:nth-of-type(4) .edge:nth-of-type(1) {
+  transform-origin: top;
+  border-top: 0.1em solid #999;
+  top: 0;
+  transform: rotateX(-80deg);
+}
+
+#door .window:nth-of-type(1) .edge:nth-of-type(2),
+#door .window:nth-of-type(2) .edge:nth-of-type(2),
+#door .window:nth-of-type(3) .edge:nth-of-type(2),
+#door .window:nth-of-type(4) .edge:nth-of-type(2) {
+  transform-origin: bottom;
+  border-bottom: 0.1em solid #999;
+  bottom: 0;
+  transform: rotateX(80deg);
+}
+
+#door .window:nth-of-type(1) .edge:nth-of-type(3),
+#door .window:nth-of-type(1) .edge:nth-of-type(4),
+#door .window:nth-of-type(2) .edge:nth-of-type(3),
+#door .window:nth-of-type(2) .edge:nth-of-type(4),
+#door .window:nth-of-type(3) .edge:nth-of-type(3),
+#door .window:nth-of-type(3) .edge:nth-of-type(4),
+#door .window:nth-of-type(4) .edge:nth-of-type(3),
+#door .window:nth-of-type(4) .edge:nth-of-type(4) {
+  height: 4em;
+  width: 0.6em;
+  background: @doorColor;
+}
+
+#door .window:nth-of-type(1) .edge:nth-of-type(3),
+#door .window:nth-of-type(2) .edge:nth-of-type(3),
+#door .window:nth-of-type(3) .edge:nth-of-type(3),
+#door .window:nth-of-type(4) .edge:nth-of-type(3) {
+  transform-origin: left;
+  border-left: 0.1em solid #999;
+  top: 0;
+  left: 0;
+  transform: rotateY(80deg);
+}
+
+#door .window:nth-of-type(1) .edge:nth-of-type(4),
+#door .window:nth-of-type(2) .edge:nth-of-type(4),
+#door .window:nth-of-type(3) .edge:nth-of-type(4),
+#door .window:nth-of-type(4) .edge:nth-of-type(4) {
+  transform-origin: right;
+  border-right: 0.1em solid #999;
+  top: 0;
+  left: 1.7em;
+  transform: rotateY(-80deg);
+}
+
+#door:hover .inner {
+  transform: rotateY(70deg);
+}
+
+#door:hover .handler {
+  transform: rotate(360deg);
+}
+
+#door:hover {
+  opacity: 1;
+}
+
+#door .stone {
+  position: absolute;
+  width: 12em;
+  height: 1.2em;
+  bottom: -0.7em;
+  background: #666;
+  left: -2em;
+  transform-style: preserve-3d;
+  transform: translateZ(3em);
+}
+
+#door .stone div {
+  position: absolute;
+  width: 12em;
+  height: 9.9em;
+  background: #555;
+  left: 0;
+  top: -9.9em;
+  transform-origin: bottom;
+  transform: rotateX(100deg);
+  transform-style: preserve-3d;
+}
+
+#roads {
+  position: absolute;
+  bottom: -0.3em;
+  left: 0;
+}
+
+#roads .road {
+  position: absolute;
+  background: #aa7;
+  border-radius: 0.4em;
+}
+
+#roads .road:nth-of-type(1) {
+  width: 8.4em;
+  height: 0.4em;
+  top: 1.6em;
+  left: 0.4em;
+}
+
+#roads .road:nth-of-type(2) {
+  width: 11em;
+  height: 0.6em;
+  top: 2.5em;
+  left: 2em;
+}
+
+#roads .road:nth-of-type(3) {
+  width: 15em;
+  height: 0.8em;
+  top: 3.5em;
+  left: 7.3em;
+}
