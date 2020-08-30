@@ -55,6 +55,37 @@ const main = (app: HTMLElement): void => {
   const aboutSection = createAboutSection();
   const contentSection = createContentSection();
   const door = createDoor();
+  door.className = 'hide';
+
+  let timer: NodeJS.Timeout;
+  let prevX: number;
+  const hideDoor = () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      door.className = 'hide';
+    }, 3000);
+  };
+  const handleMouseMove = (evt: MouseEvent) => {
+    if (!prevX) {
+      prevX = evt.clientX;
+    }
+    const delta = evt.clientX - prevX
+    prevX = evt.clientX;
+    if (Math.abs(delta) > 4) {
+      door.className = 'show';
+      hideDoor();
+    }
+  };
+  document.addEventListener('mousemove', handleMouseMove, false);
+
+  door.onmouseenter = () => {
+    clearTimeout(timer);
+
+    door.onmouseleave = () => {
+      hideDoor();
+      door.onmouseleave = undefined;
+    }
+  };
 
   app.appendChild(door);
 
