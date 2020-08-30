@@ -59,6 +59,7 @@ const main = (app: HTMLElement): void => {
 
   let timer: NodeJS.Timeout;
   let prevX: number;
+  let isOverDoor = false;
   const hideDoor = () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -66,12 +67,16 @@ const main = (app: HTMLElement): void => {
     }, 3000);
   };
   const handleMouseMove = (evt: MouseEvent) => {
+    if (isOverDoor) {
+      return;
+    }
     if (!prevX) {
       prevX = evt.clientX;
     }
     const delta = evt.clientX - prevX
     prevX = evt.clientX;
-    if (Math.abs(delta) > 4) {
+    console.log(Math.abs(delta));
+    if (Math.abs(delta) > 40) {
       door.className = 'show';
       hideDoor();
     }
@@ -79,9 +84,12 @@ const main = (app: HTMLElement): void => {
   document.addEventListener('mousemove', handleMouseMove, false);
 
   door.onmouseenter = () => {
+    isOverDoor = true;
+    door.className = 'show';
     clearTimeout(timer);
 
     door.onmouseleave = () => {
+      isOverDoor = false;
       hideDoor();
       door.onmouseleave = undefined;
     }

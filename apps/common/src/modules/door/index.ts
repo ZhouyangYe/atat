@@ -17,14 +17,14 @@ export const createDoor = (config?: IConfig): HTMLElement => {
   const {
     text = 'Entry',
     backgroundUrl = '@resources/static/materials/path3.png',
-    doorColor = '#856e5a',
+    doorColor = '#77685b',
     rimColor = '#333',
     stoneColor = '#333',
     stoneSurfaceColor = '#555',
     signColor = 'rgb(80, 9, 94)',
     signBorderColor = '#000',
     signMessageColor = '#ddd',
-    roadColor = 'rgb(20, 88, 24)',
+    roadColor = 'rgb(38, 119, 44)',
   } = config || {};
 
   const door = document.createElement('a');

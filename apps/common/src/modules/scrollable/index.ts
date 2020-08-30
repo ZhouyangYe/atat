@@ -122,7 +122,7 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
  * @param config scroll configuration
  */
 export const getScrollContainer = (dom: HTMLElement, config?: IConfig): { onResize: () => void; container: HTMLElement } => {
-  const { sensitiveIndicator = 4, delay = 3000 } = config || {};
+  const { sensitiveIndicator = 30, delay = 3000 } = config || {};
 
   dom.style.overflow = 'hidden';
   dom.style.position = 'relative';
