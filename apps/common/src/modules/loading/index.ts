@@ -11,7 +11,7 @@ const body = document.querySelector<HTMLElement>('body');
 const main = document.querySelector<HTMLImageElement>('#main');
 const loading = document.createElement('DIV') as HTMLElement;
 const progress = document.createElement('DIV') as HTMLElement;
-loading.id = 'loading';
+loading.id = 'atat-loading';
 progress.innerHTML = '0.00%';
 loading.appendChild(progress);
 body.appendChild(loading);
