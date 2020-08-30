@@ -30,3 +30,5 @@ TODOs:
   21. multiple loading page
   22. improve scrollable component logic
   23. responsive page design
+  24. audio
+  25. bouncing star
