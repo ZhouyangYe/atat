@@ -97,9 +97,8 @@ const main = (app: HTMLElement): void => {
     }
   };
 
-  app.appendChild(doorDom);
-
   const fragment = new DocumentFragment();
+  fragment.appendChild(doorDom);
   fragment.appendChild(welcomeSection);
   fragment.appendChild(aboutSection);
   fragment.appendChild(contentSection);
