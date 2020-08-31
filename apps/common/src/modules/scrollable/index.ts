@@ -175,7 +175,7 @@ export const getScrollContainer = (dom: HTMLElement, config?: IConfig): { onResi
     }
     const delta = evt.clientX - prevX
     prevX = evt.clientX;
-    if (Math.abs(delta) > sensitiveIndicator) {
+    if (delta > sensitiveIndicator) {
       openContainer();
       hideContainerAfterDelay();
     }

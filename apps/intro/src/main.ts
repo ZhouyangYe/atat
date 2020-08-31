@@ -1,7 +1,7 @@
 import { getIntroInfo } from 'atat-common/lib/services/intro';
 import { getFullUrl } from 'atat-common/lib/utils';
 import { getScrollContainer } from 'atat-common/lib/modules/scrollable';
-import { createDoor } from 'atat-common/lib/modules/door';
+import Door from 'atat-common/lib/modules/door';
 
 import 'atat-common/lib/modules/scrollable/index.css';
 import 'atat-common/lib/modules/door/index.css';
@@ -54,8 +54,9 @@ const main = (app: HTMLElement): void => {
   const welcomeSection = createWelcomeSection();
   const aboutSection = createAboutSection();
   const contentSection = createContentSection();
-  const door = createDoor();
-  door.className = 'hide';
+  const door = new Door();
+  const doorDom = door.getDom();
+  doorDom.className = 'hide';
 
   let timer: NodeJS.Timeout;
   let prevX: number;
@@ -63,7 +64,7 @@ const main = (app: HTMLElement): void => {
   const hideDoor = () => {
     clearTimeout(timer);
     timer = setTimeout(() => {
-      door.className = 'hide';
+      doorDom.className = 'hide';
     }, 3000);
   };
   const handleMouseMove = (evt: MouseEvent) => {
@@ -75,27 +76,26 @@ const main = (app: HTMLElement): void => {
     }
     const delta = evt.clientX - prevX
     prevX = evt.clientX;
-    console.log(Math.abs(delta));
-    if (Math.abs(delta) > 40) {
-      door.className = 'show';
+    if (delta < -40) {
+      doorDom.className = 'show';
       hideDoor();
     }
   };
   document.addEventListener('mousemove', handleMouseMove, false);
 
-  door.onmouseenter = () => {
+  doorDom.onmouseenter = () => {
     isOverDoor = true;
-    door.className = 'show';
+    doorDom.className = 'show';
     clearTimeout(timer);
 
-    door.onmouseleave = () => {
+    doorDom.onmouseleave = () => {
       isOverDoor = false;
       hideDoor();
-      door.onmouseleave = undefined;
+      doorDom.onmouseleave = undefined;
     }
   };
 
-  app.appendChild(door);
+  app.appendChild(doorDom);
 
   container.appendChild(welcomeSection);
   container.appendChild(aboutSection);

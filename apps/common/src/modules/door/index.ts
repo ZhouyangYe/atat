@@ -13,112 +13,228 @@ export interface IConfig {
   roadColor?: string;
 }
 
-export const createDoor = (config?: IConfig): HTMLElement => {
-  const {
-    text = 'Entry',
-    backgroundUrl = '@resources/static/materials/path3.png',
-    doorColor = '#77685b',
-    rimColor = '#333',
-    stoneColor = '#333',
-    stoneSurfaceColor = '#555',
-    signColor = 'rgb(80, 9, 94)',
-    signBorderColor = '#000',
-    signMessageColor = '#ddd',
-    roadColor = 'rgb(38, 119, 44)',
-  } = config || {};
+class Door {
+  private defaultConfig: IConfig = {
+    text: 'Entry',
+    backgroundUrl: '@resources/static/materials/path3.png',
+    doorColor: '#77685b',
+    rimColor: '#333',
+    stoneColor: '#333',
+    stoneSurfaceColor: '#555',
+    signColor: 'rgb(80, 9, 94)',
+    signBorderColor: '#000',
+    signMessageColor: '#ddd',
+    roadColor: 'rgb(38, 119, 44)',
+  };
 
-  const door = document.createElement('a');
-  door.id = 'door';
-  door.href = '/home';
-  door.style.background = `url(${backgroundUrl}) no-repeat`;
-  door.style.backgroundSize = 'cover';
+  private config: IConfig;
 
-  // pivot
-  for (let i = 0; i < 2; i++) {
-    const pivot = document.createElement('div');
-    pivot.className = 'pivot';
-    door.appendChild(pivot);
+  private door: HTMLAnchorElement;
+
+  private sign: HTMLElement;
+
+  private edges: HTMLElement[] = [];
+
+  private overlaps: HTMLElement[] = [];
+
+  private lEdge: HTMLElement;
+
+  private tEdge: HTMLElement;
+
+  private cover: HTMLElement;
+
+  private stone: HTMLElement;
+
+  private roads: HTMLElement[] = [];
+
+  private stoneDiv: HTMLElement;
+
+  constructor(config?: IConfig) {
+    this.config = config;
+    this.createDoor();
   }
 
-  // sign
-  const sign = document.createElement('div');
-  sign.innerHTML = text;
-  sign.className = 'sign';
-  sign.style.background = signColor;
-  sign.style.borderColor = signBorderColor;
-  sign.style.color = signMessageColor;
-  door.appendChild(sign);
+  getDom = (): HTMLElement => {
+    return this.door;
+  };
 
-  // inner
-  const inner = document.createElement('div');
-  inner.className = 'inner';
-  for (let i = 0; i < 4; i++) {
-    const window = document.createElement('div');
-    window.className = 'window';
-    for (let j = 0; j < 4; j++) {
-      const edge = document.createElement('div');
-      edge.className = 'edge';
-      edge.style.background = doorColor;
-      window.appendChild(edge);
+  dye = (config: IConfig): void => {
+    const {
+      text,
+      backgroundUrl,
+      doorColor,
+      rimColor,
+      stoneColor,
+      stoneSurfaceColor,
+      signColor,
+      signBorderColor,
+      signMessageColor,
+      roadColor,
+    } = config;
+
+    if (backgroundUrl) {
+      this.door.style.background = `url(${backgroundUrl}) no-repeat`;
+      this.door.style.backgroundSize = 'cover';
     }
-    inner.appendChild(window);
-  }
 
-  // over
-  const over = document.createElement('div');
-  over.id = 'over';
-  for (let j = 0; j < 6; j++) {
-    const overlap = document.createElement('div');
-    overlap.className = 'overlap';
-    overlap.style.background = doorColor;
-    over.appendChild(overlap);
-  }
-  inner.appendChild(over);
+    if (text) {
+      this.sign.innerHTML = text;
+    }
 
-  // left edge
-  const lEdge = document.createElement('div');
-  lEdge.className = 'lEdge';
-  lEdge.style.background = doorColor;
-  inner.appendChild(lEdge);
+    if (signColor) {
+      this.sign.style.background = signColor;
+    }
 
-  // top edge
-  const tEdge = document.createElement('div');
-  tEdge.className = 'tEdge';
-  tEdge.style.background = doorColor;
-  inner.appendChild(tEdge);
+    if (signBorderColor) {
+      this.sign.style.borderColor = signBorderColor;
+    }
 
-  // top edge
-  const handler = document.createElement('div');
-  handler.className = 'handler';
-  inner.appendChild(handler);
+    if (signMessageColor) {
+      this.sign.style.color = signMessageColor;
+    }
 
-  door.appendChild(inner);
+    if (doorColor) {
+      this.edges.forEach((edge) => {
+        edge.style.background = doorColor;
+      });
+      this.overlaps.forEach((overlap) => {
+        overlap.style.background = doorColor;
+      });
+    }
 
-  // cover
-  const cover = document.createElement('div');
-  cover.className = 'cover';
-  cover.style.borderColor = rimColor;
-  door.appendChild(cover);
+    if (doorColor) {
+      this.lEdge.style.background = doorColor;
+      this.tEdge.style.background = doorColor;
+    }
 
-  // cover
-  const stone = document.createElement('div');
-  stone.className = 'stone';
-  stone.style.background = stoneColor;
-  const div = document.createElement('div');
-  div.style.background = stoneSurfaceColor;
-  stone.appendChild(div);
-  door.appendChild(stone);
+    if (rimColor) {
+      this.cover.style.borderColor = rimColor;
+    }
 
-  // roads
-  const roads = document.createElement('div');
-  roads.id = 'roads';
-  for (let j = 0; j < 4; j++) {
-    const road = document.createElement('div');
-    road.className = 'road';
-    road.style.background = roadColor;
-    roads.appendChild(road);
-  }
-  door.appendChild(roads);
+    if (stoneColor) {
+      this.stone.style.background = stoneColor;
+    }
 
-  return door;
-};
+    if (stoneSurfaceColor) {
+      this.stoneDiv.style.background = stoneSurfaceColor;
+    }
+
+    if (roadColor) {
+      this.roads.forEach((road) => {
+        road.style.background = roadColor;
+      });
+    }
+  };
+
+  private createDoor = (): void => {
+    this.door = document.createElement('a');
+    this.door.id = 'door';
+    this.door.href = '/home';
+
+    // pivot
+    for (let i = 0; i < 2; i++) {
+      const pivot = document.createElement('div');
+      pivot.className = 'pivot';
+      this.door.appendChild(pivot);
+    }
+
+    // sign
+    this.sign = document.createElement('div');
+    this.sign.className = 'sign';
+    this.door.appendChild(this.sign);
+
+    // inner
+    const inner = document.createElement('div');
+    inner.className = 'inner';
+    for (let i = 0; i < 4; i++) {
+      const window = document.createElement('div');
+      window.className = 'window';
+      for (let j = 0; j < 4; j++) {
+        const edge = document.createElement('div');
+        edge.className = 'edge';
+        this.edges.push(edge);
+        window.appendChild(edge);
+      }
+      inner.appendChild(window);
+    }
+
+    // over
+    const over = document.createElement('div');
+    over.id = 'over';
+    for (let j = 0; j < 6; j++) {
+      const overlap = document.createElement('div');
+      overlap.className = 'overlap';
+      this.overlaps.push(overlap);
+      over.appendChild(overlap);
+    }
+    inner.appendChild(over);
+
+    // left edge
+    this.lEdge = document.createElement('div');
+    this.lEdge.className = 'lEdge';
+    inner.appendChild(this.lEdge);
+
+    // top edge
+    this.tEdge = document.createElement('div');
+    this.tEdge.className = 'tEdge';
+    inner.appendChild(this.tEdge);
+
+    // top edge
+    const handler = document.createElement('div');
+    handler.className = 'handler';
+    inner.appendChild(handler);
+
+    this.door.appendChild(inner);
+
+    // cover
+    this.cover = document.createElement('div');
+    this.cover.className = 'cover';
+    this.door.appendChild(this.cover);
+
+    // stone
+    this.stone = document.createElement('div');
+    this.stone.className = 'stone';
+    this.stoneDiv = document.createElement('div');
+    this.stone.appendChild(this.stoneDiv);
+    this.door.appendChild(this.stone);
+
+    // roads
+    const roads = document.createElement('div');
+    roads.id = 'roads';
+    for (let j = 0; j < 4; j++) {
+      const road = document.createElement('div');
+      road.className = 'road';
+      this.roads.push(road);
+      roads.appendChild(road);
+    }
+    this.door.appendChild(roads);
+
+    // dye
+    const {
+      text = this.defaultConfig.text,
+      backgroundUrl = this.defaultConfig.backgroundUrl,
+      doorColor = this.defaultConfig.doorColor,
+      rimColor = this.defaultConfig.rimColor,
+      stoneColor = this.defaultConfig.stoneColor,
+      stoneSurfaceColor = this.defaultConfig.stoneSurfaceColor,
+      signColor = this.defaultConfig.signColor,
+      signBorderColor = this.defaultConfig.signBorderColor,
+      signMessageColor = this.defaultConfig.signMessageColor,
+      roadColor = this.defaultConfig.roadColor,
+    } = this.config || this.defaultConfig;
+    this.dye({
+      text,
+      backgroundUrl,
+      doorColor,
+      rimColor,
+      stoneColor,
+      stoneSurfaceColor,
+      signColor,
+      signBorderColor,
+      signMessageColor,
+      roadColor,
+    });
+  };
+}
+
+export default Door;
