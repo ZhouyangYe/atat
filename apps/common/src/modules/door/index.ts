@@ -1,6 +1,6 @@
 import './index.less';
 
-export interface IConfig {
+export interface IBaseConfig {
   text?: string;
   backgroundUrl?: string;
   doorColor?: string;
@@ -13,8 +13,12 @@ export interface IConfig {
   roadColor?: string;
 }
 
+export interface IConfig extends IBaseConfig {
+  href: string;
+}
+
 class Door {
-  private defaultConfig: IConfig = {
+  private defaultConfig: IBaseConfig = {
     text: 'Entry',
     backgroundUrl: '@resources/static/materials/path3.png',
     doorColor: '#77685b',
@@ -49,7 +53,7 @@ class Door {
 
   private stoneDiv: HTMLElement;
 
-  constructor(config?: IConfig) {
+  constructor(config: IConfig) {
     this.config = config;
     this.createDoor();
   }
@@ -58,7 +62,7 @@ class Door {
     return this.door;
   };
 
-  dye = (config: IConfig): void => {
+  dye = (config: IBaseConfig): void => {
     const {
       text,
       backgroundUrl,
@@ -129,7 +133,7 @@ class Door {
   private createDoor = (): void => {
     this.door = document.createElement('a');
     this.door.id = 'door';
-    this.door.href = '/home';
+    this.door.href = this.config.href;
 
     // pivot
     for (let i = 0; i < 2; i++) {
@@ -221,7 +225,7 @@ class Door {
       signBorderColor = this.defaultConfig.signBorderColor,
       signMessageColor = this.defaultConfig.signMessageColor,
       roadColor = this.defaultConfig.roadColor,
-    } = this.config || this.defaultConfig;
+    } = this.config;
     this.dye({
       text,
       backgroundUrl,

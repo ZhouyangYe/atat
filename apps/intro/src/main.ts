@@ -56,7 +56,7 @@ const main = (app: HTMLElement): void => {
   const welcomeSection = createWelcomeSection();
   const aboutSection = createAboutSection();
   const contentSection = createContentSection();
-  const door = new Door();
+  const door = new Door({ href: '/home' });
   const doorDom = door.getDom();
   doorDom.className = 'hide';
 
