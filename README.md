@@ -25,10 +25,11 @@ TODOs:
   16. ajax
   17. fix sourcemap ✔
   18. fix static file handler security issue ✔
-  19. custom scroll bar
+  19. custom scroll bar ✔
   20. full screen
   21. multiple loading page
   22. improve scrollable component logic
   23. responsive page design
   24. audio
   25. bouncing star
+  26. optimize dom manipulation

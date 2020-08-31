@@ -13,22 +13,164 @@ export interface IConfig {
   smoothScrolling?: boolean;
 }
 
-const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
-  const { speed = 200, color = '#000', smoothScrolling = false } = config || {};
+class ScrollableContainer {
+  private defaultConfig: IConfig = {
+    sensitiveIndicator: 30,
+    delay: 3000,
+    speed: 200,
+    color: '#000',
+    smoothScrolling: false,
+  };
 
-  const scrollBar = document.createElement('div');
-  scrollBar.className = 'scroll-bar';
-  scrollBar.style.background = color;
+  private config: IConfig;
 
-  scrollContainer.appendChild(scrollBar);
+  /** scrollable container */
+  private dom: HTMLElement;
 
-  const onResize = (container: HTMLElement, content: HTMLElement) => {
-    const containerHeight = container.clientHeight;
-    const contentHeight = content.clientHeight;
+  /** scrollable content container */
+  private wrap: HTMLElement;
+
+  /** scroll bar container */
+  private scrollContainer: HTMLElement;
+
+  /** indicates if scroll bar container is opened */
+  private isOpened = false;
+
+  /** scroll bar */
+  private scrollBar: HTMLElement;
+
+  /** indicates if scroll bar is pressed */
+  private isScrollBarMouseDown = false;
+
+  /** timer to auto collapse scroll bar container */
+  private collapseTimer: NodeJS.Timeout = null;
+
+  /** indicates if cursor is over scroll bar container */
+  private isCursorOverBarContainer = false;
+
+  constructor(dom: HTMLElement, config?: IConfig) {
+    this.dom = dom;
+    this.config = config || this.defaultConfig;
+    this.buildScrollContainer();
+    this.buildScrollBar();
+
+    const fragment = new DocumentFragment();
+    fragment.appendChild(this.wrap);
+    fragment.appendChild(this.scrollContainer);
+    this.dom.appendChild(fragment);
+  }
+
+  getDom = (): HTMLElement => {
+    return this.dom;
+  };
+
+  getContainer = (): HTMLElement => {
+    return this.wrap;
+  };
+
+  onResize = (): void => {
+    const height = this.dom.clientHeight;
+    const wrapHeight = this.wrap.clientHeight;
+
+    // Need to add scroll bar
+    if (height < wrapHeight) {
+      this.scrollContainer.style.display = 'block';
+      this.onScrollBarResize(height, wrapHeight);
+    } else {
+      this.scrollContainer.style.display = 'none';
+    }
+  };
+
+  private openContainer = () => {
+    clearTimeout(this.collapseTimer);
+    if (!this.isScrollBarMouseDown && !this.isOpened) {
+      this.isOpened = true;
+      this.scrollContainer.style.width = '12px';
+      this.scrollBar.style.opacity = '0.5';
+    }
+  };
+
+  private collapseContainer = () => {
+    if (this.isOpened) {
+      this.isOpened = false;
+      this.scrollContainer.style.width = '0';
+      this.scrollBar.style.opacity = '0';
+    }
+  }
+
+  private hideContainerAfterDelay = () => {
+    const { delay = this.defaultConfig.delay } = this.config;
+    if (!this.isScrollBarMouseDown && this.isOpened) {
+      clearTimeout(this.collapseTimer);
+      this.collapseTimer = setTimeout(() => {
+        this.collapseContainer();
+      }, delay);
+    }
+  };
+
+  private buildScrollContainer = (): void => {
+    const {
+      sensitiveIndicator = this.defaultConfig.sensitiveIndicator,
+    } = this.config;
+
+    this.dom.style.overflow = 'hidden';
+    this.dom.style.position = 'relative';
+
+    /** scroll content */
+    this.wrap = document.createElement('div');
+    this.wrap.className = 'scroll-content';
+
+    /** whether scroll bar has been opened */
+    this.scrollContainer = document.createElement('div');
+    this.scrollContainer.className = 'scroll-bar-container';
+
+    let prevX: number;
+    this.wrap.onmousemove = (evt) => {
+      if (!prevX) {
+        prevX = evt.clientX;
+      }
+      const delta = evt.clientX - prevX
+      prevX = evt.clientX;
+      if (delta > sensitiveIndicator) {
+        this.openContainer();
+        this.hideContainerAfterDelay();
+      }
+    };
+
+    this.scrollContainer.onmouseenter = () => {
+      this.isCursorOverBarContainer = true;
+      this.openContainer();
+      clearTimeout(this.collapseTimer);
+    };
+
+    this.scrollContainer.onmouseleave = () => {
+      this.isCursorOverBarContainer = false;
+      this.hideContainerAfterDelay();
+    };
+
+    // make sure scroll bar is opened when wheel event is triggered
+    const handleWheel = () => {
+      this.openContainer();
+      this.hideContainerAfterDelay();
+    };
+    this.wrap.addEventListener('wheel', handleWheel, false);
+  };
+
+  /**
+   * @description recalculate the size of scroll bar and update events handler
+   * @param containerHeight height of container
+   * @param contentHeight height of content
+   */
+  private onScrollBarResize = (containerHeight: number, contentHeight: number) => {
+    const {
+      speed = this.defaultConfig.speed,
+      smoothScrolling = this.defaultConfig.smoothScrolling,
+    } = this.config;
+
     const ratio = containerHeight / contentHeight;
     /** scroll bar height */
-    const height = scrollContainer.clientHeight * ratio;
-    scrollBar.style.height = height > 10 ? `${Math.floor(height)}px` : '10px';
+    const height = this.scrollContainer.clientHeight * ratio;
+    this.scrollBar.style.height = height > 10 ? `${Math.floor(height)}px` : '10px';
     /** scroll container height minus scroll content height */
     const delta = containerHeight - contentHeight;
     /** scroll bar container height minus scroll bar height */
@@ -46,13 +188,13 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
     };
 
     const scrollTo = (yAxis: number) => {
-      content.style.top = `${Math.floor(yAxis)}px`;
+      this.wrap.style.top = `${Math.floor(yAxis)}px`;
     };
 
-    let y = getTop(content.offsetTop);
+    let y = getTop(this.wrap.offsetTop);
     scrollTo(y);
 
-    container.onwheel = (evt) => {
+    this.dom.onwheel = (evt) => {
       if (evt.deltaY > 0) {
         y -= speed;
       } else {
@@ -63,7 +205,7 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
 
       const barRatio = y / delta;
       const barTop = deltaHeight * barRatio;
-      scrollBar.style.top = `${barTop}px`;
+      this.scrollBar.style.top = `${barTop}px`;
 
       scrollTo(y);
     };
@@ -80,13 +222,14 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
       return barY;
     };
 
-    scrollBar.onmousedown = (event) => {
+    this.scrollBar.onmousedown = (event) => {
       const initY = event.clientY;
-      const initTop = scrollBar.offsetTop;
-      scrollBar.style.transition = 'none';
-      scrollBar.style.opacity = '0.7';
+      const initTop = this.scrollBar.offsetTop;
+      this.scrollBar.style.transition = 'none';
+      this.scrollBar.style.opacity = '0.7';
+      this.isScrollBarMouseDown = true;
       if (!smoothScrolling) {
-        content.style.transition = 'none';
+        this.wrap.style.transition = 'none';
       }
 
       document.onmousemove = (evt) => {
@@ -94,141 +237,37 @@ const getScrollBar = (scrollContainer: HTMLElement, config?: IConfig) => {
         const top = getBarTop(initTop + bDelta);
         const barRatio = top / deltaHeight;
         y = getTop(barRatio * delta);
-        scrollBar.style.top = `${top}px`;
+        this.scrollBar.style.top = `${top}px`;
         scrollTo(y);
       }
 
       document.onmouseup = () => {
+        this.isScrollBarMouseDown = false;
+        if (!this.isCursorOverBarContainer) {
+          this.hideContainerAfterDelay();
+        }
         document.onmousemove = undefined;
         document.onmouseup = undefined;
-        scrollBar.style.transition = 'all 0.7s ease';
-        scrollBar.style.opacity = '0.5';
+        this.scrollBar.style.transition = 'all 0.7s ease';
+        this.scrollBar.style.opacity = '0.5';
         if (!smoothScrolling) {
-          content.style.transition = 'top 0.7s ease';
+          this.wrap.style.transition = 'top 0.7s ease';
         }
       };
     }
   };
 
-  return {
-    scrollBar,
-    onResize,
+  private buildScrollBar = () => {
+    const {
+      color = this.defaultConfig.color,
+    } = this.config;
+
+    this.scrollBar = document.createElement('div');
+    this.scrollBar.className = 'scroll-bar';
+    this.scrollBar.style.background = color;
+
+    this.scrollContainer.appendChild(this.scrollBar);
   };
-};
+}
 
-/**
- * @description make dom scrollable
- * @param dom scrollable content container
- * @param config scroll configuration
- */
-export const getScrollContainer = (dom: HTMLElement, config?: IConfig): { onResize: () => void; container: HTMLElement } => {
-  const { sensitiveIndicator = 30, delay = 3000 } = config || {};
-
-  dom.style.overflow = 'hidden';
-  dom.style.position = 'relative';
-
-  /** scroll content */
-  const wrap = document.createElement('div');
-  wrap.className = 'scroll-content';
-  
-  /** whether scroll bar is clicked */
-  let isMouseDown = false;
-  /** whether scroll bar has been opened */
-  let isOpened = false;
-  const scrollContainer = document.createElement('div');
-  scrollContainer.className = 'scroll-bar-container';
-  const { onResize: onScrollBarResize, scrollBar } = getScrollBar(scrollContainer, config);
-  let collapseTimer: NodeJS.Timeout = null;
-  // handle scroll bar collapse
-  const collapseContainer = () => {
-    if (isOpened) {
-      isOpened = false;
-      scrollContainer.style.width = '0';
-      scrollBar.style.opacity = '0';
-    }
-  };
-  const hideContainerAfterDelay = () => {
-    if (!isMouseDown && isOpened) {
-      clearTimeout(collapseTimer);
-      collapseTimer = setTimeout(() => {
-        collapseContainer();
-      }, delay);
-    }
-  };
-  // handle scroll bar open
-  const openContainer = () => {
-    clearTimeout(collapseTimer);
-    if (!isMouseDown && !isOpened) {
-      isOpened = true;
-      scrollContainer.style.width = '12px';
-      scrollBar.style.opacity = '0.5';
-    }
-  };
-
-  dom.appendChild(wrap);
-  dom.appendChild(scrollContainer);
-
-  let prevX: number;
-  wrap.onmousemove = (evt) => {
-    if (!prevX) {
-      prevX = evt.clientX;
-    }
-    const delta = evt.clientX - prevX
-    prevX = evt.clientX;
-    if (delta > sensitiveIndicator) {
-      openContainer();
-      hideContainerAfterDelay();
-    }
-  };
-
-  let isInside = false;
-  scrollContainer.onmouseenter = () => {
-    isInside = true;
-    openContainer();
-    clearTimeout(collapseTimer);
-  };
-
-  scrollContainer.onmouseleave = () => {
-    isInside = false;
-    hideContainerAfterDelay();
-  };
-
-  // make sure scroll bar not hide after mouse pressed
-  const handleScrollBarDown = () => {
-    isMouseDown = true;
-    const handleScrollBarUp = () => {
-      isMouseDown = false;
-      if (!isInside) {
-        hideContainerAfterDelay();
-      }
-      document.removeEventListener('mouseup', handleScrollBarUp, false);
-    }
-    document.addEventListener('mouseup', handleScrollBarUp, false);
-  };
-  scrollBar.addEventListener('mousedown', handleScrollBarDown, false);
-
-  // make sure scroll bar is opened when wheel event is triggered
-  const handleWheel = () => {
-    openContainer();
-    hideContainerAfterDelay();
-  };
-  wrap.addEventListener('wheel', handleWheel, false);
-
-  const onResize = () => {
-    const height = dom.clientHeight;
-    const wrapHeight = wrap.clientHeight;
-
-    // Need to add scroll bar
-    if (height < wrapHeight) {
-      scrollContainer.style.display = 'block';
-      onScrollBarResize(dom, wrap);
-    } else {
-      scrollContainer.style.display = 'none';
-    }
-  };
-
-  return {
-    onResize,
-    container: wrap,
-  };
-};
+export default ScrollableContainer;

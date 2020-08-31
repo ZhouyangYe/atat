@@ -1,6 +1,6 @@
 import { getIntroInfo } from 'atat-common/lib/services/intro';
 import { getFullUrl } from 'atat-common/lib/utils';
-import { getScrollContainer } from 'atat-common/lib/modules/scrollable';
+import ScrollableContainer from 'atat-common/lib/modules/scrollable';
 import Door from 'atat-common/lib/modules/door';
 
 import 'atat-common/lib/modules/scrollable/index.css';
@@ -50,7 +50,9 @@ const createContentSection = () => {
 };
 
 const main = (app: HTMLElement): void => {
-  const { container, onResize } = getScrollContainer(app);
+  const scrollableContainer = new ScrollableContainer(app);
+  const container = scrollableContainer.getContainer();
+  const { onResize } = scrollableContainer;
   const welcomeSection = createWelcomeSection();
   const aboutSection = createAboutSection();
   const contentSection = createContentSection();
@@ -97,9 +99,13 @@ const main = (app: HTMLElement): void => {
 
   app.appendChild(doorDom);
 
-  container.appendChild(welcomeSection);
-  container.appendChild(aboutSection);
-  container.appendChild(contentSection);
+  const fragment = new DocumentFragment();
+  fragment.appendChild(welcomeSection);
+  fragment.appendChild(aboutSection);
+  fragment.appendChild(contentSection);
+  container.appendChild(fragment);
+  // recalculate size after container has been filled
+  onResize();
 
   getIntroInfo().then((res) => {
     if (res.success) {
@@ -120,8 +126,6 @@ const main = (app: HTMLElement): void => {
       }
     }
   });
-
-  onResize();
 
   window.onresize = () => {
     onResize();
