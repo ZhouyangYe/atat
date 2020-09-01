@@ -1,6 +1,7 @@
 import './index.less';
 
 export interface IBaseConfig {
+  autoHide?: boolean;
   text?: string;
   backgroundUrl?: string;
   doorColor?: string;
@@ -19,6 +20,7 @@ export interface IConfig extends IBaseConfig {
 
 class Door {
   private defaultConfig: IBaseConfig = {
+    autoHide: true,
     text: 'Entry',
     backgroundUrl: '@resources/static/materials/path3.png',
     doorColor: '#77685b',
@@ -28,7 +30,7 @@ class Door {
     signColor: 'rgb(80, 9, 94)',
     signBorderColor: '#000',
     signMessageColor: '#ddd',
-    roadColor: 'rgb(38, 119, 44)',
+    roadColor: '#888c8d',
   };
 
   private config: IConfig;
@@ -53,18 +55,48 @@ class Door {
 
   private stoneDiv: HTMLElement;
 
+  private autoHide: boolean;
+
+  private autoHideTimer: NodeJS.Timer;
+
+  private isMouseOverDoor = false;
+
   constructor(config: IConfig) {
     this.config = config;
+    this.autoHide = config.autoHide || this.defaultConfig.autoHide;
     this.createDoor();
+    if (this.autoHide) {
+      this.bindAutoHide();
+    }
   }
 
   getDom = (): HTMLElement => {
     return this.door;
   };
 
+  setText = (text: string): void => {
+    this.sign.innerHTML = text;
+  };
+
+  hideDoor = (): void => {
+    clearTimeout(this.autoHideTimer);
+    this.door.className = 'hide';
+  };
+
+  showDoor = (): void => {
+    clearTimeout(this.autoHideTimer);
+    this.door.className = 'show';
+  };
+
+  toggleHideDoor = (): void => {
+    this.autoHide = !this.autoHide;
+    if (!this.autoHide) {
+      this.showDoor();
+    }
+  };
+
   dye = (config: IBaseConfig): void => {
     const {
-      text,
       backgroundUrl,
       doorColor,
       rimColor,
@@ -79,10 +111,6 @@ class Door {
     if (backgroundUrl) {
       this.door.style.background = `url(${backgroundUrl}) no-repeat`;
       this.door.style.backgroundSize = 'cover';
-    }
-
-    if (text) {
-      this.sign.innerHTML = text;
     }
 
     if (signColor) {
@@ -128,6 +156,46 @@ class Door {
         road.style.background = roadColor;
       });
     }
+  };
+
+  private hideDoorAfterDelay = (): void => {
+    clearTimeout(this.autoHideTimer);
+    this.autoHideTimer = setTimeout(() => {
+      this.door.className = 'hide';
+    }, 3000);
+  };
+
+  private bindAutoHide = () => {
+    this.door.className = 'hide';
+    let prevX: number;
+    const handleMouseMove = (evt: MouseEvent) => {
+      if (!this.autoHide || this.isMouseOverDoor) return;
+
+      if (!prevX) {
+        prevX = evt.clientX;
+      }
+      const delta = evt.clientX - prevX
+      prevX = evt.clientX;
+      if (delta < -40) {
+        this.door.className = 'show';
+        this.hideDoorAfterDelay();
+      }
+    };
+    document.addEventListener('mousemove', handleMouseMove, false);
+
+    this.door.onmouseenter = () => {
+      if (!this.autoHide) return;
+      
+      this.isMouseOverDoor = true;
+      this.door.className = 'show';
+      clearTimeout(this.autoHideTimer);
+
+      this.door.onmouseleave = () => {
+        this.isMouseOverDoor = false;
+        this.hideDoorAfterDelay();
+        this.door.onmouseleave = undefined;
+      }
+    };
   };
 
   private createDoor = (): void => {
@@ -226,6 +294,7 @@ class Door {
       signMessageColor = this.defaultConfig.signMessageColor,
       roadColor = this.defaultConfig.roadColor,
     } = this.config;
+    this.setText(text);
     this.dye({
       text,
       backgroundUrl,

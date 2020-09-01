@@ -7,6 +7,8 @@ export interface IConfig {
   color?: string;
   /** mouse sensitivity to open scroll bar */
   sensitiveIndicator?: number;
+  /** indicates if scroll bar automatically hide */
+  autoHide?: boolean;
   /** auto hide scroll bar delay */
   delay?: number;
   /** indicate whether to scroll smoothly when dragging scroll bar */
@@ -16,6 +18,7 @@ export interface IConfig {
 class ScrollableContainer {
   private defaultConfig: IConfig = {
     sensitiveIndicator: 30,
+    autoHide: true,
     delay: 3000,
     speed: 200,
     color: '#000',
@@ -110,6 +113,7 @@ class ScrollableContainer {
 
   private buildScrollContainer = (): void => {
     const {
+      autoHide = this.defaultConfig.color,
       sensitiveIndicator = this.defaultConfig.sensitiveIndicator,
     } = this.config;
 
@@ -124,36 +128,40 @@ class ScrollableContainer {
     this.scrollContainer = document.createElement('div');
     this.scrollContainer.className = 'scroll-bar-container';
 
-    let prevX: number;
-    this.wrap.onmousemove = (evt) => {
-      if (!prevX) {
+    if (autoHide) {
+      let prevX: number;
+      this.wrap.onmousemove = (evt) => {
+        if (!prevX) {
+          prevX = evt.clientX;
+        }
+        const delta = evt.clientX - prevX
         prevX = evt.clientX;
-      }
-      const delta = evt.clientX - prevX
-      prevX = evt.clientX;
-      if (delta > sensitiveIndicator) {
+        if (delta > sensitiveIndicator) {
+          this.openContainer();
+          this.hideContainerAfterDelay();
+        }
+      };
+
+      this.scrollContainer.onmouseenter = () => {
+        this.isCursorOverBarContainer = true;
+        this.openContainer();
+        clearTimeout(this.collapseTimer);
+      };
+
+      this.scrollContainer.onmouseleave = () => {
+        this.isCursorOverBarContainer = false;
+        this.hideContainerAfterDelay();
+      };
+
+      // make sure scroll bar is opened when wheel event is triggered
+      const handleWheel = () => {
         this.openContainer();
         this.hideContainerAfterDelay();
-      }
-    };
-
-    this.scrollContainer.onmouseenter = () => {
-      this.isCursorOverBarContainer = true;
+      };
+      this.wrap.addEventListener('wheel', handleWheel, false);
+    } else {
       this.openContainer();
-      clearTimeout(this.collapseTimer);
-    };
-
-    this.scrollContainer.onmouseleave = () => {
-      this.isCursorOverBarContainer = false;
-      this.hideContainerAfterDelay();
-    };
-
-    // make sure scroll bar is opened when wheel event is triggered
-    const handleWheel = () => {
-      this.openContainer();
-      this.hideContainerAfterDelay();
-    };
-    this.wrap.addEventListener('wheel', handleWheel, false);
+    }
   };
 
   /**

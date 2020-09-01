@@ -58,44 +58,6 @@ const main = (app: HTMLElement): void => {
   const contentSection = createContentSection();
   const door = new Door({ href: '/home' });
   const doorDom = door.getDom();
-  doorDom.className = 'hide';
-
-  let timer: NodeJS.Timeout;
-  let prevX: number;
-  let isOverDoor = false;
-  const hideDoor = () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      doorDom.className = 'hide';
-    }, 3000);
-  };
-  const handleMouseMove = (evt: MouseEvent) => {
-    if (isOverDoor) {
-      return;
-    }
-    if (!prevX) {
-      prevX = evt.clientX;
-    }
-    const delta = evt.clientX - prevX
-    prevX = evt.clientX;
-    if (delta < -40) {
-      doorDom.className = 'show';
-      hideDoor();
-    }
-  };
-  document.addEventListener('mousemove', handleMouseMove, false);
-
-  doorDom.onmouseenter = () => {
-    isOverDoor = true;
-    doorDom.className = 'show';
-    clearTimeout(timer);
-
-    doorDom.onmouseleave = () => {
-      isOverDoor = false;
-      hideDoor();
-      doorDom.onmouseleave = undefined;
-    }
-  };
 
   const fragment = new DocumentFragment();
   fragment.appendChild(doorDom);
