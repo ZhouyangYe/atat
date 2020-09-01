@@ -65,9 +65,7 @@ class Door {
     this.config = config;
     this.autoHide = config.autoHide || this.defaultConfig.autoHide;
     this.createDoor();
-    if (this.autoHide) {
-      this.bindAutoHide();
-    }
+    this.bindAutoHide();
   }
 
   getDom = (): HTMLElement => {
@@ -166,7 +164,7 @@ class Door {
   };
 
   private bindAutoHide = () => {
-    this.door.className = 'hide';
+    this.door.className = this.autoHide ? 'hide' : 'show';
     let prevX: number;
     const handleMouseMove = (evt: MouseEvent) => {
       if (!this.autoHide || this.isMouseOverDoor) return;
