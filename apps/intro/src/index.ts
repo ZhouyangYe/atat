@@ -1,5 +1,5 @@
-import main from './main';
+import render from './main';
 
 import './styles';
 
-main(document.querySelector('#app'));
+render(document.querySelector('#app'));

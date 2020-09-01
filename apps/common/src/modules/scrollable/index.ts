@@ -56,6 +56,10 @@ class ScrollableContainer {
     this.config = config || this.defaultConfig;
     this.buildScrollContainer();
     this.buildScrollBar();
+    const { autoHide = this.defaultConfig.autoHide } = this.config;
+    if (!autoHide) {
+      this.openContainer();
+    }
 
     const fragment = new DocumentFragment();
     fragment.appendChild(this.wrap);
@@ -159,8 +163,6 @@ class ScrollableContainer {
         this.hideContainerAfterDelay();
       };
       this.wrap.addEventListener('wheel', handleWheel, false);
-    } else {
-      this.openContainer();
     }
   };
 
@@ -251,7 +253,8 @@ class ScrollableContainer {
 
       document.onmouseup = () => {
         this.isScrollBarMouseDown = false;
-        if (!this.isCursorOverBarContainer) {
+        const { autoHide = this.defaultConfig.autoHide } = this.config;
+        if (!this.isCursorOverBarContainer && autoHide) {
           this.hideContainerAfterDelay();
         }
         document.onmousemove = undefined;

@@ -49,7 +49,7 @@ const createContentSection = () => {
   return contentSection;
 };
 
-const main = (app: HTMLElement): void => {
+const render = (app: HTMLElement): void => {
   const scrollableContainer = new ScrollableContainer(app);
   const container = scrollableContainer.getContainer();
   const { onResize } = scrollableContainer;
@@ -93,4 +93,4 @@ const main = (app: HTMLElement): void => {
   };
 };
 
-export default main;
+export default render;
