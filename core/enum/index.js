@@ -7,7 +7,8 @@ const CONTENT_TYPE_MAPPING = {
   'png': 'image/png',
   'gif': 'image/gif',
   'mp4': 'video/mpeg4',
-  'svg': 'text/xml',
+  'mp3': 'audio/mpeg',
+  'svg': 'image/svg+xml',
   'ico': 'image/x-icon',
   'map': 'application/json',
   'json': 'application/json'

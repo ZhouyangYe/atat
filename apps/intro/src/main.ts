@@ -2,9 +2,11 @@ import { getIntroInfo } from 'atat-common/lib/services/intro';
 import { getFullUrl } from 'atat-common/lib/utils';
 import ScrollableContainer from 'atat-common/lib/modules/scrollable';
 import Door from 'atat-common/lib/modules/door';
+import Audio from 'atat-common/lib/modules/audio';
 
 import 'atat-common/lib/modules/scrollable/index.css';
 import 'atat-common/lib/modules/door/index.css';
+import 'atat-common/lib/modules/audio/index.css';
 
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
@@ -53,13 +55,22 @@ const render = (app: HTMLElement): void => {
   const scrollableContainer = new ScrollableContainer(app);
   const container = scrollableContainer.getContainer();
   const { onResize } = scrollableContainer;
+
   const welcomeSection = createWelcomeSection();
   const aboutSection = createAboutSection();
   const contentSection = createContentSection();
+
   const door = new Door({ href: '/home' });
   const doorDom = door.getDom();
 
+  const audio = new Audio({
+    src: '/@resources/dynamic/audios/sword.mp3',
+    title: '武林群侠传，剑庐',
+  });
+  const audioDom = audio.getDom();
+
   const fragment = new DocumentFragment();
+  fragment.appendChild(audioDom);
   fragment.appendChild(doorDom);
   fragment.appendChild(welcomeSection);
   fragment.appendChild(aboutSection);

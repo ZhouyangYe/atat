@@ -51,8 +51,8 @@ class ScrollableContainer {
   /** indicates if cursor is over scroll bar container */
   private isCursorOverBarContainer = false;
 
-  constructor(dom: HTMLElement, config?: IConfig) {
-    this.dom = dom;
+  constructor(dom?: HTMLElement, config?: IConfig) {
+    this.dom = dom || document.createElement('div');
     this.config = config || this.defaultConfig;
     this.buildScrollContainer();
     this.buildScrollBar();
@@ -204,7 +204,7 @@ class ScrollableContainer {
     let y = getTop(this.wrap.offsetTop);
     scrollTo(y);
 
-    this.dom.onwheel = (evt) => {
+    this.wrap.onwheel = (evt) => {
       if (evt.deltaY > 0) {
         y -= speed;
       } else {
