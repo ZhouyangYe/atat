@@ -33,6 +33,10 @@ class Audio {
 
   private rollingTimer: NodeJS.Timer = null;
 
+  private titleWidth: number;
+
+  private titleContainerWidth: number;
+
   constructor(config: IConfig) {
     this.config = config;
 
@@ -103,16 +107,14 @@ class Audio {
   };
 
   private rolling = () => {
-    let width: number;
-    let containerWidth: number;
     this.cancelScroll = doAnimationInterval(() => {
-      if (!width) width = this.content.clientWidth;
-      if (!containerWidth) containerWidth = this.title.clientWidth;
+      if (!this.titleWidth) this.titleWidth = this.content.clientWidth;
+      if (!this.titleContainerWidth) this.titleContainerWidth = this.title.clientWidth;
       const left = this.content.offsetLeft;
       this.content.style.left = `${left - 1}px`;
 
-      if (left < -width) {
-        this.content.style.left = `${containerWidth}px`;
+      if (left < -this.titleWidth) {
+        this.content.style.left = `${this.titleContainerWidth}px`;
         this.cancelScroll();
         this.rollingTimer = setTimeout(() => {
           this.rolling();
