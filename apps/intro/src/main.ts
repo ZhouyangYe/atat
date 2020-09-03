@@ -65,7 +65,7 @@ const render = (app: HTMLElement): void => {
 
   const audio = new Audio({
     src: '/@resources/dynamic/audios/sword.mp3',
-    title: '武林群侠传，剑庐',
+    title: '武林群侠传·剑庐',
   });
   const audioDom = audio.getDom();
 

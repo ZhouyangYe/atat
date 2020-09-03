@@ -1,3 +1,5 @@
+import { doAnimationInterval } from '@/utils';
+
 import './index.less';
 
 export interface IConfig {
@@ -23,7 +25,13 @@ class Audio {
 
   private title: HTMLElement;
 
+  private content: HTMLElement;
+
   private config: IConfig;
+
+  private cancelScroll: () => void;
+
+  private rollingTimer: NodeJS.Timer = null;
 
   constructor(config: IConfig) {
     this.config = config;
@@ -63,14 +71,20 @@ class Audio {
 
     this.controller = document.createElement('div');
     this.controller.id = 'audio';
+    this.controller.style.backgroundImage = `url('/@resources/static/materials/mountains.png')`;
+    this.controller.style.backgroundSize = '100% 100%';
+    this.controller.style.backgroundRepeat = 'no-repeat';
 
     this.playButton = document.createElement('img');
     this.playButton.className = 'play-button';
-    this.playButton.src = '/@resources/static/icons/play-button-1.svg';
+    this.playButton.src = '/@resources/static/icons/play-button-2.svg';
 
     this.title = document.createElement('div');
+    this.content = document.createElement('div');
     this.title.className = 'audio-title';
-    this.title.innerHTML = title;
+    this.content.className = 'title-wrap';
+    this.content.innerHTML = title;
+    this.title.appendChild(this.content);
 
     this.controller.appendChild(this.playButton);
     this.controller.appendChild(this.title);
@@ -80,7 +94,6 @@ class Audio {
     };
 
     this.playButton.onclick = () => {
-      console.log(this.audio.paused);
       if (this.audio.paused) {
         this.play();
       } else {
@@ -89,15 +102,36 @@ class Audio {
     };
   };
 
+  private rolling = () => {
+    let width: number;
+    let containerWidth: number;
+    this.cancelScroll = doAnimationInterval(() => {
+      if (!width) width = this.content.clientWidth;
+      if (!containerWidth) containerWidth = this.title.clientWidth;
+      const left = this.content.offsetLeft;
+      this.content.style.left = `${left - 1}px`;
+
+      if (left < -width) {
+        this.content.style.left = `${containerWidth}px`;
+        this.cancelScroll();
+        this.rollingTimer = setTimeout(() => {
+          this.rolling();
+        }, 2000);
+      }
+    });
+  };
+
   private play = (): void => {
+    this.rolling();
     this.audio.play();
-    this.playButton.src = '/@resources/static/icons/pause-1.svg';
+    this.playButton.src = '/@resources/static/icons/pause-2.svg';
   }
 
   private pause = (): void => {
-    console.log('in');
+    clearTimeout(this.rollingTimer);
+    this.cancelScroll();
     this.audio.pause();
-    this.playButton.src = '/@resources/static/icons/play-button-1.svg';
+    this.playButton.src = '/@resources/static/icons/play-button-2.svg';
   };
 }
 
