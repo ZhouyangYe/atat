@@ -169,11 +169,12 @@ class Door {
     const handleMouseMove = (evt: MouseEvent) => {
       if (!this.autoHide || this.isMouseOverDoor) return;
 
+      const { clientX } = evt;
       if (!prevX) {
-        prevX = evt.clientX;
+        prevX = clientX;
       }
-      const delta = evt.clientX - prevX
-      prevX = evt.clientX;
+      const delta = clientX - prevX
+      prevX = clientX;
       if (delta < -40) {
         this.door.className = 'show';
         this.hideDoorAfterDelay();
@@ -183,16 +184,18 @@ class Door {
 
     this.door.onmouseenter = () => {
       if (!this.autoHide) return;
-      
+
       this.isMouseOverDoor = true;
       this.door.className = 'show';
       clearTimeout(this.autoHideTimer);
 
-      this.door.onmouseleave = () => {
-        this.isMouseOverDoor = false;
-        this.hideDoorAfterDelay();
-        this.door.onmouseleave = undefined;
-      }
+    };
+
+    this.door.onmouseleave = () => {
+      if (!this.autoHide) return;
+
+      this.isMouseOverDoor = false;
+      this.hideDoorAfterDelay();
     };
   };
 

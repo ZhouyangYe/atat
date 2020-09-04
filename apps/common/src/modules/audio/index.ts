@@ -1,4 +1,4 @@
-import { doAnimationInterval } from '@/utils';
+import { doAnimationInterval } from '@/utils/animation';
 
 import './index.less';
 
@@ -7,6 +7,7 @@ export interface IConfig {
   title: string;
   autoplay?: boolean;
   loop?: boolean;
+  autoHide?: boolean;
 }
 
 class Audio {
@@ -15,6 +16,7 @@ class Audio {
     title: '',
     autoplay: true,
     loop: true,
+    autoHide: true,
   };
 
   private audio: HTMLAudioElement;
@@ -37,6 +39,14 @@ class Audio {
 
   private titleContainerWidth: number;
 
+  private autoHide: boolean;
+
+  private autoHideTimer: NodeJS.Timer = null;
+
+  private isMouseOverController = false;
+
+  private lock: HTMLElement;
+
   constructor(config: IConfig) {
     this.config = config;
 
@@ -53,20 +63,23 @@ class Audio {
       src,
       autoplay = this.defaultConfig.autoplay,
       loop = this.defaultConfig.loop,
+      autoHide = this.defaultConfig.autoHide,
     } = this.config;
+
+    this.autoHide = autoHide;
 
     this.audio = document.createElement('audio');
     this.audio.src = src;
     this.audio.autoplay = autoplay;
     this.audio.loop = loop;
+  };
 
-    const handleAutoPlay = () => {
-      if (autoplay && this.audio.paused) {
-        this.play();
-      }
-    };
-    document.addEventListener('click', handleAutoPlay, false);
-  }
+  private hideControllerAfterDelay = (): void => {
+    clearTimeout(this.autoHideTimer);
+    this.autoHideTimer = setTimeout(() => {
+      this.controller.className = 'hide';
+    }, 3000);
+  };
 
   private createController = () => {
     const {
@@ -79,6 +92,39 @@ class Audio {
     this.controller.style.backgroundSize = '100% 100%';
     this.controller.style.backgroundRepeat = 'no-repeat';
 
+    this.controller.className = this.autoHide ? 'hide' : 'show';
+    let prevY: number;
+    const handleMouseMove = (evt: MouseEvent) => {
+      if (!this.autoHide || this.isMouseOverController) return;
+
+      const { clientY } = evt;
+      if (!prevY) {
+        prevY = clientY;
+      }
+      const delta = clientY - prevY
+      prevY = clientY;
+      if (delta < -3) {
+        this.controller.className = 'show';
+        this.hideControllerAfterDelay();
+      }
+    };
+    document.addEventListener('mousemove', handleMouseMove, false);
+
+    this.controller.onmouseenter = () => {
+      if (!this.autoHide) return;
+
+      this.isMouseOverController = true;
+      this.controller.className = 'show';
+      clearTimeout(this.autoHideTimer);
+    };
+
+    this.controller.onmouseleave = () => {
+      if (!this.autoHide) return;
+
+      this.isMouseOverController = false;
+      this.hideControllerAfterDelay();
+    };
+
     this.playButton = document.createElement('img');
     this.playButton.className = 'play-button';
     this.playButton.src = '/@resources/static/icons/play-button-2.svg';
@@ -90,8 +136,21 @@ class Audio {
     this.content.innerHTML = title;
     this.title.appendChild(this.content);
 
+    this.lock = document.createElement('dev');
+    this.lock.className = 'lock';
+    this.lock.innerHTML = '定';
+    this.lock.onclick = () => {
+      if (this.autoHide) {
+        this.lock.className = 'lock active';
+      } else {
+        this.lock.className = 'lock';
+      }
+      this.setAutoHide(!this.autoHide);
+    };
+
     this.controller.appendChild(this.playButton);
     this.controller.appendChild(this.title);
+    this.controller.appendChild(this.lock);
 
     this.controller.onclick = (evt: MouseEvent) => {
       evt.stopPropagation();
@@ -107,6 +166,7 @@ class Audio {
   };
 
   private rolling = () => {
+    if (this.cancelScroll) this.cancelScroll();
     this.cancelScroll = doAnimationInterval(() => {
       if (!this.titleWidth) this.titleWidth = this.content.clientWidth;
       if (!this.titleContainerWidth) this.titleContainerWidth = this.title.clientWidth;
@@ -125,15 +185,19 @@ class Audio {
 
   private play = (): void => {
     this.rolling();
-    this.audio.play();
     this.playButton.src = '/@resources/static/icons/pause-2.svg';
+    this.audio.play();
   }
 
   private pause = (): void => {
     clearTimeout(this.rollingTimer);
     this.cancelScroll();
-    this.audio.pause();
     this.playButton.src = '/@resources/static/icons/play-button-2.svg';
+    this.audio.pause();
+  };
+
+  private setAutoHide = (autoHide: boolean): void => {
+    this.autoHide = autoHide;
   };
 }
 

@@ -135,11 +135,12 @@ class ScrollableContainer {
     if (autoHide) {
       let prevX: number;
       this.wrap.onmousemove = (evt) => {
+        const { clientX } = evt;
         if (!prevX) {
-          prevX = evt.clientX;
+          prevX = clientX;
         }
-        const delta = evt.clientX - prevX
-        prevX = evt.clientX;
+        const delta = clientX - prevX
+        prevX = clientX;
         if (delta > sensitiveIndicator) {
           this.openContainer();
           this.hideContainerAfterDelay();
