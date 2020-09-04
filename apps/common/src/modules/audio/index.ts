@@ -84,6 +84,7 @@ class Audio {
   private createController = () => {
     const {
       title,
+      autoplay = this.defaultConfig.autoplay,
     } = this.config;
 
     this.controller = document.createElement('div');
@@ -91,8 +92,16 @@ class Audio {
     this.controller.style.backgroundImage = `url('/@resources/static/materials/mountains.png')`;
     this.controller.style.backgroundSize = '100% 100%';
     this.controller.style.backgroundRepeat = 'no-repeat';
-
     this.controller.className = this.autoHide ? 'hide' : 'show';
+
+    if (this.autoHide && autoplay) {
+      const handleClick = () => {
+        this.play();
+        document.removeEventListener('click', handleClick, false);
+      };
+      document.addEventListener('click', handleClick, false);
+    }
+
     let prevY: number;
     const handleMouseMove = (evt: MouseEvent) => {
       if (!this.autoHide || this.isMouseOverController) return;
@@ -137,8 +146,9 @@ class Audio {
     this.title.appendChild(this.content);
 
     this.lock = document.createElement('dev');
+    const lockTitle = document.createElement('div');
+    lockTitle.innerHTML = '定';
     this.lock.className = this.autoHide ? 'lock' : 'lock active';
-    this.lock.innerHTML = '定';
     this.lock.onclick = () => {
       if (this.autoHide) {
         this.lock.className = 'lock active';
@@ -147,6 +157,7 @@ class Audio {
       }
       this.setAutoHide(!this.autoHide);
     };
+    this.lock.appendChild(lockTitle);
 
     this.controller.appendChild(this.playButton);
     this.controller.appendChild(this.title);

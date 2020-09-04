@@ -8,14 +8,15 @@
   display: block;
   z-index: 99;
   font-size: 10px;
+  font-family: KaiTi;
   width: 26em;
   height: 5.2em;
   left: calc(50% - 13em);
   position: fixed;
   border-radius: 1.2em;
   background-color: rgba(255, 255, 255);
-  box-shadow: inset 0.2em 0.3em 0.8em #333;
-  transition: opacity 0.7s ease, top 0.7s ease;
+  box-shadow: inset 0.3em 0.4em 0.8em #333;
+  transition: opacity 0.7s ease, top 0.7s ease, box-shadow 0.7s ease;
 
   &.show {
     top: 1.8em;
@@ -29,18 +30,21 @@
 
   .play-button {
     position: absolute;
-    top: calc(50% - 1em);
-    left: -3.6em;
-    width: 2em;
-    height: 2em;
+    top: calc(50% - 0.8em);
+    left: -4.6em;
+    width: 1.6em;
+    height: 1.6em;
     cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease, left 0.3s ease;
+    transition-delay: 0.3s;
   }
 
   .audio-title {
     position: relative;
     margin: 0 auto;
     line-height: 2.5em;
-    font-size: 1.3em;
+    font-size: 1.5em;
     color: rgb(110, 9, 9);
     width: 80%;
     height: 100%;
@@ -56,24 +60,39 @@
 
   .lock {
     position: absolute;
-    bottom: -0.8em;
-    right: -1.2em;
+    bottom: -0.5em;
+    right: -2.4em;
     font-size: 1.5em;
-    font-family: KaiTi;
-    color: #000;
     font-weight: bold;
     cursor: pointer;
-    transition: opacity 0.7s ease, color 0.3s ease;
+    transition: opacity 0.3s ease, right 0.3s ease;
+    transition-delay: 0.3s;
     opacity: 0;
 
+    div {
+      color: #000;
+      transition: color 0.3s ease;
+      transition-delay: 0s;
+    }
+
     &.active {
-      color: rgb(110, 9, 9);
+      div {
+        color: rgb(110, 9, 9);
+      }
     }
   }
 
   &:hover {
+    box-shadow: inset 0.4em 0.5em 1.2em #000;
+
     .lock {
       opacity: 1;
+      right: -1.6em;
+    }
+
+    .play-button {
+      opacity: 1;
+      left: -3.2em;
     }
   }
 }
