@@ -96,6 +96,7 @@ class Audio {
 
     if (this.autoHide && autoplay) {
       const handleClick = () => {
+        if (!this.audio.paused) return;
         this.play();
         document.removeEventListener('click', handleClick, false);
       };
