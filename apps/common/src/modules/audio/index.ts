@@ -103,7 +103,7 @@ class Audio {
       }
       const delta = clientY - prevY
       prevY = clientY;
-      if (delta < -3) {
+      if (delta < -40) {
         this.controller.className = 'show';
         this.hideControllerAfterDelay();
       }
@@ -137,7 +137,7 @@ class Audio {
     this.title.appendChild(this.content);
 
     this.lock = document.createElement('dev');
-    this.lock.className = 'lock';
+    this.lock.className = this.autoHide ? 'lock' : 'lock active';
     this.lock.innerHTML = '定';
     this.lock.onclick = () => {
       if (this.autoHide) {
