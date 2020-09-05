@@ -88,6 +88,16 @@ class ScrollableContainer {
     }
   };
 
+  showBar = (): void => {
+    this.openContainer();
+    this.hideContainerAfterDelay();
+  };
+
+  hideBar = (): void => {
+    clearTimeout(this.collapseTimer);
+    this.collapseContainer();
+  };
+
   private openContainer = () => {
     clearTimeout(this.collapseTimer);
     if (!this.isScrollBarMouseDown && !this.isOpened) {
@@ -131,6 +141,10 @@ class ScrollableContainer {
     /** whether scroll bar has been opened */
     this.scrollContainer = document.createElement('div');
     this.scrollContainer.className = 'scroll-bar-container';
+
+    this.scrollContainer.onclick = (evt: MouseEvent) => {
+      evt.stopPropagation();
+    };
 
     if (autoHide) {
       let prevX: number;
@@ -243,7 +257,8 @@ class ScrollableContainer {
         this.wrap.style.transition = 'none';
       }
 
-      document.onmousemove = (evt) => {
+      this.dom.onmousemove = (evt) => {
+        evt.stopPropagation();
         const bDelta = evt.clientY - initY;
         const top = getBarTop(initTop + bDelta);
         const barRatio = top / deltaHeight;
@@ -252,14 +267,15 @@ class ScrollableContainer {
         scrollTo(y);
       }
 
-      document.onmouseup = () => {
+      this.dom.onmouseup = (evt) => {
+        evt.stopPropagation();
         this.isScrollBarMouseDown = false;
         const { autoHide = this.defaultConfig.autoHide } = this.config;
         if (!this.isCursorOverBarContainer && autoHide) {
           this.hideContainerAfterDelay();
         }
-        document.onmousemove = undefined;
-        document.onmouseup = undefined;
+        this.dom.onmousemove = undefined;
+        this.dom.onmouseup = undefined;
         this.scrollBar.style.transition = 'all 0.7s ease';
         this.scrollBar.style.opacity = '0.5';
         if (!smoothScrolling) {

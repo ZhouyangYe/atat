@@ -79,6 +79,30 @@ const render = (app: HTMLElement): void => {
   // recalculate size after container has been filled
   onResize();
 
+  const handleDoubleClick = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
+  };
+  document.addEventListener('dblclick', handleDoubleClick, false);
+
+  const handleRightClick = (evt: MouseEvent) => {
+    evt.preventDefault();
+    scrollableContainer.showBar();
+    door.showDoor();
+    audio.showAudio();
+  };
+  document.addEventListener('contextmenu', handleRightClick, false);
+
+  const handleClick = () => {
+    scrollableContainer.hideBar();
+    door.hideDoor();
+    audio.hideAudio();
+  };
+  document.addEventListener('click', handleClick, false);
+
   getIntroInfo().then((res) => {
     if (res.success) {
       if (!res.data) {

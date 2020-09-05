@@ -82,11 +82,13 @@ class Door {
   };
 
   showDoor = (): void => {
-    clearTimeout(this.autoHideTimer);
-    this.door.className = 'show';
+    if (this.autoHide) {
+      this.door.className = 'show';
+      this.hideDoorAfterDelay();
+    }
   };
 
-  toggleHideDoor = (): void => {
+  toggleAutoHide = (): void => {
     this.autoHide = !this.autoHide;
     if (!this.autoHide) {
       this.showDoor();
