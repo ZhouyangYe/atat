@@ -148,7 +148,7 @@ class ScrollableContainer {
 
     if (autoHide) {
       let prevX: number;
-      this.wrap.onmousemove = (evt) => {
+      this.dom.onmousemove = (evt) => {
         const { clientX } = evt;
         if (!prevX) {
           prevX = clientX;
@@ -248,6 +248,7 @@ class ScrollableContainer {
     };
 
     this.scrollBar.onmousedown = (event) => {
+      event.preventDefault();
       const initY = event.clientY;
       const initTop = this.scrollBar.offsetTop;
       this.scrollBar.style.transition = 'none';
@@ -258,6 +259,7 @@ class ScrollableContainer {
       }
 
       this.dom.onmousemove = (evt) => {
+        evt.preventDefault();
         evt.stopPropagation();
         const bDelta = evt.clientY - initY;
         const top = getBarTop(initTop + bDelta);
@@ -268,6 +270,7 @@ class ScrollableContainer {
       }
 
       this.dom.onmouseup = (evt) => {
+        evt.preventDefault();
         evt.stopPropagation();
         this.isScrollBarMouseDown = false;
         const { autoHide = this.defaultConfig.autoHide } = this.config;

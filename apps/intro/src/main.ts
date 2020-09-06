@@ -3,6 +3,7 @@ import { getFullUrl } from 'atat-common/lib/utils';
 import ScrollableContainer from 'atat-common/lib/modules/scrollable';
 import Door from 'atat-common/lib/modules/door';
 import Audio from 'atat-common/lib/modules/audio';
+import BouncingStar from './components/BouncingStar';
 
 import 'atat-common/lib/modules/scrollable/index.css';
 import 'atat-common/lib/modules/door/index.css';
@@ -63,6 +64,9 @@ const render = (app: HTMLElement): void => {
   const door = new Door({ href: '/home' });
   const doorDom = door.getDom();
 
+  const star = new BouncingStar(container);
+  const starDom = star.getDom();
+
   const audio = new Audio({
     src: '/@resources/dynamic/audios/sword.mp3',
     title: '武林群侠传·剑庐',
@@ -72,6 +76,7 @@ const render = (app: HTMLElement): void => {
   const fragment = new DocumentFragment();
   fragment.appendChild(audioDom);
   fragment.appendChild(doorDom);
+  fragment.appendChild(starDom);
   fragment.appendChild(welcomeSection);
   fragment.appendChild(aboutSection);
   fragment.appendChild(contentSection);
