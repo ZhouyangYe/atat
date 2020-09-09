@@ -205,6 +205,7 @@ class Audio {
       evt.stopPropagation();
     };
 
+    this.playButton.onmousedown = (evt: MouseEvent) => { evt.stopPropagation(); };
     this.playButton.onclick = () => {
       if (this.audio.paused) {
         this.play();

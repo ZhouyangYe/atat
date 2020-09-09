@@ -249,6 +249,7 @@ class ScrollableContainer {
 
     this.scrollBar.onmousedown = (event) => {
       event.preventDefault();
+      event.stopPropagation();
       const initY = event.clientY;
       const initTop = this.scrollBar.offsetTop;
       this.scrollBar.style.transition = 'none';
@@ -258,7 +259,7 @@ class ScrollableContainer {
         this.wrap.style.transition = 'none';
       }
 
-      this.dom.onmousemove = (evt) => {
+      const handleMouseMove = (evt: MouseEvent) => {
         evt.preventDefault();
         evt.stopPropagation();
         const bDelta = evt.clientY - initY;
@@ -267,9 +268,10 @@ class ScrollableContainer {
         y = getTop(barRatio * delta);
         this.scrollBar.style.top = `${top}px`;
         scrollTo(y);
-      }
+      };
+      document.addEventListener('mousemove', handleMouseMove, false);
 
-      this.dom.onmouseup = (evt) => {
+      const handleMouseUp = (evt: MouseEvent) => {
         evt.preventDefault();
         evt.stopPropagation();
         this.isScrollBarMouseDown = false;
@@ -277,14 +279,15 @@ class ScrollableContainer {
         if (!this.isCursorOverBarContainer && autoHide) {
           this.hideContainerAfterDelay();
         }
-        this.dom.onmousemove = undefined;
-        this.dom.onmouseup = undefined;
         this.scrollBar.style.transition = 'all 0.7s ease';
         this.scrollBar.style.opacity = '0.5';
         if (!smoothScrolling) {
           this.wrap.style.transition = 'top 0.7s ease';
         }
+        document.removeEventListener('mousemove', handleMouseMove, false);
+        document.removeEventListener('mouseup', handleMouseUp, false);
       };
+      document.addEventListener('mouseup', handleMouseUp, false);
     }
   };
 

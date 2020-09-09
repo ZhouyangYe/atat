@@ -206,6 +206,8 @@ class Door {
     this.door.id = 'door';
     this.door.href = this.config.href;
 
+    this.door.onmousedown = (evt: MouseEvent) => { evt.stopPropagation(); };
+
     // pivot
     for (let i = 0; i < 2; i++) {
       const pivot = document.createElement('div');
