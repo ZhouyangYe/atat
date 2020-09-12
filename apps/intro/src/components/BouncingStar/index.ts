@@ -33,12 +33,20 @@ class BouncingStar {
 
   constructor(container: HTMLElement) {
     this.container = container;
+    this.preLoadImage();
     this.createStar();
     this.handleDrawCircle();
   }
 
   getDom = (): HTMLElement => {
     return this.star;
+  };
+
+  private preLoadImage = () => {
+    for (let i = 0; i < 4; i++) {
+      const starIcon = document.createElement('img');
+      starIcon.src = `url('@resources/static/icons/star/star-${i}.gif')`;
+    }
   };
 
   private getRightBoundary = (): number => {

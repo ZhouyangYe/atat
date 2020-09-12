@@ -34,3 +34,4 @@ TODOs:
   25. bouncing star
   26. optimize dom manipulation
   27. use await async instead of promise
+  28. cache system

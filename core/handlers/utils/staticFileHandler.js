@@ -7,7 +7,7 @@ const { WEB_BASE_FOLDER, RESOURCES_BASE_FOLDER } = config;
 module.exports = (req, res) => {
   let filePath = '';
   const ext = req.url.split('.').pop();
-  
+
   if (/@node_modules\//.test(req.url)) { // serve files in node_modules
     filePath = `node_modules/${req.url.split('@node_modules/').slice(1)}`;
   } else if (/@resources\//.test(req.url)) { // serve files in resources
@@ -24,7 +24,11 @@ module.exports = (req, res) => {
       return;
     }
 
-    res.writeHead(200, { 'Content-Type': CONTENT_TYPE_MAPPING[ext], 'Content-Length': data.length });
+    res.writeHead(200, {
+      'Content-Type': CONTENT_TYPE_MAPPING[ext],
+      'Content-Length': data.length,
+      'Cache-Control': 'max-age=604800',
+    });
     res.write(data);
     res.end();
   });
