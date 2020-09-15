@@ -11,17 +11,13 @@
 </head>
 
 <body>
-  <h3 class="oppoName">Waiting for player . . .</h3>
-  <div class="table">
-    <h2 class="announce"></h2>
-    <div class="rival blade"></div>
-    <div class="ball"></div>
-    <div class="player blade"></div>
-    <button class="ready">Ready!</button>
-    <div class="net"></div>
+  <h3 id="oppo-name">Waiting for player . . .</h3>
+  <div id="wrap">
+    <canvas id="table" width="600" height="700"></canvas>
+    <div id="ready-icon"></div>
   </div>
   <input type="text" id="name" maxlength="30" placeholder="Player name">
-  <p class="errorMessage"></p>
+  <p id="error-message"></p>
   <script src="./dist/main.js"></script>
 </body>
 

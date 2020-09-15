@@ -6,14 +6,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" type="image/png" href="./favicon.png" />
-  <link rel="stylesheet" href="./dist/main.css">
+  <style>
+    #app {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      left: calc(50% - 200px);
+      top: calc(40% - 200px);
+    }
+  </style>
   <title>主页 - Home</title>
 </head>
 
 <body>
-  Home
-  <img src="@resources/DOTA.png" />
-  <script src="./dist/main.js"></script>
+  <div id="app">
+    <p>This is supposed to be an awesome webgl page, which, is not done yet :p</p>
+    <canvas id="webgl" width="400" height="400" style="position: absolute; z-index: 0">
+      Please use a browser that supports "canvas"
+    </canvas>
+    <canvas id="hud" width="400" height="400" style="position: absolute; z-index: 1"></canvas>
+  </div>
+  <audio id="audiotag1" src="http://nifter.com/sound_effects/blips_bangs_beeps/futurebeep3_NifterDotCom.wav"
+    preload="auto"></audio>
+
+  <script src="./src/vendor/webgl-utils.js"></script>
+  <script src="./src/vendor/webgl-debug.js"></script>
+  <script src="./src/vendor/cuon-utils.js"></script>
+  <script src="./src/vendor/cuon-matrix.js"></script>
+  <script src="./src/index.js"></script>
 </body>
 
 </html>
