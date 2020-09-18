@@ -4,6 +4,8 @@ export interface ICoordinate {
 }
 
 export interface IElements {
+  tableWrap: HTMLElement;
+  table: HTMLCanvasElement;
   oppoName: HTMLElement;
   name: HTMLInputElement;
   errorMessage: HTMLElement;

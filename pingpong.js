@@ -1,3 +1,4 @@
+require('./utils/overrideRequire');
 const { startPingPongServer } = require('./core/pingpong');
 const config = require('./config');
 const server = require('http').createServer();

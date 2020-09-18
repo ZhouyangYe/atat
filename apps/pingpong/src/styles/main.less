@@ -16,6 +16,7 @@ body {
   border: 3px solid #000;
 
   #table {
+    position: relative;
     display: block;
     width: 100%;
     height: 100%;
@@ -26,6 +27,7 @@ body {
     @color: rgb(133, 248, 87);
     @fontSize: 20px;
     @diameter: 66px;
+    display: none;
     background-color: #000;
     cursor: pointer;
     box-sizing: border-box;
@@ -68,6 +70,7 @@ body {
 }
 
 #error-message {
+  display: none;
   margin: 8px auto 0;
   width: 200px;
   text-align: center;
@@ -75,12 +78,8 @@ body {
 }
 
 #oppo-name {
-  color: #f00;
+  color: rgb(204, 162, 46);
   width: 300px;
   margin: 25px auto;
   text-align: center;
-
-  b {
-    color: #06d;
-  }
 }
