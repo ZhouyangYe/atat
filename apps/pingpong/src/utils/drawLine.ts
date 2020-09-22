@@ -1,4 +1,4 @@
-import { ICoordinate } from '@/interface';
+import { ICoordinate } from './interface';
 
 export const drawLine = (
   ctx: CanvasRenderingContext2D,

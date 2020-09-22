@@ -1,8 +1,8 @@
 class Blade {
   private ctx: CanvasRenderingContext2D;
   private radius = 9;
-  private x = 9;
-  private y = 9;
+  private x = 300;
+  private y = 350;
 
   constructor(ctx: CanvasRenderingContext2D) {
     this.ctx = ctx;

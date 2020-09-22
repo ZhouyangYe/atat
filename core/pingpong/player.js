@@ -11,7 +11,9 @@ class Player {
     this.width = 100;
     this.thickness = 10;
     this.x = (600 - this.width) / 2;
+    this.type = type;
     this.y = type === PLAYER_TYPE.ENEMY ? this.gap : 700 - this.thickness - this.gap;
+    this.surface = type === PLAYER_TYPE.ENEMY ? this.y + this.thickness : 700 - this.thickness - this.gap;
   }
 
   getId() {
@@ -32,6 +34,14 @@ class Player {
 
   getX() {
     return this.x;
+  }
+
+  getBallY(radius) {
+    return this.type === PLAYER_TYPE.ENEMY ? this.surface + radius : this.surface - radius;
+  }
+
+  getWidth() {
+    return this.width;
   }
 
   setX(x) {

@@ -7,6 +7,7 @@ const ball = new Ball();
 let players = [];
 let spectators = [];
 let timer;
+let gameStarted = false;
 
 const startGame = () => {
   // get a random player to serve
@@ -22,7 +23,13 @@ const startGame = () => {
     client.on('bladeMove', (x) => {
       player.setX(x);
       const enemyClient = enemy.getClient();
-      enemyClient.emit('enemyBladeUpdate', player.getX());
+      if (isMyServe && !gameStarted) {
+        ball.setPosition(player.getX() + player.getWidth() / 2, player.getBallY(ball.getRadius()));
+        enemyClient.emit('enemyBladeUpdate', 600 - player.getWidth() - player.getX(), ball.getReversePosition());
+        client.emit('myBladeUpdate', player.getX(), ball.getPosition());
+        return;
+      }
+      enemyClient.emit('enemyBladeUpdate', 600 - player.getWidth() - player.getX());
       client.emit('myBladeUpdate', player.getX());
     });
   });
@@ -30,6 +37,7 @@ const startGame = () => {
   const client = players[serveIndex].getClient();
   client.removeAllListeners('start');
   client.on('start', () => {
+    gameStarted = true;
     clearInterval(timer);
     timer = setInterval(() => {
       // bouncing
@@ -41,9 +49,14 @@ const startGame = () => {
       }
   
       ball.move();
-      players.forEach((player) => {
+      players.forEach((player, index) => {
+        const isMyServe = index === serveIndex;
         const c = player.getClient();
-        c.emit('ballMove', ball.getPosition());
+        if (isMyServe) {
+          c.emit('ballMove', ball.getPosition());
+        } else {
+          c.emit('ballMove', ball.getReversePosition());
+        }
       });
     }, 16);
   });
@@ -92,6 +105,8 @@ const startPingPongServer = (io) => {
     client.on('disconnect', () => {
       logger.info(`${client.id} disconnected!`);
       if (player.getIsPlaying()) {
+        gameStarted = false;
+        ball.resetPosition();
         clearInterval(timer);
         const remained = players.find(p => p.id !== client.id);
         if (remained) {

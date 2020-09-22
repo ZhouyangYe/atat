@@ -1,6 +1,5 @@
 import { doAnimationInterval } from 'atat-common/lib/utils';
-import { clearPanel, drawLine } from '@/utils';
-import { IElements } from '@/interface';
+import { clearPanel, drawLine, IElements } from '@/utils';
 import Ball from './ball';
 import Blade, { PLAYER_TYPE } from './blade';
 
@@ -17,29 +16,33 @@ export const start = (ctx: CanvasRenderingContext2D, elements: IElements, socket
   const myBlade = new Blade(ctx, PLAYER_TYPE.SELF);
   const enemyBlade = new Blade(ctx, PLAYER_TYPE.ENEMY);
 
-  const stop = doAnimationInterval(() => {
-    clearPanel(ctx, 600, 700);
-    // draw net
-    drawLine(ctx, { x: 0, y: 350 }, { x: 600, y: 350 }, 3);
-    ball.update();
-    myBlade.update();
-    enemyBlade.update();
-  });
+  let stop: () => void;
+
+  drawLine(ctx, { x: 0, y: 350 }, { x: 600, y: 350 }, 3);
 
   socket.on('readyToServe', (isMyServe: boolean) => {
-    myBlade.update();
-    enemyBlade.update();
+    if (stop) stop();
+    stop = doAnimationInterval(() => {
+      clearPanel(ctx, 600, 700);
+      // draw net
+      drawLine(ctx, { x: 0, y: 350 }, { x: 600, y: 350 }, 3);
+      ball.update();
+      myBlade.update();
+      enemyBlade.update();
+    });
 
     document.onmousemove = (event) => {
       const x = event.clientX - elements.tableWrap.offsetLeft - myBlade.getWidth() / 2;
       socket.emit('bladeMove', x);
     };
 
-    socket.on('myBladeUpdate', (x: number) => {
+    socket.on('myBladeUpdate', (x: number, position?: { x: number, y: number }) => {
+      if (position) ball.setPosition(position.x, position.y);
       myBlade.setPosition(x);
     });
 
-    socket.on('enemyBladeUpdate', (x: number) => {
+    socket.on('enemyBladeUpdate', (x: number, position?: { x: number, y: number }) => {
+      if (position) ball.setPosition(position.x, position.y);
       enemyBlade.setPosition(x);
     });
 

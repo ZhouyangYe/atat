@@ -1,8 +1,7 @@
-import { drawLine, clearPanel } from './utils';
-import { start } from './core';
-import { IElements } from './interface';
+import { drawLine, clearPanel, IElements } from '@/utils';
+import { start } from './start';
 
-const init = (table: HTMLCanvasElement, elements: IElements, socket: SocketIOClient.Socket): void => {
+export const init = (table: HTMLCanvasElement, elements: IElements, socket: SocketIOClient.Socket): void => {
   if (table.getContext) {
     const ctx = table.getContext('2d');
     let messageTimer: NodeJS.Timer = null;
@@ -41,5 +40,3 @@ const init = (table: HTMLCanvasElement, elements: IElements, socket: SocketIOCli
     alert('Your browser does not support canvas!');
   }
 };
-
-export default init;

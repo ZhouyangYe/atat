@@ -1,7 +1,7 @@
 class Ball {
   constructor() {
-    this.x = 9;
-    this.y = 9;
+    this.x = 300;
+    this.y = 350;
     this.radius = 9;
     this.radian = Math.PI / 4;
     this.speed = 10;
@@ -10,6 +10,10 @@ class Ball {
 
   getSpeed() {
     return this.speed;
+  }
+
+  getRadius() {
+    return this.radius;
   }
   
   setBound(width, height) {
@@ -28,6 +32,13 @@ class Ball {
     return {
       x: this.x,
       y: this.y,
+    };
+  }
+
+  getReversePosition() {
+    return {
+      x: 600 - this.x,
+      y: 700 - this.y,
     };
   }
 
@@ -63,6 +74,11 @@ class Ball {
     if (this.x > this.bound.xRight) this.x = this.bound.xRight;
     if (this.y < this.bound.yTop) this.x = this.bound.yTop;
     if (this.x > this.bound.yBottom) this.x = this.bound.yBottom;
+  }
+
+  resetPosition() {
+    this.x = 300;
+    this.y = 350;
   }
 
   move() {
