@@ -1,7 +1,5 @@
-const { PLAYER_TYPE } = require('./enum');
-
 class Player {
-  constructor(client, type) {
+  constructor(client) {
     this.id = client.id;
     this.client = client;
     this.name = 'Unknown player';
@@ -11,9 +9,8 @@ class Player {
     this.width = 100;
     this.thickness = 10;
     this.x = (600 - this.width) / 2;
-    this.type = type;
-    this.y = type === PLAYER_TYPE.ENEMY ? this.gap : 700 - this.thickness - this.gap;
-    this.surface = type === PLAYER_TYPE.ENEMY ? this.y + this.thickness : 700 - this.thickness - this.gap;
+    this.surface = 700 - this.thickness - this.gap;
+    this.enemySurface = this.gap + this.thickness;
   }
 
   getId() {
@@ -37,7 +34,11 @@ class Player {
   }
 
   getBallY(radius) {
-    return this.type === PLAYER_TYPE.ENEMY ? this.surface + radius : this.surface - radius;
+    return this.surface - radius;
+  }
+
+  getEnemyBallY(radius) {
+    return this.enemySurface + radius;
   }
 
   getWidth() {

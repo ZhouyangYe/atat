@@ -76,6 +76,10 @@ class Ball {
     if (this.x > this.bound.yBottom) this.x = this.bound.yBottom;
   }
 
+  setY(y) {
+    this.y = y;
+  }
+
   resetPosition() {
     this.x = 300;
     this.y = 350;

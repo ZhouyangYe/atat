@@ -39,15 +39,33 @@ const startGame = () => {
   client.on('start', () => {
     gameStarted = true;
     clearInterval(timer);
+    // game logic
     timer = setInterval(() => {
       // bouncing
       if (ball.isLeftCollide() || ball.isRightCollide()) {
         ball.setDirection(Math.PI - ball.getDirection());
       }
-      if (ball.isTopCollide() || ball.isBottomCollide()) {
+      // if (ball.isTopCollide() || ball.isBottomCollide()) {
+      //   ball.setDirection(-ball.getDirection());
+      // }
+
+      const playerA = players[serveIndex];
+      const playerB = players[1 - serveIndex];
+
+      const ballPos = ball.getPosition();
+      const bladeAPos = playerA.getX();
+      const bladeBPos = 600 - playerB.getWidth() - playerB.getX();
+      const bladeACollideY = playerA.getBallY(ball.radius) - ball.radius;
+      const bladeBCollideY = playerA.getEnemyBallY(ball.radius) + ball.radius;
+      if (ballPos.x >= bladeAPos && ballPos.x <= bladeAPos + playerA.getWidth() && ballPos.y >= bladeACollideY) {
+        ball.setY(bladeACollideY);
         ball.setDirection(-ball.getDirection());
       }
-  
+      if (ballPos.x >= bladeBPos && ballPos.x <= bladeBPos + playerB.getWidth() && ballPos.y <= bladeBCollideY) {
+        ball.setY(bladeBCollideY);
+        ball.setDirection(-ball.getDirection());
+      }
+
       ball.move();
       players.forEach((player, index) => {
         const isMyServe = index === serveIndex;
