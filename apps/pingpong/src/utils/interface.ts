@@ -10,4 +10,5 @@ export interface IElements {
   name: HTMLInputElement;
   errorMessage: HTMLElement;
   readyIcon: HTMLElement;
+  announcement: HTMLElement;
 }

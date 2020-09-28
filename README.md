@@ -35,3 +35,4 @@ TODOs:
   26. optimize dom manipulation
   27. use await async instead of promise
   28. cache system
+  29. pingpong blade movement request throttle

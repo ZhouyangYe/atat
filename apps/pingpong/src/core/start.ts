@@ -3,8 +3,13 @@ import { clearPanel, drawLine, IElements } from '@/utils';
 import Ball from './ball';
 import Blade, { PLAYER_TYPE } from './blade';
 
+const fadeOut = (announcement: HTMLElement) => {
+  setTimeout(() => {
+    announcement.className = 'hide';
+  }, 3000);
+};
+
 export const start = (ctx: CanvasRenderingContext2D, elements: IElements, socket: SocketIOClient.Socket): void => {
-  // TODO: move to game over phase
   socket.off('ballMove');
   socket.off('myBladeUpdate');
   socket.off('enemyBladeUpdate');
@@ -49,12 +54,18 @@ export const start = (ctx: CanvasRenderingContext2D, elements: IElements, socket
     socket.on('win', () => {
       document.onmousemove = undefined;
       document.onkeydown = undefined;
+      elements.announcement.innerHTML = 'You win!!!';
+      elements.announcement.className = 'show';
+      fadeOut(elements.announcement);
       stop();
     });
 
     socket.on('lose', () => {
       document.onmousemove = undefined;
       document.onkeydown = undefined;
+      elements.announcement.innerHTML = 'You lose!!!';
+      elements.announcement.className = 'show';
+      fadeOut(elements.announcement);
       stop();
     });
 

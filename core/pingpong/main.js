@@ -45,12 +45,11 @@ const startGame = () => {
       if (ball.isLeftCollide() || ball.isRightCollide()) {
         ball.setDirection(Math.PI - ball.getDirection());
       }
-      // if (ball.isTopCollide() || ball.isBottomCollide()) {
-      //   ball.setDirection(-ball.getDirection());
-      // }
 
       const playerA = players[serveIndex];
       const playerB = players[1 - serveIndex];
+      const clientA = playerA.getClient();
+      const clientB = playerB.getClient();
 
       const ballPos = ball.getPosition();
       const bladeAPos = playerA.getX();
@@ -64,6 +63,30 @@ const startGame = () => {
       if (ballPos.x >= bladeBPos && ballPos.x <= bladeBPos + playerB.getWidth() && ballPos.y <= bladeBCollideY) {
         ball.setY(bladeBCollideY);
         ball.setDirection(-ball.getDirection());
+      }
+
+      // player A won
+      if (ball.isTopCollide()) {
+        clientA.emit('win');
+        clientB.emit('lose');
+        spectators.forEach((spec) => {
+          spec.getClient().emit('gameOver');
+        });
+        players = [playerA];
+        spectators.push(playerB);
+        clearInterval(timer);
+      }
+
+      // player B won
+      if (ball.isBottomCollide()) {
+        clientA.emit('lose');
+        clientB.emit('win');
+        spectators.forEach((spec) => {
+          spec.getClient().emit('gameOver');
+        });
+        players = [playerB];
+        spectators.push(playerA);
+        clearInterval(timer);
       }
 
       ball.move();
@@ -108,11 +131,10 @@ const startPingPongServer = (io) => {
         });
         client.emit('selfName', name);
       }
-      if (players.length === 2) {
+      if (players.length === 2 && !gameStarted) {
         spectators.forEach((spectator) => {
           spectator.getClient().emit('enemyName', name);
         });
-        console.log(players[0].getId(), client.id);
         players[0].getClient().emit('enemyName', name);
         client.emit('selfName', name);
         startGame();
@@ -132,8 +154,10 @@ const startPingPongServer = (io) => {
           remainedClient.emit('win');
           spectators.push(remained);
           remained.setIsPlaying(false);
+          players = [remained];
+        } else {
+          players = [];
         }
-        players = [];
       } else {
         spectators.forEach((spectator) => {
           const sClient = spectator.getClient();

@@ -11,6 +11,7 @@ const oppoName = document.querySelector<HTMLElement>('#oppo-name');
 const readyIcon = document.querySelector<HTMLElement>('#ready-icon');
 const name = document.querySelector<HTMLInputElement>('#name');
 const errorMessage = document.querySelector<HTMLElement>('#error-message');
+const announcement = document.querySelector<HTMLElement>('#announcement');
 
 init(table, {
   tableWrap,
@@ -19,4 +20,5 @@ init(table, {
   readyIcon,
   name,
   errorMessage,
+  announcement,
 }, socket);
