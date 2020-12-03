@@ -38,3 +38,4 @@ TODOs:
   29. pingpong blade movement request throttle
   30. tree shaking
   31. unit test
+  32. graphql
