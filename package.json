@@ -27,7 +27,7 @@
   "lint-staged": {
     "**/*.js": "eslint -c .eslintrc --ignore-path .eslintignore",
     "apps/**/*.ts": "eslint -c apps/.eslintrc --ignore-path apps/.eslintignore",
-    "apps/react/**/*.tsx": "eslint -c apps/react/.eslintrc --ignore-path apps/react/.eslintignore"
+    "apps/stories/**/*.tsx": "eslint -c apps/stories/.eslintrc --ignore-path apps/stories/.eslintignore"
   },
   "keywords": [],
   "author": "Zhouyang Ye",
