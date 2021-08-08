@@ -12,30 +12,28 @@ TODOs:
   3. dev tools ✔
   4. tslint to eslint ✔
   5. webpack merge ✔
-  6. pingpong migrate to ts and canvas
-  7. common package ✔
-  8. add comments
-  9. improve linting rules
-  10. fix linting errors and warnings
-  11. http2, https
-  12. decorate request and response
-  13. fix server console color issue
-  14. custom font
-  15. intro page
-  16. ajax
-  17. fix sourcemap ✔
-  18. fix static file handler security issue ✔
-  19. custom scroll bar ✔
-  20. full screen
-  21. multiple loading page
-  22. improve scrollable component logic
-  23. responsive page design
-  24. audio
-  25. bouncing star
-  26. optimize dom manipulation
-  27. use await async instead of promise
-  28. cache system
-  29. pingpong blade movement request throttle
-  30. tree shaking
-  31. unit test
-  32. graphql
+  6. common package ✔
+  7. add comments
+  8. improve linting rules
+  9.  fix linting errors and warnings
+  10. http2, https
+  11. decorate request and response
+  12. fix server console color issue
+  13. custom font
+  14. intro page
+  15. ajax
+  16. fix sourcemap ✔
+  17. fix static file handler security issue ✔
+  18. custom scroll bar ✔
+  19. full screen
+  20. multiple loading page
+  21. improve scrollable component logic
+  22. responsive page design
+  23. audio
+  24. bouncing star
+  25. optimize dom manipulation
+  26. use await async instead of promise
+  27. cache system
+  28. tree shaking
+  29. unit test
+  30. graphql

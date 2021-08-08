@@ -10,7 +10,7 @@
   "terminal.integrated.shellArgs.windows": [
     "-l"
   ],
-  "eslint.workingDirectories": ["./", "./apps"],
+  "eslint.workingDirectories": ["./", "./apps", "./apps/stories"],
   "window.zoomLevel": 0,
   "typescript.tsdk": "C:\\Users\\zye08\\AppData\\Roaming\\npm\\node_modules\\typescript\\lib",
   "explorer.openEditors.visible": 0,
@@ -41,5 +41,11 @@
   },
   "[html]": {
     "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "michelemelluso.code-beautifier"
+  },
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb"
   }
 }
