@@ -62,7 +62,7 @@ const done = (name, err) => {
   cliCursor.show();
 };
 
-const buildSingle = (apps, mode) => {
+const buildSome = (apps, mode) => {
   cliCursor.hide();
   metaDatas.lastLine = apps.length - 1;
   apps.forEach((app, index) => {
@@ -90,4 +90,4 @@ const buildSingle = (apps, mode) => {
   });
 };
 
-module.exports = buildSingle;
+module.exports = buildSome;

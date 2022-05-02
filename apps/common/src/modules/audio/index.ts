@@ -187,6 +187,8 @@ class Audio {
     const lockTitle = document.createElement('div');
     lockTitle.innerHTML = '定';
     this.lock.className = this.autoHide ? 'lock' : 'lock active';
+    
+    this.lock.onmousedown = (evt: MouseEvent) => { evt.stopPropagation(); };
     this.lock.onclick = () => {
       if (this.autoHide) {
         this.lock.className = 'lock active';

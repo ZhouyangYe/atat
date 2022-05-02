@@ -37,3 +37,4 @@ TODOs:
   28. tree shaking
   29. unit test
   30. graphql
+  31. upgrade webpack

@@ -3,7 +3,7 @@ const { startMajiangServer } = require('./core/majiang');
 const config = require('./config');
 const server = require('http').createServer();
 
-const PORT = config.PINGPONG_PORT;
+const PORT = config.MAJIANG_PORT;
 const io = require('socket.io')(server);
 startMajiangServer(io);
 
