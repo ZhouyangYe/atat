@@ -5,6 +5,47 @@ export type Dots = Vector[];
 
 export class Polygon extends Base {
   private dots: Dots;
+  private deg = 0;
+  private top = -1;
+  private bottom = -1;
+  private left = -1;
+  private right = -1;
+
+  get d(): Dots {
+    return this.dots;
+  }
+
+  get t(): number {
+    return this.top;
+  }
+
+  get b(): number {
+    return this.bottom;
+  }
+
+  get l(): number {
+    return this.left;
+  }
+
+  get r(): number {
+    return this.right;
+  }
+
+  private static calcPolygonArea(dots: Dots): number {
+    let total = 0;
+
+    for (let i = 0, l = dots.length; i < l; i++) {
+      const addX = dots[i].x;
+      const addY = dots[i == dots.length - 1 ? 0 : i + 1].y;
+      const subX = dots[i == dots.length - 1 ? 0 : i + 1].x;
+      const subY = dots[i].y;
+
+      total += (addX * addY * 0.5);
+      total -= (subX * subY * 0.5);
+    }
+
+    return Math.abs(total);
+}
 
   private intersect(p: Vector, i1: number, i2: number): boolean {
     const dot1 = this.dots[i1], dot2 = this.dots[i2], dot3 = this.dots[i2 === this.dots.length - 1 ? 0 : i2 + 1];
@@ -43,8 +84,14 @@ export class Polygon extends Base {
   }
 
   constructor(c: CanvasRenderingContext2D, p: Vector, d: Dots) {
-    super(SHAPE.POL, c, p, 100);
+    super(SHAPE.POL, c, p, Polygon.calcPolygonArea(d));
     this.dots = d;
+    d.forEach((dot) => {
+      if (dot.x < this.left || this.left === -1) this.left = dot.x;
+      if (dot.x > this.right || this.right === -1) this.right = dot.x;
+      if (dot.y < this.top || this.top === -1) this.top = dot.y;
+      if (dot.y > this.bottom || this.bottom === -1) this.bottom = dot.y;
+    });
   }
 
   draw(): void {
