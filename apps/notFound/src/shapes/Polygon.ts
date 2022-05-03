@@ -6,19 +6,21 @@ export type Dots = Vector[];
 export class Polygon extends Base {
   private dots: Dots;
 
-  // {x: 825, y: 673} {x: 350, y: 200} {x: 300, y: 190} -475 -525
-  private intersect(p: Vector, dot1: Vector, dot2: Vector): boolean {
-    const diffX1 = dot1.x + this.pos.x - p.x;
-    const diffX2 = dot2.x + this.pos.x - p.x;
-    const diffY1 = dot1.y + this.pos.y - p.y;
-    const diffY2 = dot2.y + this.pos.y - p.y;
+  private intersect(p: Vector, i1: number, i2: number): boolean {
+    const dot1 = this.dots[i1], dot2 = this.dots[i2], dot3 = this.dots[i2 === this.dots.length - 1 ? 0 : i2 + 1];
+    const diffX = this.pos.x - p.x, diffY = this.pos.y - p.y;
+    const diffX1 = dot1.x + diffX;
+    const diffX2 = dot2.x + diffX;
+    const diffY1 = dot1.y + diffY;
+    const diffY2 = dot2.y + diffY;
+    const diffY3 = dot3.y + diffY;
     const diffX12 = dot1.x - dot2.x;
     const diffY12 = dot1.y - dot2.y;
     const productY = diffY1 * diffY2;
 
     if (
+      (diffX2 >= 0 && diffY2 === 0 && diffY1 * diffY3 < 0) ||
       (diffX1 >= 0 && diffX2 >= 0 && productY < 0) ||
-      ((diffX1 > 0 || diffX2 > 0) && diffY2 === 0) ||
       (diffX1 > 0 && diffX2 < 0 && productY < 0 && Math.abs(diffY1) / Math.abs(diffX1) < Math.abs(diffY12) / Math.abs(diffX12)) ||
       (diffX1 < 0 && diffX2 > 0 && productY < 0 && Math.abs(diffY2) / Math.abs(diffX2) < Math.abs(diffY12) / Math.abs(diffX12))
     ) {
@@ -32,7 +34,7 @@ export class Polygon extends Base {
     let count = 0;
 
     this.dots.forEach((dot, i) => {
-      if (this.intersect(p, dot, i === this.dots.length - 1 ? this.dots[0] : this.dots[i + 1])) {
+      if (this.intersect(p, i, i === this.dots.length - 1 ? 0 : i + 1)) {
         count++;
       }
     });

@@ -21,7 +21,7 @@ if (canvas.getContext) {
   window.addEventListener('resize', windowResize);
 
   const objects = [
-    new Circle(ctx, { x: 100, y: 100 }, 30),
+    new Circle(ctx, { x: 100, y: 100 }, 50),
     new Circle(ctx, { x: 200, y: 100 }, 18),
     new Polygon(ctx, { x: 300, y: 100 }, [
       { x: 0, y: 0 },
@@ -29,6 +29,27 @@ if (canvas.getContext) {
       { x: 80, y: 60 },
       { x: 50, y: 100 },
       { x: 0, y: 90 },
+    ]),
+    new Polygon(ctx, { x: 500, y: 100 }, [
+      { x: 0, y: 0 },
+      { x: 100, y: 50 },
+      { x: 80, y: 90 },
+      { x: 50, y: 100 },
+      { x: 0, y: 100 },
+    ]),
+    new Polygon(ctx, { x: 600, y: 100 }, [
+      { x: 0, y: 0 },
+      { x: 100, y: 50 },
+      { x: 80, y: 100 },
+      { x: 50, y: 80 },
+      { x: 30, y: 100 },
+    ]),
+    new Polygon(ctx, { x: 700, y: 100 }, [
+      { x: 25, y: 0 },
+      { x: 100, y: 50 },
+      { x: 80, y: 100 },
+      { x: 50, y: 80 },
+      { x: 0, y: 100 },
     ]),
   ];
   const offset = { x: 0, y: 0 };
