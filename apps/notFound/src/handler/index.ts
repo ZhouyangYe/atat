@@ -26,9 +26,26 @@ const getNormal = (vec: Vector): Vector => {
   return { x: vec.y, y: -vec.x };
 }
 
-const handleCircleCollision = (obj1: Base, obj2: Base): boolean => {
-  const o1 = obj1 as Circle, o2 = obj2 as Circle,
-    offset = o1.r + o2.r - getLength(o1.position, o2.position);
+const getP2LineDistance = (line: [Vector, Vector], point: Vector): number => {
+  const
+    lVec = minusVector(line[0], line[1]),
+    p = minusVector(point, line[0]);
+  if (lVec.x === 0) {
+    return Math.abs(p.x);
+  }
+  if (p.x === 0) {
+    return Math.abs(lVec.x);
+  }
+  const
+    deg1 = Math.atan(lVec.y / lVec.x),
+    deg2 = Math.atan(p.y / p.x),
+    pl = getLength(p, { x: 0, y: 0 });
+
+  return Math.abs(pl * Math.sin(deg1 - deg2));
+}
+
+const handleCircleCollision = (o1: Circle, o2: Circle): boolean => {
+  const offset = o1.r + o2.r - getLength(o1.position, o2.position);
 
   if (offset < 0.00001) {
     return false;
@@ -90,11 +107,6 @@ const getProjection = (n: Vector, o: Polygon): [Vector, Vector] => {
   return range;
 }
 
-const getDistance = (line: [Vector, Vector], point: Vector): number => {
-  // TODO: calculate point to line's distance;
-  return 0;
-}
-
 const handleProjection = (o1: Polygon, o2: Polygon): { collide: boolean, offset?: number, dir?: Vector, length?: number } => {
   let offset = -1, dir: Vector, line: [Vector, Vector], l = -1;
 
@@ -121,12 +133,12 @@ const handleProjection = (o1: Polygon, o2: Polygon): { collide: boolean, offset?
     if (o < offset || offset === -1) {
       offset = o;
       dir = getNormalizedVector(norm);
-      line = [dot1, dot2];
+      line = [plusVector(dot1, o1.position), plusVector(dot2, o1.position)];
     }
   }
 
   o2.d.forEach((dot) => {
-    const distance = getDistance(line, dot);
+    const distance = getP2LineDistance(line, plusVector(dot, o2.position));
 
     if (l === -1 || distance < l) {
       l = distance;
@@ -136,9 +148,7 @@ const handleProjection = (o1: Polygon, o2: Polygon): { collide: boolean, offset?
   return { collide: true, offset, dir, length: l };
 }
 
-const handlePolygonCollision = (obj1: Base, obj2: Base): boolean => {
-  const o1 = obj1 as Polygon, o2 = obj2 as Polygon;
-
+const handlePolygonCollision = (o1: Polygon, o2: Polygon): boolean => {
   const
     p1 = handleProjection(o1, o2),
     p2 = handleProjection(o2, o1);
@@ -149,10 +159,7 @@ const handlePolygonCollision = (obj1: Base, obj2: Base): boolean => {
   else if (p1.offset === p2.offset && p1.offset === 0) {
     return false;
   }
-  else if (p1.offset === p2.offset) {
-
-  }
-  else if (p1.offset < p2.offset) {
+  else if (p1.offset < p2.offset || (p1.offset === p2.offset && p1.length < p2.length)) {
     const offset2 = p1.offset * o1.mass / (o1.mass + o2.mass);
     const offset1 = p1.offset - offset2;
 
@@ -170,16 +177,16 @@ const handlePolygonCollision = (obj1: Base, obj2: Base): boolean => {
   return true;
 }
 
-const handleCirclePolygonCollision = (obj1: Base, obj2: Base): boolean => {
-  const o1 = obj1 as Circle, o2 = obj2 as Polygon;
+const handleCirclePolygonCollision = (o1: Circle, o2: Polygon): boolean => {
+  // TODO: circle polygon collision
   return false;
 };
 
 const handlers = {
-  [`${SHAPE.CIR}-${SHAPE.CIR}`]: (obj1: Base, obj2: Base): boolean => { return handleCircleCollision(obj1, obj2) },
-  [`${SHAPE.POL}-${SHAPE.POL}`]: (obj1: Base, obj2: Base): boolean => { return handlePolygonCollision(obj1, obj2) },
-  [`${SHAPE.CIR}-${SHAPE.POL}`]: (obj1: Base, obj2: Base): boolean => { return handleCirclePolygonCollision(obj1, obj2) },
-  [`${SHAPE.POL}-${SHAPE.CIR}`]: (obj1: Base, obj2: Base): boolean => { return handleCirclePolygonCollision(obj2, obj1) },
+  [`${SHAPE.CIR}-${SHAPE.CIR}`]: (obj1: Base, obj2: Base): boolean => { return handleCircleCollision(obj1 as Circle, obj2 as Circle) },
+  [`${SHAPE.POL}-${SHAPE.POL}`]: (obj1: Base, obj2: Base): boolean => { return handlePolygonCollision(obj1 as Polygon, obj2 as Polygon) },
+  [`${SHAPE.CIR}-${SHAPE.POL}`]: (obj1: Base, obj2: Base): boolean => { return handleCirclePolygonCollision(obj1 as Circle, obj2 as Polygon) },
+  [`${SHAPE.POL}-${SHAPE.CIR}`]: (obj1: Base, obj2: Base): boolean => { return handleCirclePolygonCollision(obj2 as Circle, obj1 as Polygon) },
 };
 
 export const handler = {

@@ -35,7 +35,7 @@ if (canvas.getContext) {
       { x: 100, y: 0 },
       { x: 90, y: 90 },
       { x: 50, y: 100 },
-      { x: 0, y: 100 },
+      { x: 0, y: 96 },
     ]),
     new Polygon(ctx, { x: 600, y: 100 }, [
       { x: 20, y: 0 },

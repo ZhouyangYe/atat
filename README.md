@@ -25,12 +25,12 @@ TODOs:
   16. fix sourcemap ✔
   17. fix static file handler security issue ✔
   18. custom scroll bar ✔
-  19. full screen
+  19. full screen ✔
   20. multiple loading page
   21. improve scrollable component logic
   22. responsive page design
   23. audio
-  24. bouncing star
+  24. bouncing star ✔
   25. optimize dom manipulation
   26. use await async instead of promise
   27. cache system
