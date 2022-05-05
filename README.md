@@ -17,10 +17,10 @@ TODOs:
   8. improve linting rules
   9.  fix linting errors and warnings
   10. http2, https
-  11. decorate request and response
+  11. decorate request and response ✔
   12. fix server console color issue
   13. custom font
-  14. intro page
+  14. intro page ✔
   15. ajax
   16. fix sourcemap ✔
   17. fix static file handler security issue ✔
@@ -29,7 +29,7 @@ TODOs:
   20. multiple loading page
   21. improve scrollable component logic
   22. responsive page design
-  23. audio
+  23. audio ✔
   24. bouncing star ✔
   25. optimize dom manipulation
   26. use await async instead of promise

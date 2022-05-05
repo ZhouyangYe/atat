@@ -94,15 +94,18 @@ if (canvas.getContext) {
   const render = (time: number) => {
     // reset color
     objects.forEach((obj, i) => {
-      if (!isDragging && overObjectIndex === i) {
-        obj.setColor(COLOR.OVERLAP);
-        return;
-      }
       obj.setColor(COLOR.NORMAL);
     });
 
     // detect collision
     for (let i = 0; i < objects.length; i++) {
+      if (isDragging && i === overObjectIndex) {
+        objects[i].velocity.x = 0;
+        objects[i].velocity.y = 0;
+      } else {
+        handler.gravity(objects[i]);
+      }
+
       if (handler.boundary(objects[i], width, height)) {
         objects[i].setColor(COLOR.COLLIDE);
       }
@@ -111,9 +114,18 @@ if (canvas.getContext) {
         if (handler.collide(objects[i], objects[j])) {
           objects[i].setColor(COLOR.COLLIDE);
           objects[j].setColor(COLOR.COLLIDE);
+          objects[i].velocity.y = 0;
+          objects[j].velocity.y = 0;
         }
       }
     }
+
+    objects.forEach((obj, i) => {
+      if (!isDragging && overObjectIndex === i) {
+        obj.setColor(COLOR.OVERLAP);
+        return;
+      }
+    });
 
     ctx.clearRect(0, 0, width, height);
 

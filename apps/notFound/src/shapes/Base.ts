@@ -6,6 +6,7 @@ export class Base {
   protected ctx: CanvasRenderingContext2D;
   protected type: SHAPE;
   protected pos: Vector;
+  public velocity: Vector = { x: 0, y: 0 };
   private color: COLOR = COLOR.NORMAL;
 
   get position(): Vector {
@@ -26,6 +27,11 @@ export class Base {
 
   setPos(p: Vector): void {
     this.pos = p;
+  }
+
+  updatePos(): void {
+    this.pos.x += this.velocity.x;
+    this.pos.y += this.velocity.y;
   }
 
   constructor(t: SHAPE, c: CanvasRenderingContext2D, p: Vector, w: number, s = false) {

@@ -13,6 +13,7 @@ module.exports = {
     ['modules/scrollable']: path.resolve(__dirname, './src/modules/scrollable/index.ts'),
     ['modules/door']: path.resolve(__dirname, './src/modules/door/index.ts'),
     ['modules/audio']: path.resolve(__dirname, './src/modules/audio/index.ts'),
+    ['modules/resume']: path.resolve(__dirname, './src/modules/resume/index.ts'),
   },
   output: { // output location
     path: path.resolve(__dirname, "lib"),

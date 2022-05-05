@@ -249,4 +249,9 @@ export const handler = {
     obj.setPos({ x, y });
     return collide;
   },
+  gravity: (obj: Base) => {
+    const g = 0.98;
+    obj.velocity.y += g;
+    obj.updatePos();
+  },
 };

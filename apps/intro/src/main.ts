@@ -24,21 +24,18 @@ const createAboutSection = () => {
   content.className = 'why';
 
   const p1 = document.createElement('p');
-  p1.innerHTML = '做这个网站并没有特别明确的目的性，只是感觉工作以后多了许多束缚，没有办法随心所欲地做自己想做的事情。';
+  p1.innerHTML = '做这个网站并没有什么特别明确的目的性，想写些什么就写些什么，主要用来尝试一些自己感兴趣的技术。';
   const p2 = document.createElement('p');
-  p2.innerHTML = '希望可以通过这个网站做点自己觉得有意思的东西，同时锻炼一下自己的能力。';
-  const p3 = document.createElement('p');
   const reference = document.createElement('a');
   reference.className = 'reference';
   reference.target = '_blank';
   reference.href = 'https://github.com/ZhouyangYe/atat';
   reference.innerHTML = 'https://github.com/ZhouyangYe/atat';
-  p3.innerHTML = '代码地址：';
-  p3.appendChild(reference);
+  p2.innerHTML = '代码地址：';
+  p2.appendChild(reference);
 
   content.appendChild(p1);
   content.appendChild(p2);
-  content.appendChild(p3);
 
   aboutSection.appendChild(content);
 
