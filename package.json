@@ -38,6 +38,7 @@
     "clear": "^0.1.0",
     "cli-cursor": "^3.1.0",
     "figlet": "^1.4.0",
+    "html2pdf.js": "^0.9.3",
     "mysql": "^2.18.1",
     "node-cmd": "^3.0.0",
     "node-emoji": "^1.10.0",

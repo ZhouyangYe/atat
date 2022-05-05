@@ -1,0 +1,131 @@
+@keyframes scrollOpen {
+  0% {
+    transform: rotateX(-180deg);
+  }
+
+  25% {
+    transform: rotateX(58deg);
+  }
+
+  50% {
+    transform: rotateX(-14deg);
+  }
+
+  75% {
+    transform: rotateX(6deg);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes scrollClose {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  100% {
+    transform: rotateX(-180deg);
+  }
+}
+
+#scroll {
+  width: 20rem;
+  height: 11rem;
+  opacity: 1;
+  position: fixed;
+  top: 0;
+  right: 4rem;
+  perspective: 80rem;
+  perspective-origin: right top;
+  z-index: 98;
+  transition: opacity 0.5s ease;
+
+  #list {
+    position: relative;
+    font-size: 1.4rem;
+    float: right;
+    top: 3.2rem;
+    right: 0;
+    transform-origin: 50% 0 0;
+    transform-style: preserve-3d;
+    transition: all 0.2s ease;
+  }
+
+  #list div,
+  #list .strip {
+    position: absolute;
+    cursor: pointer;
+  }
+
+  #list div {
+    line-height: 4rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.9);
+    top: 4.4rem;
+    width: 20rem;
+    height: 4rem;
+    transition: background 0.4s ease, box-shadow 1s ease;
+    transform-origin: top;
+    transform: rotateX(-180deg);
+    transform-style: preserve-3d;
+    box-shadow: inset 0 0 0 2rem rgba(130, 130, 130, 1);
+  }
+
+  #list>div {
+    top: 5rem;
+  }
+
+  #list .strip {
+    width: 0.3rem;
+    height: 5rem;
+    background: #cdf;
+    z-index: 1;
+    top: -5rem;
+  }
+
+  #list .strip:nth-of-type(1) {
+    left: 1.8rem;
+  }
+
+  #list .strip:nth-of-type(2) {
+    left: 17.8rem;
+  }
+
+  #list h3 {
+    padding: 0;
+    margin: 0;
+    line-height: 5rem;
+    text-align: center;
+    background: #f88;
+    width: 20rem;
+    height: 5rem;
+    position: relative;
+    z-index: 99;
+    cursor: default;
+    box-shadow: 0 0.1rem 0.3rem #888;
+  }
+
+  #list a {
+    color: #888;
+  }
+
+  #list a:hover {
+    text-decoration: underline;
+  }
+
+  #list .show {
+    animation: 1.6s scrollOpen;
+    transform-origin: top;
+    transform: rotateX(0deg);
+    box-shadow: inset 0 0 0 2rem rgba(130, 130, 130, 0);
+  }
+
+  #list .hide {
+    display: block;
+    animation: 0.3s scrollClose;
+    transform-origin: top;
+    transform: rotateX(-180deg);
+  }
+}

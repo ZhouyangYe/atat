@@ -3,11 +3,13 @@ import { getFullUrl } from 'atat-common/lib/utils';
 import ScrollableContainer from 'atat-common/lib/modules/scrollable';
 import Door from 'atat-common/lib/modules/door';
 import Audio from 'atat-common/lib/modules/audio';
+import Scroll, { TYPE } from 'atat-common/lib/modules/scroll';
 import BouncingStar from './components/BouncingStar';
 
 import 'atat-common/lib/modules/scrollable/index.css';
 import 'atat-common/lib/modules/door/index.css';
 import 'atat-common/lib/modules/audio/index.css';
+import 'atat-common/lib/modules/scroll/index.css';
 
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
@@ -70,10 +72,45 @@ const render = (app: HTMLElement): void => {
   });
   const audioDom = audio.getDom();
 
+  console.log('test: ', TYPE, Scroll);
+
+  const scroll = new Scroll({
+    title: 'Hello!',
+    items: [
+      {
+        type: TYPE.EMAIL,
+        text: 'zye0821@gmail.com',
+      },
+      {
+        type: TYPE.PHONE,
+        text: '15268159839',
+      },
+      {
+        type: TYPE.LINK,
+        text: 'bewhat1wannabe',
+        prefix: 'WeChat',
+      },
+      {
+        type: TYPE.LINK,
+        text: 'Zhouyang Ye',
+        prefix: 'LinkedIn',
+        link: 'https://ca.linkedin.com/in/zhouyang-ye-35445311a',
+      },
+      {
+        type: TYPE.LINK,
+        text: 'Zhouyang Ye',
+        prefix: 'GitHub',
+        link: 'https://github.com/ZhouyangYe/',
+      }
+    ]
+  });
+  const scrollDom = scroll.getDom();
+
   const fragment = new DocumentFragment();
   fragment.appendChild(audioDom);
   fragment.appendChild(doorDom);
   fragment.appendChild(starDom);
+  fragment.appendChild(scrollDom);
   fragment.appendChild(welcomeSection);
   fragment.appendChild(aboutSection);
   fragment.appendChild(contentSection);
