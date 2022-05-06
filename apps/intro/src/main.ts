@@ -4,12 +4,16 @@ import ScrollableContainer from 'atat-common/lib/modules/scrollable';
 import Door from 'atat-common/lib/modules/door';
 import Audio from 'atat-common/lib/modules/audio';
 import Scroll, { TYPE } from 'atat-common/lib/modules/scroll';
+import Crystal from 'atat-common/lib/modules/crystal';
+import Lamp from 'atat-common/lib/modules/lamp';
 import BouncingStar from './components/BouncingStar';
 
 import 'atat-common/lib/modules/scrollable/index.css';
 import 'atat-common/lib/modules/door/index.css';
 import 'atat-common/lib/modules/audio/index.css';
 import 'atat-common/lib/modules/scroll/index.css';
+import 'atat-common/lib/modules/crystal/index.css';
+import 'atat-common/lib/modules/lamp/index.css';
 
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
@@ -28,16 +32,19 @@ const createAboutSection = () => {
   const p1 = document.createElement('p');
   p1.innerHTML = '做这个网站并没有什么特别明确的目的性，想写些什么就写些什么，主要用来尝试一些自己感兴趣的技术。';
   const p2 = document.createElement('p');
+  p2.innerHTML = `There is no specific plan for creating this website, just trying to come up with some interesting ideas and implement them here using web technologies as a practice.`;
+  const p3 = document.createElement('p');
   const reference = document.createElement('a');
   reference.className = 'reference';
   reference.target = '_blank';
   reference.href = 'https://github.com/ZhouyangYe/atat';
   reference.innerHTML = 'https://github.com/ZhouyangYe/atat';
-  p2.innerHTML = '代码地址：';
-  p2.appendChild(reference);
+  p3.innerHTML = '代码地址：';
+  p3.appendChild(reference);
 
   content.appendChild(p1);
   content.appendChild(p2);
+  content.appendChild(p3);
 
   aboutSection.appendChild(content);
 
@@ -72,8 +79,6 @@ const render = (app: HTMLElement): void => {
   });
   const audioDom = audio.getDom();
 
-  console.log('test: ', TYPE, Scroll);
-
   const scroll = new Scroll({
     title: 'Hello!',
     items: [
@@ -101,16 +106,55 @@ const render = (app: HTMLElement): void => {
         text: 'Zhouyang Ye',
         prefix: 'GitHub',
         link: 'https://github.com/ZhouyangYe/',
-      }
+      },
+      {
+        type: TYPE.LINK,
+        text: 'Zhouyang Ye',
+        prefix: 'Resume',
+      },
     ]
   });
   const scrollDom = scroll.getDom();
+  const resumeBox = scrollDom.querySelector('.box-5');
+
+  const crystal = new Crystal();
+  const crystalDom = crystal.getDom();
+
+  const lamp = new Lamp();
+  const lampDom = lamp.getDom();
+
+  let prevX: number, prevY: number;
+  const handleMouseMove = (evt: MouseEvent) => {
+    const { clientX, clientY } = evt;
+    if (!prevX) {
+      prevX = clientX;
+    }
+    if (!prevY) {
+      prevY = clientY;
+    }
+    const deltaX = clientX - prevX, deltaY = clientY - prevY;
+    prevX = clientX;
+    prevY = clientY;
+    if (deltaX < -40) {
+      door.show();
+      lamp.show();
+    }
+    if (deltaY < -40) {
+      audio.show();
+      scroll.show();
+    } else if (deltaY > 40) {
+      crystal.show();
+    }
+  };
+  document.addEventListener('mousemove', handleMouseMove, false);
 
   const fragment = new DocumentFragment();
   fragment.appendChild(audioDom);
   fragment.appendChild(doorDom);
   fragment.appendChild(starDom);
   fragment.appendChild(scrollDom);
+  fragment.appendChild(crystalDom);
+  fragment.appendChild(lampDom);
   fragment.appendChild(welcomeSection);
   fragment.appendChild(aboutSection);
   fragment.appendChild(contentSection);

@@ -1,0 +1,227 @@
+@keyframes shade {
+  0% {
+    opacity: 1;
+    height: 3em;
+    left: 0;
+    top: 0;
+  }
+
+  50% {
+    opacity: 0.2;
+    height: 9em;
+    left: -2em;
+    top: -3em;
+  }
+
+  100% {
+    opacity: 1;
+    height: 3em;
+    left: 0;
+    top: 0;
+  }
+}
+
+#crystal {
+  font-size: 8px;
+  display: block;
+  width: 36.4em;
+  height: 22em;
+  position: fixed;
+  bottom: 3em;
+  right: 8em;
+  z-index: 10;
+  transition: opacity 0.7s ease, bottom 0.7s ease, box-shadow 0.7s ease;
+
+  &.show {
+    bottom: 3em;
+    opacity: 0.8;
+  }
+  
+  &.hide {
+    bottom: -18em;
+    opacity: 0;
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+#crystal:hover .prev,
+#crystal:hover .next {
+  opacity: 0.9;
+}
+
+#crystal ul {
+  padding: 0;
+  position: relative;
+  width: 36em;
+  height: 22em;
+  margin: 0 auto;
+}
+
+#crystal li {
+  list-style: none;
+  position: absolute;
+}
+
+#crystal li:nth-of-type(1),
+#crystal li:nth-of-type(2),
+#crystal li:nth-of-type(3),
+#crystal li:nth-of-type(1) img,
+#crystal li:nth-of-type(2) img,
+#crystal li:nth-of-type(3) img,
+#crystal .middle div,
+#crystal .left div,
+#crystal .right div,
+#crystal span {
+  transition: all 1s ease;
+}
+
+#crystal .middle {
+  width: 21em;
+  height: 21em;
+  top: 0;
+  left: 7.5em;
+  z-index: 10;
+  opacity: 1;
+  border-radius: 10.5em;
+}
+
+#crystal .left {
+  width: 14em;
+  height: 14em;
+  top: 2.4em;
+  left: 0;
+  z-index: 5;
+  opacity: 0.36;
+  border-radius: 7em;
+}
+
+#crystal .right {
+  width: 14em;
+  height: 14em;
+  top: 2.4em;
+  left: 22em;
+  z-index: 5;
+  opacity: 0.36;
+  border-radius: 7em;
+}
+
+#crystal span {
+  position: absolute;
+  left: -0.2em;
+  top: 0;
+  overflow: hidden;
+}
+
+#crystal .middle span {
+  width: 21.4em;
+  height: 21.4em;
+  border-radius: 10.7em;
+}
+
+#crystal .left span {
+  width: 14.4em;
+  height: 14.4em;
+  border-radius: 7.2em;
+}
+
+#crystal .right span {
+  width: 14.4em;
+  height: 14.4em;
+  border-radius: 7.2em;
+}
+
+#crystal .middle img {
+  height: 21.6em;
+}
+
+#crystal .left img {
+  height: 14.6em;
+}
+
+#crystal .right img {
+  height: 14.6em;
+}
+
+#crystal .shadow {
+  position: absolute;
+}
+
+#crystal .middle .shadow {
+  width: 19.3em;
+  height: 10.6em;
+  top: 15.8em;
+  left: 0.9em;
+}
+
+#crystal .left .shadow,
+#crystal .right .shadow {
+  width: 13em;
+  height: 7.6em;
+  top: 10.4em;
+  left: 0.5em;
+}
+
+#crystal .middle div {
+  position: absolute;
+  height: 21.4em;
+  left: -0.2em;
+  top: 0;
+  width: 21.4em;
+  box-shadow: 1.4em 1.8em 10em 0 rgba(255, 255, 255, 1) inset;
+  border-radius: 10.7em;
+}
+
+#crystal .left div {
+  position: absolute;
+  height: 14.4em;
+  left: -0.2em;
+  top: 0;
+  width: 14.4em;
+  box-shadow: 1.4em 1.8em 10em 0 rgba(255, 255, 255, 1) inset;
+  border-radius: 7.2em;
+}
+
+#crystal .right div {
+  position: absolute;
+  height: 14.4em;
+  left: -0.2em;
+  top: 0;
+  width: 14.4em;
+  box-shadow: 1.4em 1.8em 10em 0 rgba(255, 255, 255, 1) inset;
+  border-radius: 7.2em;
+}
+
+#crystal .prev,
+#crystal .next {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.6s ease;
+  z-index: 99;
+}
+
+#crystal .prev {
+  left: 4.4em;
+  top: 10em;
+}
+
+#crystal .next {
+  left: 29.9em;
+  top: 10em;
+}
+
+#crystal .prev img,
+#crystal .next img {
+  position: absolute;
+  height: 3em;
+  left: 0;
+  top: 0;
+}
+
+#crystal .prev:hover img:nth-of-type(2),
+#crystal .next:hover img:nth-of-type(2) {
+  animation: shade 1s infinite ease;
+}

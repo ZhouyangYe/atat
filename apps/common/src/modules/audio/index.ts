@@ -74,6 +74,13 @@ class Audio {
     }
   };
 
+  show(): void {
+    if (!this.autoHide || this.isMouseOverController) return;
+
+    this.controller.className = 'show';
+    this.hideControllerAfterDelay();
+  }
+
   private createAudio = (): void => {
     const {
       src,
@@ -118,23 +125,6 @@ class Audio {
       };
       document.addEventListener('click', this.handleDocumentClick, false);
     }
-
-    let prevY: number;
-    const handleMouseMove = (evt: MouseEvent) => {
-      if (!this.autoHide || this.isMouseOverController) return;
-
-      const { clientY } = evt;
-      if (!prevY) {
-        prevY = clientY;
-      }
-      const delta = clientY - prevY
-      prevY = clientY;
-      if (delta < -40) {
-        this.controller.className = 'show';
-        this.hideControllerAfterDelay();
-      }
-    };
-    document.addEventListener('mousemove', handleMouseMove, false);
 
     this.controller.onmouseenter = () => {
       if (!this.autoHide) return;

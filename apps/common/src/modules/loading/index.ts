@@ -34,7 +34,6 @@ export const handleLoading = (tasks?: ITaskMeta[], finish = MAX, initPercent = 0
 
   const delay = 666;
   return Promise.all(promises).then((values) => {
-    console.log(values);
     progress.innerHTML = `${finish}%`;
     if (finish === 100) {
       setTimeout(() => {

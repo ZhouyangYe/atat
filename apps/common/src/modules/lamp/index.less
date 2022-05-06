@@ -1,0 +1,250 @@
+@keyframes swingl1 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(26deg);
+  }
+
+  25% {
+    transform: rotate(-18deg);
+  }
+
+  50% {
+    transform: rotate(13deg);
+  }
+
+  75% {
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes swingl2 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(26deg);
+  }
+
+  25% {
+    transform: rotate(-18deg);
+  }
+
+  50% {
+    transform: rotate(13deg);
+  }
+
+  75% {
+    transform: rotate(-6deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes swingr1 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(-26deg);
+  }
+
+  25% {
+    transform: rotate(18deg);
+  }
+
+  50% {
+    transform: rotate(-13deg);
+  }
+
+  75% {
+    transform: rotate(6deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes swingr2 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(-26deg);
+  }
+
+  25% {
+    transform: rotate(18deg);
+  }
+
+  50% {
+    transform: rotate(-13deg);
+  }
+
+  75% {
+    transform: rotate(6deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+#lamp {
+  display: block;
+  font-size: 12px;
+  position: fixed;
+  left: 3.1em;
+  top: 0;
+  height: 6em;
+  width: 7.8em;
+  z-index: 8;
+  transition: opacity 0.7s ease, left 0.7s ease;
+
+  &.show {
+    left: 3.1em;
+    opacity: 0.8;
+  }
+  
+  &.hide {
+    left: -10em;
+    opacity: 0;
+  }
+}
+
+#lamp span {
+  display: block;
+}
+
+#lamp .pole {
+  height: 6em;
+  width: 7.9em;
+  position: relative;
+  top: -1.4em;
+  left: -3.2em;
+}
+
+#lamp .knot {
+  position: absolute;
+  height: 0.3em;
+  width: 3.6em;
+  border-radius: 50%;
+  top: 4.5em;
+  left: 0.7em;
+  background: #111;
+  z-index: 8;
+}
+
+#lamp .combine {
+  position: absolute;
+  height: 5em;
+  width: 3em;
+  top: 4.8em;
+  left: 1em;
+  transform-origin: center top;
+}
+
+#lamp .swingl1 {
+  animation: swingl1 1.8s ease;
+}
+
+#lamp .swingr1 {
+  animation: swingr1 1.8s ease;
+}
+
+#lamp .swingl2 {
+  animation: swingl2 1.8s ease;
+}
+
+#lamp .swingr2 {
+  animation: swingr2 1.8s ease;
+}
+
+#lamp .cover {
+  position: absolute;
+  height: 5em;
+  width: 3em;
+  top: 4.8em;
+  left: 1em;
+  cursor: pointer;
+  z-index: 11;
+}
+
+#lamp .bulb {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+}
+
+#lamp .wrap .glowOff {
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  opacity: 0;
+  background: radial-gradient(rgba(255, 223, 67, 1), rgba(255, 223, 67, 0) 70%);
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transition: all 1000ms cubic-bezier(0.68, -0.88, 0.265, 1.55);
+}
+
+#lamp .wrap .glowOn {
+  width: 21.8em;
+  height: 21.8em;
+  opacity: 0.3;
+  border-radius: 50%;
+  background: radial-gradient(rgba(255, 223, 67, 0.9), rgba(255, 223, 67, 0) 70%);
+  transition: all 800ms cubic-bezier(0.68, -0.88, 0.265, 1.55);
+  position: absolute;
+  display: block;
+  top: calc(50% - 10.9em);
+  left: calc(50% - 10.9em);
+}
+
+#lamp .wrap {
+  width: 10em;
+  height: 10em;
+  position: relative;
+  top: -6.8em;
+  left: -3.5em;
+}
+
+#lamp .wrap .flareOff {
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  opacity: 0;
+  background: rgba(255, 223, 68, 0);
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  transition: all 1000ms cubic-bezier(0.68, -0.88, 0.265, 1.88);
+}
+
+#lamp .wrap .flareOn {
+  width: 1.3em;
+  height: 1.3em;
+  border-radius: 50%;
+  opacity: 0.5;
+  background: rgba(255, 223, 68, 1);
+  position: absolute;
+  display: block;
+  top: calc(50% - 0.6em);
+  left: calc(50% - 0.6em);
+  transition: all 600ms cubic-bezier(0.68, -0.88, 0.265, 1.88);
+}

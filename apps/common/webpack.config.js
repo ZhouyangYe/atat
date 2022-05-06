@@ -15,6 +15,8 @@ module.exports = {
     ['modules/audio']: path.resolve(__dirname, './src/modules/audio/index.ts'),
     ['modules/resume']: path.resolve(__dirname, './src/modules/resume/index.ts'),
     ['modules/scroll']: path.resolve(__dirname, './src/modules/scroll/index.ts'),
+    ['modules/crystal']: path.resolve(__dirname, './src/modules/crystal/index.ts'),
+    ['modules/lamp']: path.resolve(__dirname, './src/modules/lamp/index.ts'),
   },
   output: { // output location
     path: path.resolve(__dirname, "lib"),

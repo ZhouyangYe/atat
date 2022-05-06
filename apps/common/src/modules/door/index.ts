@@ -158,6 +158,13 @@ class Door {
     }
   };
 
+  show(): void {
+    if (!this.autoHide || this.isMouseOverDoor) return;
+
+    this.door.className = 'show';
+    this.hideDoorAfterDelay();
+  }
+
   private hideDoorAfterDelay = (): void => {
     clearTimeout(this.autoHideTimer);
     this.autoHideTimer = setTimeout(() => {
@@ -167,22 +174,6 @@ class Door {
 
   private bindAutoHide = () => {
     this.door.className = this.autoHide ? 'hide' : 'show';
-    let prevX: number;
-    const handleMouseMove = (evt: MouseEvent) => {
-      if (!this.autoHide || this.isMouseOverDoor) return;
-
-      const { clientX } = evt;
-      if (!prevX) {
-        prevX = clientX;
-      }
-      const delta = clientX - prevX
-      prevX = clientX;
-      if (delta < -40) {
-        this.door.className = 'show';
-        this.hideDoorAfterDelay();
-      }
-    };
-    document.addEventListener('mousemove', handleMouseMove, false);
 
     this.door.onmouseenter = () => {
       if (!this.autoHide) return;
