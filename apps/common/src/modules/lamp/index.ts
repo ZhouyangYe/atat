@@ -17,6 +17,11 @@ class Lamp {
     return this.lamp;
   }
 
+  hide(): void {
+    clearTimeout(this.autoHideTimer);
+    this.lamp.className = 'hide';
+  }
+
   show(): void {
     if (!this.autoHide || this.isMouseOverLamp) return;
 

@@ -7,6 +7,7 @@ import Scroll, { TYPE } from 'atat-common/lib/modules/scroll';
 import Crystal from 'atat-common/lib/modules/crystal';
 import Lamp from 'atat-common/lib/modules/lamp';
 import BouncingStar from './components/BouncingStar';
+import Resume from './components/Resume';
 
 import 'atat-common/lib/modules/scrollable/index.css';
 import 'atat-common/lib/modules/door/index.css';
@@ -73,6 +74,9 @@ const render = (app: HTMLElement): void => {
   const star = new BouncingStar(container);
   const starDom = star.getDom();
 
+  const resume = new Resume();
+  const resumeDom = resume.getDom();
+
   const audio = new Audio({
     src: '/@resources/dynamic/audios/sword.mp3',
     title: '武林群侠传·剑庐',
@@ -115,7 +119,10 @@ const render = (app: HTMLElement): void => {
     ]
   });
   const scrollDom = scroll.getDom();
-  const resumeBox = scrollDom.querySelector('.box-5');
+  const resumeBox = scrollDom.querySelector<HTMLDivElement>('.box-5');
+  resumeBox.onclick = () => {
+    resume.show();
+  };
 
   const crystal = new Crystal();
   const crystalDom = crystal.getDom();
@@ -152,6 +159,7 @@ const render = (app: HTMLElement): void => {
   fragment.appendChild(audioDom);
   fragment.appendChild(doorDom);
   fragment.appendChild(starDom);
+  fragment.appendChild(resumeDom);
   fragment.appendChild(scrollDom);
   fragment.appendChild(crystalDom);
   fragment.appendChild(lampDom);
@@ -161,6 +169,7 @@ const render = (app: HTMLElement): void => {
   container.appendChild(fragment);
   // recalculate size after container has been filled
   onResize();
+  resume.onResize();
 
   const handleDoubleClick = () => {
     if (!document.fullscreenElement) {
@@ -174,15 +183,21 @@ const render = (app: HTMLElement): void => {
   const handleRightClick = (evt: MouseEvent) => {
     evt.preventDefault();
     scrollableContainer.showBar();
-    door.showDoor();
-    audio.showAudio();
+    door.show();
+    audio.show();
+    scroll.show();
+    lamp.show();
+    crystal.show();
   };
   document.addEventListener('contextmenu', handleRightClick, false);
 
   const handleClick = () => {
     scrollableContainer.hideBar();
-    door.hideDoor();
-    audio.hideAudio();
+    door.hide();
+    audio.hide();
+    scroll.hide();
+    lamp.hide();
+    crystal.hide();
   };
   document.addEventListener('click', handleClick, false);
 
@@ -208,6 +223,7 @@ const render = (app: HTMLElement): void => {
 
   window.onresize = () => {
     onResize();
+    resume.onResize();
   };
 };
 

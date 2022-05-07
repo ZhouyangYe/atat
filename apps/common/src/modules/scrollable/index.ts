@@ -236,12 +236,11 @@ class ScrollableContainer {
     };
 
     // drag
-    const barDelta = containerHeight - height;
     const getBarTop = (barY: number) => {
       if (barY < 0) {
         return 0;
-      } else if (barY > barDelta) {
-        return barDelta;
+      } else if (barY > deltaHeight) {
+        return deltaHeight;
       }
 
       return barY;

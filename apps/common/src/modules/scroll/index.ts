@@ -47,6 +47,11 @@ class Scroll {
     this.createScroll(background);
   }
 
+  hide(): void {
+    clearTimeout(this.autoHideTimer);
+    this.scroll.className = 'hide';
+  }
+
   show(): void {
     if (!this.autoHide || this.isMouseOverScroll) return;
     

@@ -60,14 +60,7 @@ class Audio {
     return this.controller;
   };
 
-  showAudio = (): void => {
-    if (this.autoHide) {
-      this.controller.className = 'show';
-      this.hideControllerAfterDelay();
-    }
-  };
-
-  hideAudio = (): void => {
+  hide = (): void => {
     if (this.autoHide) {
       clearTimeout(this.autoHideTimer);
       this.controller.className = 'hide';

@@ -76,22 +76,15 @@ class Door {
     this.sign.innerHTML = text;
   };
 
-  hideDoor = (): void => {
+  hide = (): void => {
     clearTimeout(this.autoHideTimer);
     this.door.className = 'hide';
-  };
-
-  showDoor = (): void => {
-    if (this.autoHide) {
-      this.door.className = 'show';
-      this.hideDoorAfterDelay();
-    }
   };
 
   toggleAutoHide = (): void => {
     this.autoHide = !this.autoHide;
     if (!this.autoHide) {
-      this.showDoor();
+      this.show();
     }
   };
 

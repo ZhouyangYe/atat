@@ -16,6 +16,11 @@ class Crystal {
     return this.crystal;
   }
 
+  hide(): void {
+    clearTimeout(this.autoHideTimer);
+    this.crystal.className = 'hide';
+  }
+
   show(): void {
     if (!this.autoHide || this.isMouseOverCrystal) return;
 
