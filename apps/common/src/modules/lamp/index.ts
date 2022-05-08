@@ -18,6 +18,7 @@ class Lamp {
   }
 
   hide(): void {
+    if (this.on) return;
     clearTimeout(this.autoHideTimer);
     this.lamp.className = 'hide';
   }
