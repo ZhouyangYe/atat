@@ -50,6 +50,7 @@ class Resume {
 
     const contentHeight = this.content.clientWidth * 1.4142;
     this.content.style.minHeight = `${contentHeight}px`;
+    scrollBar.style.top = '0';
 
     const getTop = (top: number) => {
       if (top > 0) {
