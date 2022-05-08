@@ -63,7 +63,7 @@ class Resume {
 
     const
       containerHeight = wrap.clientHeight,
-      delta = containerHeight - contentHeight,
+      delta = containerHeight - this.content.clientHeight,
       deltaHeight = containerHeight - scrollBar.clientHeight,
       speed = 30,
       scrollTo = (yAxis: number) => {
