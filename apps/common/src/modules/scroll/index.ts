@@ -71,6 +71,7 @@ class Scroll {
     this.scroll.id = 'scroll';
     this.scroll.className = 'hide';
     this.scroll.onmousedown = (e) => { e.stopPropagation(); };
+    this.scroll.onclick = (e) => { e.stopPropagation(); };
 
     this.scroll.onmouseenter = () => {
       if (!this.autoHide) return;

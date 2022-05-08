@@ -74,7 +74,7 @@ const render = (app: HTMLElement): void => {
   const star = new BouncingStar(container);
   const starDom = star.getDom();
 
-  const resume = new Resume();
+  const resume = new Resume(window.location.hash === '#resume');
   const resumeDom = resume.getDom();
 
   const audio = new Audio({

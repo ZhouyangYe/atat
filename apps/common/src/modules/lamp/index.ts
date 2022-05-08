@@ -115,7 +115,8 @@ class Lamp {
       e.stopPropagation();
     };
 
-    const onToggle = () => {
+    const onToggle = (e: MouseEvent) => {
+      e.stopPropagation();
       cover.onclick = null;
       if (!this.on) {
         flare.className = 'flareOn';

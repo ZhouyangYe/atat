@@ -94,9 +94,10 @@ class Crystal {
       e.stopPropagation();
     }
 
-    function fn_prev() {
-      lButton.onclick = null;
-      rButton.onclick = null;
+    function fn_prev(e: MouseEvent) {
+      e.stopPropagation();
+      lButton.onclick = (ev) => { ev.stopPropagation(); };
+      rButton.onclick = (ev) => { ev.stopPropagation(); };
       classNames.push(classNames.shift());
       for (var i = 0; i < lis.length; i++) {
         lis[i].className = classNames[i];
@@ -107,9 +108,10 @@ class Crystal {
       }, 1000);
     }
 
-    function fn_next() {
-      lButton.onclick = null;
-      rButton.onclick = null;
+    function fn_next(e: MouseEvent) {
+      e.stopPropagation();
+      lButton.onclick = (ev) => { ev.stopPropagation(); };
+      rButton.onclick = (ev) => { ev.stopPropagation(); };
       classNames.unshift(classNames.pop());
       for (var i = 0; i < lis.length; i++) {
         lis[i].className = classNames[i];
