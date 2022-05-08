@@ -40,6 +40,8 @@ const createAboutSection = () => {
   reference.target = '_blank';
   reference.href = 'https://github.com/ZhouyangYe/atat';
   reference.innerHTML = 'https://github.com/ZhouyangYe/atat';
+  reference.onmousedown = (e) => { e.stopPropagation(); };
+  reference.onclick = (e) => { e.stopPropagation(); };
   p3.innerHTML = '代码地址：';
   p3.appendChild(reference);
 
