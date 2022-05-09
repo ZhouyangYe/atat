@@ -37,7 +37,7 @@ class Resume {
   }
 
   show(): void {
-    this.resume.style.visibility = 'visible';
+    this.resume.style.zIndex = '999';
     setTimeout(() => {
       this.resume.className = 'show';
     }, 0);
@@ -233,7 +233,7 @@ class Resume {
     this.resume = document.createElement('div');
     this.resume.id = 'resume';
     this.resume.className = this.showOnDefault ? 'show' : 'hide';
-    this.resume.style.visibility = this.showOnDefault ? 'visible' : 'collapse';
+    this.resume.style.zIndex = this.showOnDefault ? '999' : '0';
 
     this.resume.innerHTML = this.getTemplate();
 
@@ -264,7 +264,7 @@ class Resume {
     close.onclick = () => {
       this.resume.className = 'hide';
       setTimeout(() => {
-        this.resume.style.visibility = 'collapse';
+        this.resume.style.zIndex = '0';
       }, 600);
     };
 
