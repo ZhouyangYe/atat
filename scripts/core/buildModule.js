@@ -1,4 +1,3 @@
-
 const path = require('path');
 const { Worker } = require('worker_threads');
 const { WEBPACK_MESSAGE_TYPE, BUILD_MODE } = require('../enum');

@@ -1,7 +1,8 @@
 import { drawLine, clearPanel, IElements } from '@/utils';
+import { Socket } from 'socket.io-client';
 import { start } from './start';
 
-export const init = (table: HTMLCanvasElement, elements: IElements, socket: SocketIOClient.Socket): void => {
+export const init = (table: HTMLCanvasElement, elements: IElements, socket: Socket): void => {
   if (table.getContext) {
     const ctx = table.getContext('2d');
     let messageTimer: NodeJS.Timer = null;
