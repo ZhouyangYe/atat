@@ -1,7 +1,7 @@
 const testMiddlewareHandler = (req, res, next) => {
   console.log('middleware');
   console.log(req.url);
-  next();
+  next({ t: 'hello' });
 };
 
 module.exports = {

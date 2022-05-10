@@ -5,17 +5,17 @@ const decorateResponse = require('./serverIO/response');
 
 const handlers = [];
 
-const handleRequest = (type, req, res, cb) => {
+const handleRequest = (type, req, res, cb, extra) => {
   switch (type.toLowerCase()) {
     case METHOD_TYPE.GET: {
-      cb(req, res);
+      cb(req, res, extra);
       break;
     }
     case METHOD_TYPE.POST: {
       // parse body before proceeding
       parse(req).then((body) => {
         req.body = body;
-        cb(req, res);
+        cb(req, res, extra);
       });
       break;
     }
@@ -27,13 +27,18 @@ const handleRequest = (type, req, res, cb) => {
 // Iterate and run middleware
 const applyMiddleware = (type,req, res, middleware, cb) => {
   let shouldRunNext = true;
+  let extra = {};
   middleware.forEach((func, index) => {
     if (shouldRunNext) {
       shouldRunNext = false;
-      let next = () => { shouldRunNext = true; };
+      let next = (data) => {
+        shouldRunNext = true;
+        extra = { ...extra, ...data };
+      };
       if (index === middleware.length - 1) {
-        next = () => {
-          handleRequest(type, req, res, cb);
+        next = (data) => {
+          extra = { ...extra, ...data };
+          handleRequest(type, req, res, cb, extra);
         };
       }
       func(req, res, next);

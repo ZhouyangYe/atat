@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDom from 'react-dom';
 
-const Test: React.FC<any> = () => {
+const Testa: React.FC<any> = () => {
   return <div>Hello World!</div>;
 };
 
-ReactDom.render(<Test />, document.getElementById('app'));
+ReactDom.render(<Testa />, document.getElementById('app'));

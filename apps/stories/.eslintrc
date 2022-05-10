@@ -5,8 +5,10 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended"
   ],
+  "root": true,
   "env": {
-    "browser": true
+    "browser": true,
+    "es6": true
   },
   "parserOptions": {
     "sourceType": "module"
@@ -14,6 +16,7 @@
   "rules": {
     "@typescript-eslint/no-var-requires": 0,
     "no-var": 1,
-    "no-magic-numbers": "warn"
+    "no-magic-numbers": "warn",
+    "no-undef": "error"
   }
 }

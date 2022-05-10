@@ -6,7 +6,6 @@ import './styles';
 
 const resume = new Resume({ show: true });
 
-console.log('hello');
 login({ password: 'test pass' }).then((res) => {
   console.log(res);
 });
