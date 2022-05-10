@@ -1,18 +1,40 @@
 const { METHOD_TYPE } = require('@/core/enum');
+const parse = require('./bodyParser');
 const decorateRequest = require('./serverIO/request');
 const decorateResponse = require('./serverIO/response');
 
 const handlers = [];
 
+const handleRequest = (type, req, res, cb) => {
+  switch (type.toLowerCase()) {
+    case METHOD_TYPE.GET: {
+      cb(req, res);
+      break;
+    }
+    case METHOD_TYPE.POST: {
+      // parse body before proceeding
+      parse(req).then((body) => {
+        req.body = body;
+        cb(req, res);
+      });
+      break;
+    }
+    default:
+      break;
+  }
+};
+
 // Iterate and run middleware
-const applyMiddleware = (req, res, middleware, cb) => {
+const applyMiddleware = (type,req, res, middleware, cb) => {
   let shouldRunNext = true;
   middleware.forEach((func, index) => {
     if (shouldRunNext) {
       shouldRunNext = false;
       let next = () => { shouldRunNext = true; };
       if (index === middleware.length - 1) {
-        next = () => { cb(req, res); };
+        next = () => {
+          handleRequest(type, req, res, cb);
+        };
       }
       func(req, res, next);
     }
@@ -33,11 +55,11 @@ const getMethod = (type) => {
       }
 
       if (middleware && middleware.length) {
-        applyMiddleware(req, res, middleware, cb);
+        applyMiddleware(type, req, res, middleware, cb);
       } else {
-        cb(req, res);
+        handleRequest(type, req, res, cb);
       }
-      
+
       return true;
     };
     handlers.push(handler);
@@ -54,9 +76,6 @@ const decorateIO = (req, res) => {
 }
 
 const mainHandler = (req, res) => {
-  // Add custom functions to req and res
-  decorateIO(req, res);
-
   for (const index in handlers) {
     const found = handlers[index](req, res);
     if (found) return;
@@ -71,4 +90,5 @@ module.exports = {
   get,
   post,
   mainHandler,
+  decorateIO,
 };

@@ -9,6 +9,7 @@ module.exports = {
     ajax: path.resolve(__dirname, './src/ajax/index.ts'),
     framework: path.resolve(__dirname, './src/framework/index.ts'),
     ['services/intro']: path.resolve(__dirname, './src/services/intro/index.ts'),
+    ['services/admin']: path.resolve(__dirname, './src/services/admin/index.ts'),
     ['modules/loading']: path.resolve(__dirname, './src/modules/loading/index.ts'),
     ['modules/scrollable']: path.resolve(__dirname, './src/modules/scrollable/index.ts'),
     ['modules/door']: path.resolve(__dirname, './src/modules/door/index.ts'),
@@ -16,6 +17,7 @@ module.exports = {
     ['modules/scroll']: path.resolve(__dirname, './src/modules/scroll/index.ts'),
     ['modules/crystal']: path.resolve(__dirname, './src/modules/crystal/index.ts'),
     ['modules/lamp']: path.resolve(__dirname, './src/modules/lamp/index.ts'),
+    ['modules/resume']: path.resolve(__dirname, './src/modules/resume/index.ts'),
   },
   output: { // output location
     path: path.resolve(__dirname, "lib"),

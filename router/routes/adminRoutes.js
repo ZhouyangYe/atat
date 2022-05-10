@@ -1,5 +1,4 @@
-const { adminHandler } = require('../../core/handlers/admin');
-const { testHandler } = require('../../core/handlers/common');
+const { adminHandler, loginHandler } = require('../../core/handlers/admin');
 const { testMiddlewareHandler } = require('../../core/handlers/common/middleware');
 const { METHOD_TYPE } = require('../../core/enum');
 
@@ -10,8 +9,8 @@ const adminRoutes = {
   apis: [
     {
       url: '/login',
-      method: METHOD_TYPE.GET,
-      handler: testHandler,
+      method: METHOD_TYPE.POST,
+      handler: loginHandler,
       middleware: [testMiddlewareHandler],
     },
   ],

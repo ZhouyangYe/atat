@@ -21,22 +21,25 @@ TODOs:
   12. fix server console color issue
   13. custom font
   14. intro page ✔
-  15. ajax
-  16. fix sourcemap ✔
-  17. fix static file handler security issue ✔
-  18. custom scroll bar ✔
-  19. full screen ✔
-  20. multiple loading page
-  21. improve scrollable component logic
-  22. responsive page design
-  23. audio ✔
-  24. bouncing star ✔
-  25. optimize dom manipulation
-  26. use await async instead of promise
-  27. cache system
-  28. tree shaking
-  29. unit test
-  30. graphql
-  31. upgrade webpack
-  32. 2D physics engine
-  33. resume page ✔
+  15. ajax ✔
+  16. add fetch to ajax
+  17. implement put, patch and delete
+  18. fix sourcemap ✔
+  19. fix static file handler security issue ✔
+  20. custom scroll bar ✔
+  21. full screen ✔
+  22. multiple loading page
+  23. improve scrollable component logic
+  24. responsive page design
+  25. audio ✔
+  26. bouncing star ✔
+  27. optimize dom manipulation
+  28. use await async instead of promise
+  29. cache system
+  30. tree shaking
+  31. unit test
+  32. graphql
+  33. upgrade webpack
+  34. 2D physics engine
+  35. resume page ✔
+  36. resume edit mode

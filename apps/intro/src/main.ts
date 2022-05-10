@@ -7,7 +7,7 @@ import Scroll, { TYPE } from 'atat-common/lib/modules/scroll';
 import Crystal from 'atat-common/lib/modules/crystal';
 import Lamp from 'atat-common/lib/modules/lamp';
 import BouncingStar from './components/BouncingStar';
-import Resume from './components/Resume';
+import Resume from 'atat-common/lib/modules/resume';
 
 import 'atat-common/lib/modules/scrollable/index.css';
 import 'atat-common/lib/modules/door/index.css';
@@ -15,6 +15,7 @@ import 'atat-common/lib/modules/audio/index.css';
 import 'atat-common/lib/modules/scroll/index.css';
 import 'atat-common/lib/modules/crystal/index.css';
 import 'atat-common/lib/modules/lamp/index.css';
+import 'atat-common/lib/modules/resume/index.css';
 
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
@@ -76,7 +77,7 @@ const render = (app: HTMLElement): void => {
   const star = new BouncingStar(container);
   const starDom = star.getDom();
 
-  const resume = new Resume(window.location.hash === '#resume');
+  const resume = new Resume({ show: window.location.hash === '#resume' });
   const resumeDom = resume.getDom();
 
   const audio = new Audio({
@@ -147,12 +148,22 @@ const render = (app: HTMLElement): void => {
     if (deltaX < -40) {
       door.show();
       lamp.show();
+      audio.hide();
+      scroll.hide();
+      crystal.hide();
     }
     if (deltaY < -40) {
       audio.show();
       scroll.show();
+      door.hide();
+      lamp.hide();
+      crystal.hide();
     } else if (deltaY > 40) {
       crystal.show();
+      audio.hide();
+      scroll.hide();
+      door.hide();
+      lamp.hide();
     }
   };
   document.addEventListener('mousemove', handleMouseMove, false);

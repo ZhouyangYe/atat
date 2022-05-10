@@ -2,12 +2,23 @@ import res from './resume';
 
 import './index.less';
 
+export interface CONFIG {
+  show?: boolean;
+  mode?: MODE;
+}
+
 export enum LANGUAGE {
   CH = 'ch',
   EN = 'en',
 }
 
+export enum MODE {
+  EDIT = 'edit',
+  PREVIEW = 'preview',
+}
+
 class Resume {
+  private mode: MODE;
   private showOnDefault: boolean;
   private resume: HTMLDivElement;
   private content: HTMLDivElement;
@@ -31,13 +42,18 @@ class Resume {
     return this.resume;
   }
 
-  constructor(show = false) {
+  constructor(config?: CONFIG) {
+    const {
+      show = false,
+      mode = MODE.PREVIEW,
+    } = config;
     this.showOnDefault = show;
+    this.mode = mode;
     this.render();
   }
 
   show(): void {
-    this.resume.style.zIndex = '999';
+    this.resume.style.top = '0';
     setTimeout(() => {
       this.resume.className = 'show';
     }, 0);
@@ -233,7 +249,7 @@ class Resume {
     this.resume = document.createElement('div');
     this.resume.id = 'resume';
     this.resume.className = this.showOnDefault ? 'show' : 'hide';
-    this.resume.style.zIndex = this.showOnDefault ? '999' : '0';
+    this.resume.style.top = this.showOnDefault ? '0' : '-100vh';
 
     this.resume.innerHTML = this.getTemplate();
 
@@ -264,7 +280,7 @@ class Resume {
     close.onclick = () => {
       this.resume.className = 'hide';
       setTimeout(() => {
-        this.resume.style.zIndex = '0';
+        this.resume.style.top = '-100vh';
       }, 600);
     };
 
