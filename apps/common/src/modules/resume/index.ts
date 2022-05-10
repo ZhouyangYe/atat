@@ -59,10 +59,13 @@ class Resume {
     }, 0);
   }
 
-  onResize(): void {
+  resize(): void {
     const
       wrap = this.resume.querySelector<HTMLDivElement>('.wrap'),
-      scrollBar = this.resume.querySelector<HTMLDivElement>('.scroll-bar');
+      scrollBar = this.resume.querySelector<HTMLDivElement>('.scroll-bar'),
+      containerHeight = wrap.clientHeight,
+      delta = containerHeight - this.content.clientHeight,
+      deltaHeight = containerHeight - scrollBar.clientHeight;
 
     const contentHeight = this.content.clientWidth * 1.4142;
     this.content.style.minHeight = `${contentHeight}px`;
@@ -79,9 +82,6 @@ class Resume {
     };
 
     const
-      containerHeight = wrap.clientHeight,
-      delta = containerHeight - this.content.clientHeight,
-      deltaHeight = containerHeight - scrollBar.clientHeight,
       speed = 30,
       scrollTo = (yAxis: number) => {
         this.content.style.top = `${Math.floor(yAxis)}px`;
@@ -267,7 +267,7 @@ class Resume {
       save.innerHTML = text.save;
       close.innerHTML = text.close;
       content.innerHTML = this.getResumeContent();
-      this.onResize();
+      this.resize();
     };
 
     save.onclick = () => {

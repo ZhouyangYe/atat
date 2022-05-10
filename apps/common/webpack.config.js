@@ -18,6 +18,7 @@ module.exports = {
     ['modules/crystal']: path.resolve(__dirname, './src/modules/crystal/index.ts'),
     ['modules/lamp']: path.resolve(__dirname, './src/modules/lamp/index.ts'),
     ['modules/resume']: path.resolve(__dirname, './src/modules/resume/index.ts'),
+    ['modules/message']: path.resolve(__dirname, './src/modules/message/index.ts'),
   },
   output: { // output location
     path: path.resolve(__dirname, "lib"),

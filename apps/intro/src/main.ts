@@ -46,9 +46,11 @@ const createAboutSection = () => {
   p3.innerHTML = '代码地址：';
   p3.appendChild(reference);
 
-  content.appendChild(p1);
-  content.appendChild(p2);
-  content.appendChild(p3);
+  content.append(
+    p1,
+    p2,
+    p3,
+  );
 
   aboutSection.appendChild(content);
 
@@ -65,7 +67,7 @@ const createContentSection = () => {
 const render = (app: HTMLElement): void => {
   const scrollableContainer = new ScrollableContainer(app);
   const container = scrollableContainer.getContainer();
-  const { onResize } = scrollableContainer;
+  const { resize } = scrollableContainer;
 
   const welcomeSection = createWelcomeSection();
   const aboutSection = createAboutSection();
@@ -169,20 +171,22 @@ const render = (app: HTMLElement): void => {
   document.addEventListener('mousemove', handleMouseMove, false);
 
   const fragment = new DocumentFragment();
-  fragment.appendChild(audioDom);
-  fragment.appendChild(doorDom);
-  fragment.appendChild(starDom);
-  fragment.appendChild(resumeDom);
-  fragment.appendChild(scrollDom);
-  fragment.appendChild(crystalDom);
-  fragment.appendChild(lampDom);
-  fragment.appendChild(welcomeSection);
-  fragment.appendChild(aboutSection);
-  fragment.appendChild(contentSection);
+  fragment.append(
+    audioDom,
+    doorDom,
+    starDom,
+    resumeDom,
+    scrollDom,
+    crystalDom,
+    lampDom,
+    welcomeSection,
+    aboutSection,
+    contentSection,
+  );
   container.appendChild(fragment);
   // recalculate size after container has been filled
-  onResize();
-  resume.onResize();
+  resize();
+  resume.resize();
 
   const handleDoubleClick = () => {
     if (!document.fullscreenElement) {
@@ -235,8 +239,8 @@ const render = (app: HTMLElement): void => {
   });
 
   window.onresize = () => {
-    onResize();
-    resume.onResize();
+    resize();
+    resume.resize();
   };
 };
 

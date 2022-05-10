@@ -75,7 +75,7 @@ class ScrollableContainer {
     return this.wrap;
   };
 
-  onResize = (): void => {
+  resize = (): void => {
     const height = this.dom.clientHeight;
     const wrapHeight = this.wrap.clientHeight;
 

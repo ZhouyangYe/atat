@@ -19,6 +19,7 @@
   },
   "rules": {
     "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/no-use-before-define": 1,
     "no-var": 1,
     "no-magic-numbers": "warn",
     "no-undef": "error"

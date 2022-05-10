@@ -1,0 +1,34 @@
+#message {
+  position: fixed;
+  padding: 8px;
+  font-size: 16px;
+  background-color: rgb(73, 133, 189);
+  border-radius: 6px;
+  box-shadow: 2px 3px 6px 1px #08283a;
+
+  &.success {
+    color: rgb(3, 241, 63);
+  }
+
+  &.error {
+    color: rgb(235, 98, 98);
+  }
+
+  &.info {
+    color: rgb(92, 253, 253);
+  }
+
+  &.alert {
+    color: rgb(250, 250, 62);
+  }
+
+  &.show {
+    top: 12px;
+    transition: top 0.1s ease;
+  }
+
+  &.hide {
+    top: -36px;
+    transition: none;
+  }
+}

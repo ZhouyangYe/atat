@@ -1,0 +1,65 @@
+@keyframes shine {
+  0% {
+    background-position: -400px;
+  }
+
+  50% {
+    background-position: -400px;
+  }
+
+  100% {
+    background-position: 400px;
+  }
+}
+
+#login {
+  @width: 300px;
+  @height: 180px;
+
+  z-index: 1000;
+  width: @width;
+  height: @height;
+  position: fixed;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 2px 3px 6px 1px #08283a;
+  background: url('@resources/static/admin/password.jpg');
+  background-size: cover;
+  cursor: pointer;
+
+  left: calc(50% - @width / 2);
+  top: calc(50% - @height / 2);
+
+  &.loading {
+    cursor: not-allowed;
+  }
+
+  h2 {
+    font-size: 39px;
+    margin: 47px 0 6px;
+    padding: 0;
+    color: #fff;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    color: rgba(255, 255, 255, 0.6);
+    background: linear-gradient(-30deg, rgba(255, 255, 255, 0) 50px, rgba(255, 255, 255, 0.1) 90px, rgba(255, 255, 255, 0.1) 140px, rgba(255, 255, 255, 0) 180px) -400px 0px no-repeat;
+    background: -webkit-linear-gradient(-30deg, rgba(255, 255, 255, 0) 50px, rgba(255, 255, 255, 1) 90px, rgba(255, 255, 255, 1) 140px, rgba(255, 255, 255, 0) 180px) -400px 0px no-repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: shine 6s infinite ease;
+
+    span {
+      cursor: default;
+    }
+  }
+
+  #password {
+    width: 160px;
+  }
+}

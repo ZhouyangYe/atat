@@ -2,6 +2,7 @@ import { doAnimationInterval } from 'atat-common/lib/utils';
 import { clearPanel, drawLine, IElements } from '@/utils';
 import Ball from './ball';
 import Blade, { PLAYER_TYPE } from './blade';
+import { Socket } from 'socket.io-client';
 
 const fadeOut = (announcement: HTMLElement) => {
   setTimeout(() => {
@@ -9,7 +10,7 @@ const fadeOut = (announcement: HTMLElement) => {
   }, 3000);
 };
 
-export const start = (ctx: CanvasRenderingContext2D, elements: IElements, socket: SocketIOClient.Socket): void => {
+export const start = (ctx: CanvasRenderingContext2D, elements: IElements, socket: Socket): void => {
   socket.off('ballMove');
   socket.off('myBladeUpdate');
   socket.off('enemyBladeUpdate');
