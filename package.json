@@ -9,6 +9,7 @@
     "build": "npm run scripts -- build",
     "dev": "npm run scripts -- dev",
     "clean": "npm run scripts -- clean",
+    "password": "npm run scripts -- password",
     "unlock": "rm -rf package-lock.json",
     "lint": "concurrently \"npm run lint-apps\" \"npm run lint-server\" \"npm run lint-stories\"",
     "lint-apps": "eslint -c apps/.eslintrc --ignore-path apps/.eslintignore apps/**/*.ts",
@@ -46,7 +47,8 @@
     "react": "^18.1.0",
     "react-dom": "^16.13.1",
     "socket.io": "^4.5.0",
-    "socket.io-client": "^4.5.0"
+    "socket.io-client": "^4.5.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",

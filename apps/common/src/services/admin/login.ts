@@ -5,12 +5,6 @@ export interface Params {
   password: string;
 }
 
-export interface IPicInfo {
-  path: string;
-  name: string;
-  orders: number;
-}
-
-export const login = (params: Params): Promise<IResponse<void>> => {
-  return post<IResponse<void>>('/api/admin/login', { body: params });
+export const login = (params: Params): Promise<IResponse<string>> => {
+  return post<IResponse<string>>('/api/admin/login', { body: params });
 };

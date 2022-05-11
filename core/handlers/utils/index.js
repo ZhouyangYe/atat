@@ -1,7 +1,7 @@
 const { get, post, mainHandler, decorateIO } = require('./mainHandler');
 const staticFileHandler = require('./staticFileHandler');
 const bodyParser = require('./bodyParser');
-const encrypt = require('./encryption');
+const session = require('./session');
 
 module.exports = {
   get,
@@ -10,5 +10,5 @@ module.exports = {
   decorateIO,
   staticFileHandler,
   bodyParser,
-  encrypt,
+  session,
 };

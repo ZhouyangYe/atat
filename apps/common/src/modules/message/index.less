@@ -1,25 +1,38 @@
 #message {
+  @posY: 100px;
+
   position: fixed;
   padding: 8px;
   font-size: 16px;
-  background-color: rgb(73, 133, 189);
+  background-color: #fff;
   border-radius: 6px;
   box-shadow: 2px 3px 6px 1px #08283a;
+  overflow: hidden;
+  line-height: 16px;
 
-  &.success {
-    color: rgb(3, 241, 63);
+  img {
+    vertical-align: middle;
+    position: relative;
+    top: -@posY;
+    display: inline-block;
+    height: 16px;
+    margin-right: 8px;
   }
 
-  &.error {
-    color: rgb(235, 98, 98);
+  &.success img {
+    filter: drop-shadow(rgb(3, 241, 63) 0 @posY);
   }
 
-  &.info {
-    color: rgb(92, 253, 253);
+  &.error img {
+    filter: drop-shadow(rgb(235, 98, 98) 0 @posY);
   }
 
-  &.alert {
-    color: rgb(250, 250, 62);
+  &.info img {
+    filter: drop-shadow(rgb(41, 92, 233) 0 @posY);
+  }
+
+  &.alert img {
+    filter: drop-shadow(rgb(250, 250, 62) 0 @posY);
   }
 
   &.show {
@@ -28,7 +41,7 @@
   }
 
   &.hide {
-    top: -36px;
+    top: -100px;
     transition: none;
   }
 }

@@ -53,7 +53,7 @@ const getMethod = (type: string) => {
 
       if (data != null) {
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
+        xhr.send(data);
       }
       else {
         xhr.send();
@@ -62,6 +62,7 @@ const getMethod = (type: string) => {
       xhr.onload = () => {
         if (xhr.status !== SUCCESS_CODE) {
           rej({
+            sucess: false,
             errorCode: xhr.status,
             errorMessage: xhr.statusText,
           });
@@ -72,6 +73,7 @@ const getMethod = (type: string) => {
 
       xhr.onerror = () => {
         rej({
+          success: false,
           errorCode: ERROR_CODE,
           errorMessage: 'Failed to connect to the server.',
         });

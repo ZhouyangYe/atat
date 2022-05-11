@@ -30,11 +30,17 @@ export const doAnimationInterval = (fn: () => void, interval = 0): () => void =>
       start = timestamp;
       fn();
     }
-    const progress = timestamp - start;
-    if (progress >= interval) {
+
+    if (interval === 0) {
       fn();
-      start = timestamp;
+    } else {
+      const progress = timestamp - start;
+      if (progress >= interval) {
+        fn();
+        start = timestamp;
+      }
     }
+  
     if (!stop) {
       timer = window.requestAnimationFrame(step);
     }

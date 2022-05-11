@@ -63,13 +63,15 @@ class Resume {
     const
       wrap = this.resume.querySelector<HTMLDivElement>('.wrap'),
       scrollBar = this.resume.querySelector<HTMLDivElement>('.scroll-bar'),
-      containerHeight = wrap.clientHeight,
-      delta = containerHeight - this.content.clientHeight,
-      deltaHeight = containerHeight - scrollBar.clientHeight;
+      containerHeight = wrap.clientHeight;
 
     const contentHeight = this.content.clientWidth * 1.4142;
     this.content.style.minHeight = `${contentHeight}px`;
     scrollBar.style.top = '0';
+
+    const
+      delta = containerHeight - this.content.clientHeight,
+      deltaHeight = containerHeight - scrollBar.clientHeight;
 
     const getTop = (top: number) => {
       if (top > 0) {

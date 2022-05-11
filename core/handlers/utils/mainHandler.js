@@ -5,17 +5,17 @@ const decorateResponse = require('./serverIO/response');
 
 const handlers = [];
 
-const handleRequest = (type, req, res, cb, extra) => {
+const handleRequest = (type, req, res, cb) => {
   switch (type.toLowerCase()) {
     case METHOD_TYPE.GET: {
-      cb(req, res, extra);
+      cb();
       break;
     }
     case METHOD_TYPE.POST: {
       // parse body before proceeding
       parse(req).then((body) => {
         req.body = body;
-        cb(req, res, extra);
+        cb();
       });
       break;
     }
@@ -38,7 +38,7 @@ const applyMiddleware = (type,req, res, middleware, cb) => {
       if (index === middleware.length - 1) {
         next = (data) => {
           extra = { ...extra, ...data };
-          handleRequest(type, req, res, cb, extra);
+          cb(req, res, extra);
         };
       }
       func(req, res, next);
@@ -60,9 +60,13 @@ const getMethod = (type) => {
       }
 
       if (middleware && middleware.length) {
-        applyMiddleware(type, req, res, middleware, cb);
+        handleRequest(type, req, res, () => {
+          applyMiddleware(type, req, res, middleware, cb);
+        });
       } else {
-        handleRequest(type, req, res, cb);
+        handleRequest(type, req, res, () => {
+          cb(req, res);
+        });
       }
 
       return true;

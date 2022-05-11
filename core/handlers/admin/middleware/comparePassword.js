@@ -1,5 +1,32 @@
+const fs = require('fs');
+const { encryptPassword } = require('@/utils/encryption');
+
 const comparePassword = (req, res, next) => {
-  next();
+  fs.readFile('data.json', 'utf-8', (err, data) => {
+    try {
+      const d = JSON.parse(data);
+      const password = encryptPassword(req.body.password, d.secret).encryptPassword;
+  
+      if (password === d.encryptPassword) {
+        next();
+        return;
+      }
+    } catch(e) {
+      res.json({
+        success: false,
+        errorCode: 403,
+      });
+      return;
+    }
+
+    setTimeout(() => {
+      res.json({
+        success: false,
+        errorCode: 406,
+        errorMessage: 'Authentication failed.',
+      });
+    }, 3000);
+  });
 };
 
 module.exports = comparePassword;

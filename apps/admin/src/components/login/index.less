@@ -1,3 +1,6 @@
+@width: 300px;
+@height: 180px;
+
 @keyframes shine {
   0% {
     background-position: -400px;
@@ -12,10 +15,21 @@
   }
 }
 
-#login {
-  @width: 300px;
-  @height: 180px;
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
 
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+#login {
   z-index: 1000;
   width: @width;
   height: @height;
@@ -27,11 +41,89 @@
   background-size: cover;
   cursor: pointer;
 
+
   left: calc(50% - @width / 2);
-  top: calc(50% - @height / 2);
+  top: calc(43% - @height / 2);
+
+  &:active {
+    box-shadow: none;
+    transform: perspective(400px) translateZ(-6px);
+    transition: box-shadow 0.1s ease, transform 0.1s ease;
+  }
+
+  &.hide {
+    @duration: 0.5s;
+    opacity: 0;
+    box-shadow: none;
+    transform: perspective(400px) translateZ(-1000px);
+    transition: opacity @duration ease, transform @duration ease, box-shadow @duration ease;
+  }
+
+  .loading-bar {
+    position: relative;
+    display: none;
+    width: 170px;
+    top: -6px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+
+    .wave {
+      width: 5px;
+      height: 25px;
+      background: linear-gradient(45deg, rgb(40, 76, 109), rgb(135, 151, 156));
+      margin: 6px;
+      animation: wave 1s linear infinite;
+      border-radius: 20px;
+    }
+
+    .wave:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .wave:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .wave:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+
+    .wave:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+
+    .wave:nth-child(6) {
+      animation-delay: 0.5s;
+    }
+
+    .wave:nth-child(7) {
+      animation-delay: 0.6s;
+    }
+
+    .wave:nth-child(8) {
+      animation-delay: 0.7s;
+    }
+
+    .wave:nth-child(9) {
+      animation-delay: 0.8s;
+    }
+
+    .wave:nth-child(10) {
+      animation-delay: 0.9s;
+    }
+  }
 
   &.loading {
     cursor: not-allowed;
+
+    #password {
+      display: none;
+    }
+
+    .loading-bar {
+      display: flex;
+    }
   }
 
   h2 {

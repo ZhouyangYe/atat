@@ -1,3 +1,4 @@
+import { doAnimationInterval } from 'atat-common/lib/utils';
 import { COLOR } from './enum';
 import { handler } from './handler';
 import { Circle } from './shapes/Circle';
@@ -91,7 +92,7 @@ if (canvas.getContext) {
     isDragging = false;
   });
 
-  const render = (time: number) => {
+  const render = () => {
     // reset color
     objects.forEach((obj, i) => {
       obj.setColor(COLOR.NORMAL);
@@ -134,8 +135,7 @@ if (canvas.getContext) {
       obj.draw();
     });
     if (overObjectIndex !== -1) objects[overObjectIndex].draw();
-
-    requestAnimationFrame(render);
   };
-  requestAnimationFrame(render);
+
+  doAnimationInterval(render, 0);
 }

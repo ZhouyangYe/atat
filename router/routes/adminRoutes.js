@@ -13,7 +13,7 @@ const adminRoutes = {
       handler: loginHandler,
       middleware: [
         checkWhetherLogedIn,
-        comparePassword
+        comparePassword,
       ],
     },
   ],
