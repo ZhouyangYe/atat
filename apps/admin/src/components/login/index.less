@@ -30,6 +30,7 @@
 }
 
 #login {
+  display: none;
   z-index: 1000;
   width: @width;
   height: @height;
@@ -40,23 +41,22 @@
   background: url('@resources/static/admin/password.jpg');
   background-size: cover;
   cursor: pointer;
-
+  @duration: 0.5s;
+  transition: opacity @duration ease, transform @duration ease, box-shadow @duration ease;
 
   left: calc(50% - @width / 2);
   top: calc(43% - @height / 2);
 
-  &:active {
+  &.active {
     box-shadow: none;
     transform: perspective(400px) translateZ(-6px);
-    transition: box-shadow 0.1s ease, transform 0.1s ease;
+    transition: box-shadow 0.02s ease, transform 0.02s ease;
   }
 
   &.hide {
-    @duration: 0.5s;
     opacity: 0;
     box-shadow: none;
     transform: perspective(400px) translateZ(-1000px);
-    transition: opacity @duration ease, transform @duration ease, box-shadow @duration ease;
   }
 
   .loading-bar {
@@ -70,7 +70,7 @@
 
     .wave {
       width: 5px;
-      height: 25px;
+      height: 22px;
       background: linear-gradient(45deg, rgb(40, 76, 109), rgb(135, 151, 156));
       margin: 6px;
       animation: wave 1s linear infinite;

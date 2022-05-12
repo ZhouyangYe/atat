@@ -1,4 +1,5 @@
-import { getIntroInfo } from 'atat-common/lib/services/intro';
+import { getIntroInfo, getResumeData } from 'atat-common/lib/services/intro';
+import Message from 'atat-common/lib/modules/message';
 import { getFullUrl } from 'atat-common/lib/utils';
 import ScrollableContainer from 'atat-common/lib/modules/scrollable';
 import Door from 'atat-common/lib/modules/door';
@@ -79,7 +80,17 @@ const render = (app: HTMLElement): void => {
   const star = new BouncingStar(container);
   const starDom = star.getDom();
 
-  const resume = new Resume({ show: window.location.hash === '#resume' });
+  const message = new Message();
+  const messageDom = message.getDom();
+
+  const resume = new Resume(getResumeData().then((res) => {
+    if (!res.success) {
+      message.error('Failed to get resume.');
+      return;
+    }
+
+    return res.data;
+  }), { show: window.location.hash === '#resume' });
   const resumeDom = resume.getDom();
 
   const audio = new Audio({
@@ -172,6 +183,7 @@ const render = (app: HTMLElement): void => {
 
   const fragment = new DocumentFragment();
   fragment.append(
+    messageDom,
     audioDom,
     doorDom,
     starDom,

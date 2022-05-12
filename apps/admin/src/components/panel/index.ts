@@ -16,7 +16,7 @@ class Panel {
     this.panel.style.display = 'flex';
     setTimeout(() => {
       this.panel.className = 'show';
-    }, 0);
+    }, 18);
   }
 
   hide(): void {

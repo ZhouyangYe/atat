@@ -27,7 +27,21 @@ const loginHandler = (req, res) => {
   });
 };
 
+const resumeHandler = (req, res, extra) => {
+  if (!extra.loggedIn) {
+    res.json({
+      success: false,
+      errorCode: 401,
+      errorMessage: 'Not authorized.',
+    });
+    return;
+  }
+
+  console.log(req.body);
+};
+
 module.exports = {
   adminHandler,
   loginHandler,
+  resumeHandler,
 };

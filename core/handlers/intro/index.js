@@ -1,3 +1,4 @@
+const fs = require('fs');
 const db = require('@/db');
 const logger = require('@/utils/logger');
 const { IMAGE_TYPE } = require('@/core/enum');
@@ -34,7 +35,40 @@ const getIntroInfo = (req, res) => {
   });
 };
 
+const getResumeData = (req, res) => {
+  fs.readFile('resources/static/resume/resume.json', (err, data) => {
+    if (err) {
+      res.json({
+        success: false,
+      });
+      return;
+    }
+
+    try {
+      const resume = JSON.parse(data);
+
+      // res.json({
+      //   success: true,
+      //   data: resume,
+      // });
+
+      setTimeout(() => {
+        res.json({
+          success: true,
+          data: resume,
+        });
+      }, 3000);
+      return;
+    } catch (e) {
+      res.json({
+        success: false,
+      });
+    }
+  });
+};
+
 module.exports = {
   introHandler,
-  getIntroInfo
+  getIntroInfo,
+  getResumeData,
 };

@@ -1,7 +1,24 @@
 const fs = require('fs');
 const { encryptPassword } = require('@/utils/encryption');
 
-const comparePassword = (req, res, next) => {
+const comparePassword = (req, res, next, extra) => {
+  if (extra && extra.loggedIn) {
+    res.json({
+      success: true,
+    });
+
+    return;
+  }
+
+  if (!req.body || !req.body.password) {
+    res.json({
+      success: false,
+      errorCode: 406,
+      errorMessage: 'Authentication failed.',
+    });
+    return;
+  }
+
   fs.readFile('data.json', 'utf-8', (err, data) => {
     try {
       const d = JSON.parse(data);
@@ -19,13 +36,19 @@ const comparePassword = (req, res, next) => {
       return;
     }
 
-    setTimeout(() => {
-      res.json({
-        success: false,
-        errorCode: 406,
-        errorMessage: 'Authentication failed.',
-      });
-    }, 3000);
+    res.json({
+      success: false,
+      errorCode: 406,
+      errorMessage: 'Authentication failed.',
+    });
+
+    // setTimeout(() => {
+    //   res.json({
+    //     success: false,
+    //     errorCode: 406,
+    //     errorMessage: 'Authentication failed.',
+    //   });
+    // }, 3000);
   });
 };
 

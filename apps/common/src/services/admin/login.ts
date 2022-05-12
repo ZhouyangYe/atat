@@ -5,6 +5,6 @@ export interface Params {
   password: string;
 }
 
-export const login = (params: Params): Promise<IResponse<string>> => {
+export const login = (params?: Params): Promise<IResponse<string>> => {
   return post<IResponse<string>>('/api/admin/login', { body: params });
 };

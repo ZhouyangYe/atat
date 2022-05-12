@@ -1,4 +1,4 @@
-const { introHandler, getIntroInfo } = require('../../core/handlers/intro');
+const { introHandler, getIntroInfo, getResumeData } = require('../../core/handlers/intro');
 const { METHOD_TYPE } = require('../../core/enum');
 
 const introRoutes = {
@@ -10,6 +10,11 @@ const introRoutes = {
       url: '/info',
       method: METHOD_TYPE.GET,
       handler: getIntroInfo,
+    },
+    {
+      url: '/resume',
+      method: METHOD_TYPE.GET,
+      handler: getResumeData,
     },
   ],
 };

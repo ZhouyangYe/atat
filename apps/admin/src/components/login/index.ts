@@ -36,7 +36,7 @@ class Login {
     this.login.style.display = 'block';
     setTimeout(() => {
       this.login.classList.remove('hide');
-    });
+    }, 18);
   }
 
   hide(): void {
@@ -63,6 +63,7 @@ class Login {
   private render(): void {
     this.login = document.createElement('div');
     this.login.id = 'login';
+    this.login.classList.add('hide');
 
     this.login.innerHTML = `
       <div class='bar'>
@@ -83,9 +84,21 @@ class Login {
       e.stopPropagation();
     };
 
+    this.login.onmousedown = () => {
+      this.login.classList.add('active');
+    };
+
+    this.login.onmouseup = () => {
+      this.login.classList.remove('active');
+    };
+
     this.input.onclick = (e) => {
       e.stopPropagation();
-    }
+    };
+
+    this.input.onmousedown = (e) => {
+      e.stopPropagation();
+    };
 
     this.login.onclick = this.submit;
   }

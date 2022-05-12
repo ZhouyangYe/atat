@@ -1,4 +1,4 @@
-import res from './resume';
+import { IResume, IResumeLan } from '@/services/intro';
 
 import './index.less';
 
@@ -17,24 +17,34 @@ export enum MODE {
   PREVIEW = 'preview',
 }
 
+interface ILocale {
+  save: string;
+  close: string;
+  lan: string;
+  resume?: IResumeLan
+}
+
 class Resume {
+  private data: IResume;
+  private loading = false;
+  private loadingBar: HTMLDivElement;
   private mode: MODE;
   private showOnDefault: boolean;
   private resume: HTMLDivElement;
   private content: HTMLDivElement;
   private lan = LANGUAGE.CH;
-  private locale = {
+  private locale: { ch: ILocale; en: ILocale } = {
     ch: {
       save: '保存',
       close: '关闭',
       lan: 'English',
-      resume: res.ch,
+      resume: null,
     },
     en: {
       save: 'Save',
       close: 'Close',
       lan: '中文',
-      resume: res.en,
+      resume: null,
     },
   };
 
@@ -42,7 +52,7 @@ class Resume {
     return this.resume;
   }
 
-  constructor(config?: CONFIG) {
+  constructor(getResumeData: Promise<IResume | undefined>, config?: CONFIG) {
     const {
       show = false,
       mode = MODE.PREVIEW,
@@ -50,6 +60,16 @@ class Resume {
     this.showOnDefault = show;
     this.mode = mode;
     this.render();
+    getResumeData.then((res) => {
+      if (!res) {
+        return;
+      }
+      this.locale.ch.resume = res.ch;
+      this.locale.en.resume = res.en;
+      this.content.innerHTML = this.getResumeContent();
+      this.loadingBar.style.display = 'none';
+      this.resize();
+    });
   }
 
   show(): void {
@@ -153,10 +173,21 @@ class Resume {
     const resume = this.locale[this.lan].resume;
     return `
       <div class='main'>
-        <h2 class='first'><img src='/@resources/static/resume/education.png' />${this.getText(['教育经历', 'EDUCATION'])}</h2>
-        ${resume.education.map((e) => {
+        <h2 id='education' class='education'>
+          <img class='icon' src='/@resources/static/resume/education.png' />${this.getText(['教育经历', 'EDUCATION'])}
+          ${this.mode === MODE.EDIT && `<div class='options'><img data-name='education' data-action='add' src='/@resources/static/icons/add.svg'></div>`}
+        </h2>
+        ${resume.education.map((e, i) => {
           return `
-            <h3>${e.major}</h3>
+            <h3>
+              ${e.major}
+              ${this.mode === MODE.EDIT && `
+                <div class='options'>
+                  <img data-name='education' data-index='${i}' data-action='edit' src='/@resources/static/icons/edit.svg'>
+                  <img data-name='education' data-index='${i}' data-action='delete' src='/@resources/static/icons/delete.svg'>
+                </div>
+              `}
+            </h3>
             <p>
               <img src='/@resources/static/resume/calendar.png' />
               <span>${e.time}</span>
@@ -167,10 +198,21 @@ class Resume {
             </p>
           `;
         }).join('')}
-        <h2><img src='/@resources/static/resume/work.png' />${this.getText(['工作经历', 'EXPERIENCE'])}</h2>
-        ${resume.experience.map((e) => {
+        <h2 id='experience' class='experience'>
+          <img class='icon' src='/@resources/static/resume/work.png' />${this.getText(['工作经历', 'EXPERIENCE'])}
+          ${this.mode === MODE.EDIT && `<div class='options'><img data-name='experience' data-action='add' src='/@resources/static/icons/add.svg'></div>`}
+        </h2>
+        ${resume.experience.map((e, i) => {
           return `
-            <h3>${e.title}</h3>
+            <h3>
+              ${e.title}
+              ${this.mode === MODE.EDIT && `
+                <div class='options'>
+                  <img data-name='experience' data-index='${i}' data-action='edit' src='/@resources/static/icons/edit.svg'>
+                  <img data-name='experience' data-index='${i}' data-action='delete' src='/@resources/static/icons/delete.svg'>
+                </div>
+              `}
+            </h3>
             <p>
               <img src='/@resources/static/resume/calendar.png' />
               <span>${e.time}</span>
@@ -188,7 +230,10 @@ class Resume {
             </ul>
           `;
         }).join('')}
-        <h2><img src='/@resources/static/resume/skill.png' />${this.getText(['职业技能', 'TECHNICAL SKILLS'])}</h2>
+        <h2 id='skills' class='skills'>
+          <img class='icon' src='/@resources/static/resume/skill.png' />${this.getText(['职业技能', 'TECHNICAL SKILLS'])}
+          ${this.mode === MODE.EDIT && `<div class='options'><img data-name='techSkill' data-action='edit' src='/@resources/static/icons/edit.svg'></div>`}
+        </h2>
         <p class='skills'>
           ${resume.techSkill.skill.map((ts) => {
             return `<span>${ts}</span>`;
@@ -203,21 +248,34 @@ class Resume {
       </div>
       <div class='side-bar'>
         <img class='photo' src='/@resources/static/resume/photo.jpg'>
-        <h2 class='name'>${resume.name}</h2>
+        <h2 id='name' class='name'>
+          ${resume.name}
+          ${this.mode === MODE.EDIT && `<div class='options'><img data-name='name' data-action='edit' src='/@resources/static/icons/edit.svg'></div>`}
+        </h2>
         <h3>${resume.title}</h3>
-        <h2><img src='/@resources/static/resume/about.png'>${this.getText(['关于', 'About'])}</h2>
+        <h2 id='title' class='title'>
+          <img class='icon' src='/@resources/static/resume/about.png'>${this.getText(['关于', 'About'])}
+          ${this.mode === MODE.EDIT && `<div class='options'><img data-name='about' data-action='edit' src='/@resources/static/icons/edit.svg'></div>`}
+        </h2>
         ${resume.about.map((a, i) => {
           return `
             <p class='about-${i} about'>${a}</p>
           `;
         }).join('')}
-        <h2><img src='/@resources/static/resume/contact.png'>${this.getText(['联系方式', 'Contact'])}</h2>
+        <p class='personality'>${this.getText(['个人能力', 'Personality'])}:&nbsp;&nbsp;&nbsp; ${resume.skill.map((s) => `<span>${s}</span>`).join(`<span class='dot'></span>`)}</p>
+        <h2 id='contact' class='contact'>
+          <img class='icon' src='/@resources/static/resume/contact.png'>${this.getText(['联系方式', 'Contact'])}
+          ${this.mode === MODE.EDIT && `<div class='options'><img data-name='contact' data-action='edit' src='/@resources/static/icons/edit.svg'></div>`}
+        </h2>
         <p class='info'><img src='/@resources/static/resume/phone.png'>${resume.contact.phone}</p>
         <p class='info email'><img src='/@resources/static/resume/email.png'>${resume.contact.email}</p>
         <p class='info'><img src='/@resources/static/resume/wechat.png'>${resume.contact.wechat}</p>
         <p class='info'><img src='/@resources/static/resume/location.png'>${resume.contact.location}</p>
         <p class='info'><img src='/@resources/static/resume/github.png'>${resume.contact.github}</p>
-        <h2 class='bottom'><img src='/@resources/static/resume/interests.png'>${this.getText(['兴趣爱好', 'Interests'])}</h2>
+        <h2 id='interests' class='bottom'>
+          <img class='icon' src='/@resources/static/resume/interests.png'>${this.getText(['兴趣爱好', 'Interests'])}
+          ${this.mode === MODE.EDIT && `<div class='options'><img data-name='interests' data-action='edit' src='/@resources/static/icons/edit.svg'></div>`}
+        </h2>
         <div class='interests'>
           ${resume.interests.map((i) => {
             return `
@@ -232,9 +290,8 @@ class Resume {
   private getTemplate(): string {
     return `
       <main class='wrap'>
-        <div class='content'>
-          ${this.getResumeContent()}
-        </div>
+        <div class='content'></div>
+        <div class='loading-bar'>${new Array(10).fill('wave').map((className) => `<div class="${className}"></div>`).join('')}</div>
         <div class='scroll-bar'></div>
       </main>
       <footer>
@@ -253,6 +310,7 @@ class Resume {
     this.resume.className = this.showOnDefault ? 'show' : 'hide';
     this.resume.style.top = this.showOnDefault ? '0' : '-100vh';
 
+
     this.resume.innerHTML = this.getTemplate();
 
     const
@@ -260,9 +318,16 @@ class Resume {
       save = this.resume.querySelector<HTMLDivElement>('.save'),
       close = this.resume.querySelector<HTMLDivElement>('.close'),
       content = this.resume.querySelector<HTMLDivElement>('.content');
+
     this.content = content;
+    this.loadingBar = this.resume.querySelector<HTMLDivElement>('.loading-bar');
+
+    content.onclick = (e) => {
+      console.log(e.target);
+    };
 
     language.onclick = () => {
+      if (this.loading) return;
       this.lan = this.lan === LANGUAGE.CH ? LANGUAGE.EN : LANGUAGE.CH;
       const text = this.locale[this.lan];
       language.innerHTML = text.lan;
@@ -273,6 +338,7 @@ class Resume {
     };
 
     save.onclick = () => {
+      if (this.loading) return;
       content.style.top = '0';
       this.resume.classList.add('print');
       window.print();
@@ -301,9 +367,11 @@ class Resume {
     this.resume.oncontextmenu = (e) => {
       e.stopPropagation();
     };
-    this.resume.onmousemove = (e) => {
-      e.stopPropagation();
-    };
+    if (this.mode !== MODE.EDIT) {
+      this.resume.onmousemove = (e) => {
+        e.stopPropagation();
+      };
+    }
   }
 }
 

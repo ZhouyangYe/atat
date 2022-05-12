@@ -1,8 +1,9 @@
 const cookie = require('cookie');
 const { session } = require('../../utils');
 
-const checkWhetherLogedIn = (req, res, next) => {
+const checkWhetherLoggedIn = (req, res, next) => {
   const cookies = cookie.parse(req.headers.cookie || '');
+  let loggedIn = false;
 
   if (cookies.atat_id === session.admin.session_id) {
     clearTimeout(session.admin.session_timer);
@@ -11,13 +12,12 @@ const checkWhetherLogedIn = (req, res, next) => {
       session.admin.ip = null;
     }, session.admin.expire_time);
 
-    res.json({
-      success: true,
-    });
-    return;
+    loggedIn = true;
   }
 
-  next();
+  next({
+    loggedIn,
+  });
 };
 
-module.exports = checkWhetherLogedIn;
+module.exports = checkWhetherLoggedIn;

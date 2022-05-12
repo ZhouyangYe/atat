@@ -15,7 +15,17 @@
   background-color: rgba(0, 0, 0, 0.6);
   transition: opacity @duration ease;
 
+  .dot {
+    @w: 6px;
+    width: @w;
+    height: @w;
+    border-radius: 100%;
+    background-color: #000;
+    -webkit-print-color-adjust: exact;
+  }
+
   .wrap {
+    flex-grow: 1;
     font-family: 'Times New Roman', Times, serif, '宋体';
     overflow: hidden;
     box-sizing: content-box;
@@ -23,6 +33,64 @@
     top: 0;
     transition: transform @duration ease;
     width: @width;
+      
+    .loading-bar {
+      height: 300px;
+      width: 300px;
+      display: flex;
+      position: absolute;
+      top: calc(50% - 180px);
+      left: calc(50% - 150px);
+      max-width: 500px;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+  
+      .wave {
+        width: 8px;
+        height: 66px;
+        background: linear-gradient(45deg, rgb(40, 76, 109), rgb(135, 151, 156));
+        margin: 10px;
+        animation: wave 1s linear infinite;
+        border-radius: 20px;
+      }
+  
+      .wave:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+  
+      .wave:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+  
+      .wave:nth-child(4) {
+        animation-delay: 0.3s;
+      }
+  
+      .wave:nth-child(5) {
+        animation-delay: 0.4s;
+      }
+  
+      .wave:nth-child(6) {
+        animation-delay: 0.5s;
+      }
+  
+      .wave:nth-child(7) {
+        animation-delay: 0.6s;
+      }
+  
+      .wave:nth-child(8) {
+        animation-delay: 0.7s;
+      }
+  
+      .wave:nth-child(9) {
+        animation-delay: 0.8s;
+      }
+  
+      .wave:nth-child(10) {
+        animation-delay: 0.9s;
+      }
+    }
 
     .content {
       position: relative;
@@ -47,21 +115,56 @@
           margin: 36px 0 8px;
           font-size: 25px;
           position: relative;
+          line-height: 25px;
 
-          img {
+          .icon {
             position: absolute;
             left: -36px;
             top: 0;
           }
 
-          &.first {
+          &.education {
             margin-top: 0;
+          }
+
+          .options {
+            @h: 25px;
+            margin-left: 18px;
+            height: @h;
+            line-height: @h;
+            display: inline-block;
+            vertical-align: top;
+            img {
+              height: @h;
+              display: inline-block;
+              cursor: pointer;
+              color: #1b6fa8;
+              vertical-align: top;
+              margin-right: 12px;
+            }
           }
         }
 
         h3 {
           font-size: 20px;
           margin: 0;
+
+          .options {
+            @h: 20px;
+            margin-left: 18px;
+            height: @h;
+            line-height: @h;
+            display: inline-block;
+            vertical-align: top;
+            img {
+              height: @h;
+              display: inline-block;
+              cursor: pointer;
+              color: #1b6fa8;
+              vertical-align: top;
+              margin-right: 12px;
+            }
+          }
         }
 
         p {
@@ -83,15 +186,6 @@
           &.last {
             margin-bottom: 16px;
           }
-        }
-
-        .dot {
-          @w: 6px;
-          width: @w;
-          height: @w;
-          border-radius: 100%;
-          background-color: #000;
-          -webkit-print-color-adjust: exact;
         }
 
         ul {
@@ -152,10 +246,29 @@
             margin-bottom: 0;
           }
 
-          img {
+          .icon {
             position: absolute;
             left: -@offset;
             top: 0;
+          }
+          
+          .options {
+            @h: 18px;
+            margin-left: 18px;
+            height: @h;
+            line-height: @h;
+            display: block;
+            position: absolute;
+            top: 6px;
+            right: 0;
+            img {
+              height: @h;
+              display: inline-block;
+              cursor: pointer;
+              color: #1b6fa8;
+              vertical-align: top;
+              margin-right: 12px;
+            }
           }
         }
 
@@ -199,6 +312,18 @@
               top: 0;
               left: -45px;
             }
+          }
+
+          &.personality {
+            text-indent: 0;
+            margin-top: 36px;
+          }
+
+          .dot {
+            display: inline-block;
+            background-color: #fff;
+            margin: 0 6px;
+            vertical-align: middle;
           }
         }
 
@@ -294,6 +419,14 @@
   @media only screen and (max-width: 700px) {
     .content {
       flex-direction: column-reverse!important;
+
+      .main {
+        padding: 12px 12px 12px 50px!important;
+      }
+
+      .side-bar {
+        padding: 12px!important;
+      }
     }
   }
 

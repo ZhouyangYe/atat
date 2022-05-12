@@ -1,53 +1,60 @@
 const { METHOD_TYPE } = require('@/core/enum');
-const parse = require('./bodyParser');
 const decorateRequest = require('./serverIO/request');
 const decorateResponse = require('./serverIO/response');
 
 const handlers = [];
+const serverMiddleware = [];
 
-const handleRequest = (type, req, res, cb) => {
-  switch (type.toLowerCase()) {
-    case METHOD_TYPE.GET: {
-      cb();
-      break;
-    }
-    case METHOD_TYPE.POST: {
-      // parse body before proceeding
-      parse(req).then((body) => {
-        req.body = body;
-        cb();
-      });
-      break;
-    }
-    default:
-      break;
-  }
+const use = (middleware) => {
+  serverMiddleware.push(middleware);
 };
 
-// Iterate and run middleware
-const applyMiddleware = (type,req, res, middleware, cb) => {
-  let shouldRunNext = true;
+// Recursively run middleware
+const applyMiddleware = (req, res, middleware, cb) => {
   let extra = {};
-  middleware.forEach((func, index) => {
-    if (shouldRunNext) {
-      shouldRunNext = false;
-      let next = (data) => {
-        shouldRunNext = true;
-        extra = { ...extra, ...data };
-      };
-      if (index === middleware.length - 1) {
-        next = (data) => {
-          extra = { ...extra, ...data };
-          cb(req, res, extra);
-        };
-      }
-      func(req, res, next);
+
+  let i = 0;
+  const next = (data) => {
+    i++;
+    if (data) extra = { ...extra, ...data };
+
+    if (i < middleware.length) {
+      middleware[i](req, res, next, extra);
+    } else {
+      cb(req, res, extra);
     }
-  });
-}
+  };
+  middleware[i](req, res, next, extra);
+};
+
+// Iterate and run middleware (deprecated)
+// const applyMiddleware = (type, req, res, middleware, cb) => {
+//   let shouldRunNext = true;
+//   let extra = {};
+
+//   for (let i = 0, length = middleware.length; i < length; i++) {
+//     if (shouldRunNext) {
+//       shouldRunNext = false;
+//       let next = (data) => {
+//         shouldRunNext = true;
+//         extra = { ...extra, ...data };
+//       };
+//       if (i === middleware.length - 1) {
+//         next = (data) => {
+//           extra = { ...extra, ...data };
+//           cb(req, res, extra);
+//         };
+//       }
+//       middleware[i](req, res, next, extra);
+//     } else {
+//       break;
+//     }
+//   }
+// };
 
 const getMethod = (type) => {
-  const method = (pattern, cb, middleware) => {
+  const method = (pattern, cb, middleware = []) => {
+    const combinedMiddleware = [...serverMiddleware, ...middleware];
     const handler = (req, res) => {
       const isRegex = typeof pattern === 'object';
 
@@ -59,14 +66,10 @@ const getMethod = (type) => {
         return false;
       }
 
-      if (middleware && middleware.length) {
-        handleRequest(type, req, res, () => {
-          applyMiddleware(type, req, res, middleware, cb);
-        });
+      if (combinedMiddleware.length) {
+        applyMiddleware(req, res, combinedMiddleware, cb);
       } else {
-        handleRequest(type, req, res, () => {
-          cb(req, res);
-        });
+        cb(req, res);
       }
 
       return true;
@@ -96,6 +99,7 @@ const mainHandler = (req, res) => {
 };
 
 module.exports = {
+  use,
   get,
   post,
   mainHandler,

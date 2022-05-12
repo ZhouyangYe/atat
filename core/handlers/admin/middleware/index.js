@@ -1,7 +1,7 @@
-const checkWhetherLogedIn = require('./checkWhetherLogedIn');
+const checkWhetherLoggedIn = require('./checkWhetherLoggedIn');
 const comparePassword = require('./comparePassword');
 
 module.exports = {
-  checkWhetherLogedIn,
+  checkWhetherLoggedIn,
   comparePassword,
 };

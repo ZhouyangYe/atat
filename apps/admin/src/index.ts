@@ -1,6 +1,8 @@
 import Resume, { MODE } from 'atat-common/lib/modules/resume';
 import { login as loginService } from 'atat-common/lib/services/admin';
+import { getResumeData } from 'atat-common/lib/services/intro';
 import Message from 'atat-common/lib/modules/message';
+import { throttle } from 'atat-common/lib/utils';
 import Login from './components/login';
 import Panel from './components/panel';
 
@@ -9,10 +11,17 @@ import 'atat-common/lib/modules/message/index.css';
 import './styles';
 
 const
-  resume = new Resume({ show: false, mode: MODE.EDIT }),
-  resumeDom = resume.getDom(),
   message = new Message(),
   messageDom = message.getDom(),
+  resume = new Resume(getResumeData().then((res) => {
+    if (!res.success) {
+      message.error('Failed to get resume.');
+      return;
+    }
+
+    return res.data;
+  }), { show: false, mode: MODE.EDIT }),
+  resumeDom = resume.getDom(),
   login = new Login(),
   loginDom = login.getDom(),
   panel = new Panel(),
@@ -36,7 +45,6 @@ login.onClick = (password: string) => {
   return loginService({ password }).then((res) => {
     if (res.success) {
       if (!initialized) {
-        login.hide();
         panel.show();
         initialized = true;
         return;
@@ -53,6 +61,7 @@ login.onClick = (password: string) => {
     } else {
       if (!initialized) {
         initialized = true;
+        // login.show();
         return;
       }
 
@@ -64,9 +73,27 @@ login.onClick = (password: string) => {
   });
 };
 
+//TODO: remove this
+resume.show();
+
+// check whether has logged in
 login.onSubmit();
 
 window.onresize = () => {
   resume.resize();
   message.resize();
+};
+
+const checkActivity = () => {
+  loginService().then((res) => {
+    if (!res.success) {
+      // login.show();
+      message.error('Lost connection, please login again.');
+    }
+  });
+};
+
+window.onmousemove = () => {
+  // activity checking
+  throttle(checkActivity, 120000, false);
 };
