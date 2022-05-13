@@ -61,7 +61,7 @@ login.onClick = (password: string) => {
     } else {
       if (!initialized) {
         initialized = true;
-        // login.show();
+        login.show();
         return;
       }
 
@@ -72,9 +72,6 @@ login.onClick = (password: string) => {
     message.error('Something is wrong.');
   });
 };
-
-//TODO: remove this
-resume.show();
 
 // check whether has logged in
 login.onSubmit();
@@ -87,7 +84,7 @@ window.onresize = () => {
 const checkActivity = () => {
   loginService().then((res) => {
     if (!res.success) {
-      // login.show();
+      login.show();
       message.error('Lost connection, please login again.');
     }
   });

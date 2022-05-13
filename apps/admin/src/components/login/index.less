@@ -41,7 +41,7 @@
   background: url('@resources/static/admin/password.jpg');
   background-size: cover;
   cursor: pointer;
-  @duration: 0.5s;
+  @duration: 0.2s;
   transition: opacity @duration ease, transform @duration ease, box-shadow @duration ease;
 
   left: calc(50% - @width / 2);
@@ -49,14 +49,12 @@
 
   &.active {
     box-shadow: none;
-    transform: perspective(400px) translateZ(-6px);
-    transition: box-shadow 0.02s ease, transform 0.02s ease;
+    transition: box-shadow 0.02s ease;
   }
 
   &.hide {
-    opacity: 0;
     box-shadow: none;
-    transform: perspective(400px) translateZ(-1000px);
+    transform: scale(0, 0);
   }
 
   .loading-bar {

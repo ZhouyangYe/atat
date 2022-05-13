@@ -40,16 +40,14 @@
   @duration: 0.5s;
   display: none;
   padding: 66px;
-  transition: opacity @duration ease, transform @duration ease;
+  transition: transform @duration ease;
 
   &.show {
-    opacity: 1;
-    transform: perspective(400px) translateZ(0px);
+    transform: scale(1, 1);
   }
 
   &.hide {
-    opacity: 0;
-    transform: perspective(400px) translateZ(-1000px);
+    transform: scale(0, 0);
   }
 
   .resume {

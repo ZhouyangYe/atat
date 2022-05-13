@@ -1,9 +1,9 @@
 A little bit this, a little bit that.
 
-利用空余时间做一个个人网站，顺便锻炼一下自己的编程能力。  
+利用空余时间做一个个人网站，顺便练习自己感兴趣的技术。  
 开发工具：cmder + git bash, vscode, phpmyadmin.  
   
-Creating this personal website just for fun. In the meantime, as a practice, to improve my coding skills.  
+There is no specific plan for creating this website, just trying to come up with some interesting ideas and implement them here using web technologies as a practice.  
 Dev tools：cmder + git bash, vscode, phpmyadmin.  
   
 TODOs:
@@ -42,6 +42,8 @@ TODOs:
   33. upgrade webpack
   34. 2D physics engine
   35. resume page ✔
-  36. resume edit mode
+  39. resume editor ✔
+  36. resume print ✔
   37. upgrade eslint ✔
   38. file uploading
+  39. login system ✔

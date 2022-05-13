@@ -47,17 +47,17 @@ const getResumeData = (req, res) => {
     try {
       const resume = JSON.parse(data);
 
-      // res.json({
-      //   success: true,
-      //   data: resume,
-      // });
+      res.json({
+        success: true,
+        data: resume,
+      });
 
-      setTimeout(() => {
-        res.json({
-          success: true,
-          data: resume,
-        });
-      }, 3000);
+      // setTimeout(() => {
+      //   res.json({
+      //     success: true,
+      //     data: resume,
+      //   });
+      // }, 3000);
       return;
     } catch (e) {
       res.json({

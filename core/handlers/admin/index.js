@@ -27,6 +27,24 @@ const loginHandler = (req, res) => {
   });
 };
 
+const logoutHandler = (req, res, extra) => {
+  if (extra.loggedIn) {
+    clearTimeout(session.admin.session_timer);
+    session.admin.ip = null;
+    session.admin.session_id = null;
+
+    res.json({
+      success: true,
+    });
+    return;
+  }
+
+  res.json({
+    success: true,
+    data: 'Already logged out.',
+  })
+};
+
 const resumeHandler = (req, res, extra) => {
   if (!extra.loggedIn) {
     res.json({
@@ -43,5 +61,6 @@ const resumeHandler = (req, res, extra) => {
 module.exports = {
   adminHandler,
   loginHandler,
+  logoutHandler,
   resumeHandler,
 };

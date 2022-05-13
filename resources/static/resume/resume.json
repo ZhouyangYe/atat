@@ -2,6 +2,7 @@
   "ch": {
     "name": "叶洲洋",
     "title": "前端工程师",
+    "web": "bewhat1wannabe.tech",
     "about": [
       "在专业上，我拥有五年的工作经验，主要从事 web 开发，使用React，TypeScript 和 NodeJS 技术栈，也愿意尝试其它的技术栈。",
       "日常生活中，热爱锻炼，喜欢跑 步 ， 打 游 戏 ， 业 余 游 戏 开 发(C++, OpenGL ， BGFX ，shader...)。"
@@ -79,6 +80,7 @@
   "en": {
     "name": "Zhouyang Ye",
     "title": "Frontend Engineer",
+    "web": "bewhat1wannabe.tech",
     "about": [
       "On the job, I'm a Senior Technical Developer with over 5 years of experience, mainly focused on a React, TypeScript and Nodejs stack, also open to exploring other stacks.",
       "In daily life, I'm a person who loves running, working out and playing video games, I also develop games during my leisure time(C++, OpenGL, BGFX, shader...)."

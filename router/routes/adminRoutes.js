@@ -1,4 +1,4 @@
-const { adminHandler, loginHandler, resumeHandler } = require('../../core/handlers/admin');
+const { adminHandler, loginHandler, resumeHandler, logoutHandler } = require('../../core/handlers/admin');
 const { checkWhetherLoggedIn, comparePassword } = require('../../core/handlers/admin/middleware');
 const { METHOD_TYPE } = require('../../core/enum');
 
@@ -14,6 +14,14 @@ const adminRoutes = {
       middleware: [
         checkWhetherLoggedIn,
         comparePassword,
+      ],
+    },
+    {
+      url: '/logout',
+      method: METHOD_TYPE.POST,
+      handler: logoutHandler,
+      middleware: [
+        checkWhetherLoggedIn,
       ],
     },
     {

@@ -4,6 +4,7 @@ import { IResponse } from '../interface';
 export interface IResumeLan {
   name: string;
   title: string;
+  web: string;
   about: string[];
   skill: string[],
   contact: {

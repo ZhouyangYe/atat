@@ -45,8 +45,8 @@ class Login {
     this.login.onclick = undefined;
     this.login.classList.add('hide');
     this.timer = setTimeout(() => {
-      this.login.style.display = 'none';
-    }, 500);
+    this.login.style.display = 'none';
+    }, 200);
   }
 
   private submit = (): void => {

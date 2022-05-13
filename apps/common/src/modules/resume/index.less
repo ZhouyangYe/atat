@@ -2,6 +2,20 @@
 @width: 1000px;
 @duration: 0.6s;
 
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
 #resume {
   display: flex;
   align-items: center;
@@ -22,6 +36,87 @@
     border-radius: 100%;
     background-color: #000;
     -webkit-print-color-adjust: exact;
+  }
+
+  .panel {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    width: 600px;
+    overflow: hidden;
+    left: calc(50% - 300px);
+    top: 100px;
+    background-color: #fff;
+    box-shadow: 2px 3px 6px 1px #08283a;
+    padding: 18px;
+    transform: scale(0, 0);
+    transition: transform 0.2s ease;
+
+    &.show {
+      transform: scale(1, 1);
+    }
+
+    .editor {
+      display: flex;
+      max-height: 500px;
+      overflow-y: auto;
+      flex-wrap: wrap;
+
+      .editor_ch {
+        flex-grow: 1;
+        flex-shrink: 1;
+      }
+
+      .editor_en {
+        flex-grow: 1;
+        flex-shrink: 1;
+      }
+
+      .line {
+        margin-bottom: 16px;
+        white-space: nowrap;
+        min-height: 25px;
+        line-height: 25px;
+
+        h3 {
+          vertical-align: top;
+          font-size: 18px;
+          font-weight: bold;
+          text-align: center;
+          margin: 0 0 16px;
+        }
+
+        .title {
+          vertical-align: top;
+          display: inline-block;
+          width: 92px;
+          text-align: right;
+          margin-right: 6px;
+        }
+
+        input, textarea {
+          vertical-align: top;
+        }
+      }
+    }
+
+    .button {
+      display: flex;
+      justify-content: flex-end;
+      border-top: 1px solid #666;
+      padding-top: 3px;
+
+      .ok {
+        color: #000;
+        cursor: pointer;
+      }
+
+      .cancel {
+        color: #fa8484;
+        margin-right: 16px;
+        cursor: pointer;
+      }
+    }
   }
 
   .wrap {
@@ -109,6 +204,7 @@
         h2,
         h3 {
           color: @mainColor;
+          white-space: nowrap;
         }
 
         h2 {
@@ -130,6 +226,7 @@
           .options {
             @h: 25px;
             margin-left: 18px;
+            opacity: 0;
             height: @h;
             line-height: @h;
             display: inline-block;
@@ -143,6 +240,13 @@
               margin-right: 12px;
             }
           }
+
+          &:hover {
+            .options {
+              opacity: 1;
+              transition: opacity 0.2s ease;
+            }
+          }
         }
 
         h3 {
@@ -153,6 +257,7 @@
             @h: 20px;
             margin-left: 18px;
             height: @h;
+            opacity: 0;
             line-height: @h;
             display: inline-block;
             vertical-align: top;
@@ -162,7 +267,14 @@
               cursor: pointer;
               color: #1b6fa8;
               vertical-align: top;
-              margin-right: 12px;
+              margin-right: 8px;
+            }
+          }
+
+          &:hover {
+            .options {
+              opacity: 1;
+              transition: opacity 0.2s ease;
             }
           }
         }
@@ -221,7 +333,7 @@
         color: #fff;
         padding: 30px;
         flex-grow: 2;
-        flex-shrink: 2;
+        flex-shrink: 5;
         background-color: @mainColor;
         -webkit-print-color-adjust: exact;
 
@@ -254,6 +366,7 @@
           
           .options {
             @h: 18px;
+            opacity: 0;
             margin-left: 18px;
             height: @h;
             line-height: @h;
@@ -270,6 +383,13 @@
               margin-right: 12px;
             }
           }
+
+          &:hover {
+            .options {
+              opacity: 1;
+              transition: opacity 0.2s ease;
+            }
+          }
         }
 
         h3 {
@@ -277,6 +397,10 @@
           font-weight: normal;
           margin: 0 0 12px;
           font-size: 20px;
+
+          &.profession {
+            margin-bottom: 0;
+          }
         }
 
         p {
@@ -317,6 +441,12 @@
           &.personality {
             text-indent: 0;
             margin-top: 36px;
+          }
+
+          &.web {
+            text-align: center;
+            margin: 0;
+            text-indent: 0;
           }
 
           .dot {
@@ -391,6 +521,13 @@
     .button {
       display: flex;
 
+      .revert {
+        cursor: pointer;
+        color: #fff;
+        padding: 8px;
+        margin-right: 8px;
+      }
+
       .save {
         cursor: pointer;
         padding: 8px;
@@ -417,15 +554,21 @@
   }
 
   @media only screen and (max-width: 700px) {
-    .content {
-      flex-direction: column-reverse!important;
-
-      .main {
-        padding: 12px 12px 12px 50px!important;
+    .wrap {
+      .scroll-bar {
+        display: none;
       }
 
-      .side-bar {
-        padding: 12px!important;
+      .content {
+        flex-direction: column-reverse!important;
+  
+        .main {
+          padding: 36px 12px 36px 50px!important;
+        }
+  
+        .side-bar {
+          padding: 36px 12px!important;
+        }
       }
     }
   }
