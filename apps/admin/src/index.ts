@@ -1,7 +1,7 @@
 import Resume, { MODE } from 'atat-common/lib/modules/resume';
-import { login as loginService } from 'atat-common/lib/services/admin';
+import { login as loginService, logout, updateResume } from 'atat-common/lib/services/admin';
 import { getResumeData } from 'atat-common/lib/services/intro';
-import Message from 'atat-common/lib/modules/message';
+import message from 'atat-common/lib/modules/message';
 import { throttle } from 'atat-common/lib/utils';
 import Login from './components/login';
 import Panel from './components/panel';
@@ -11,16 +11,7 @@ import 'atat-common/lib/modules/message/index.css';
 import './styles';
 
 const
-  message = new Message(),
-  messageDom = message.getDom(),
-  resume = new Resume(getResumeData().then((res) => {
-    if (!res.success) {
-      message.error('Failed to get resume.');
-      return;
-    }
-
-    return res.data;
-  }), { show: false, mode: MODE.EDIT }),
+  resume = new Resume({ show: false, mode: MODE.EDIT }),
   resumeDom = resume.getDom(),
   login = new Login(),
   loginDom = login.getDom(),
@@ -28,13 +19,46 @@ const
   panelDom = panel.getDom(),
   app = document.getElementById('app');
 
+getResumeData().then((res) => {
+  if (!res.success) {
+    message.error('Failed to get resume.');
+    return;
+  }
+
+  resume.setRsumeData(res.data);
+});
+
+resume.onSave = (data) => {
+  message.info('Saving.');
+  updateResume({ resume: data }).then((res) => {
+    if (res.success) {
+      message.success('Updated.');
+      return;
+    }
+    message.error('Update failed.');
+  });
+};
+
 let initialized = false;
 
-app.append(resumeDom, loginDom, messageDom, panelDom);
+app.append(resumeDom, loginDom, panelDom);
 resume.resize();
 
 panel.resumeClick = () => {
   resume.show();
+};
+
+panel.logoutClick = () => {
+  message.info('Logging out');
+  logout().then((res) => {
+    if (res.success) {
+      login.show();
+      panel.hide();
+      message.success('You are logged out.');
+    }
+  }).catch(() => {
+    message.error('Something is wrong.');
+  });
 };
 
 login.onClick = (password: string) => {
@@ -78,7 +102,6 @@ login.onSubmit();
 
 window.onresize = () => {
   resume.resize();
-  message.resize();
 };
 
 const checkActivity = () => {
@@ -94,3 +117,12 @@ window.onmousemove = () => {
   // activity checking
   throttle(checkActivity, 120000, false);
 };
+
+const handleDoubleClick = () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+  }
+};
+document.addEventListener('dblclick', handleDoubleClick, false);

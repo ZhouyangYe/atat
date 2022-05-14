@@ -1,15 +1,7 @@
 const fs = require('fs');
 const { encryptPassword } = require('@/utils/encryption');
 
-const comparePassword = (req, res, next, extra) => {
-  if (extra && extra.loggedIn) {
-    res.json({
-      success: true,
-    });
-
-    return;
-  }
-
+const comparePassword = (req, res, next) => {
   if (!req.body || !req.body.password) {
     res.json({
       success: false,

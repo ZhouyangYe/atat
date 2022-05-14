@@ -47,3 +47,4 @@ TODOs:
   37. upgrade eslint ✔
   38. file uploading
   39. login system ✔
+  40. blog system

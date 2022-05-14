@@ -27,31 +27,6 @@ const applyMiddleware = (req, res, middleware, cb) => {
   middleware[i](req, res, next, extra);
 };
 
-// Iterate and run middleware (deprecated)
-// const applyMiddleware = (type, req, res, middleware, cb) => {
-//   let shouldRunNext = true;
-//   let extra = {};
-
-//   for (let i = 0, length = middleware.length; i < length; i++) {
-//     if (shouldRunNext) {
-//       shouldRunNext = false;
-//       let next = (data) => {
-//         shouldRunNext = true;
-//         extra = { ...extra, ...data };
-//       };
-//       if (i === middleware.length - 1) {
-//         next = (data) => {
-//           extra = { ...extra, ...data };
-//           cb(req, res, extra);
-//         };
-//       }
-//       middleware[i](req, res, next, extra);
-//     } else {
-//       break;
-//     }
-//   }
-// };
-
 const getMethod = (type) => {
   const method = (pattern, cb, middleware = []) => {
     const combinedMiddleware = [...serverMiddleware, ...middleware];

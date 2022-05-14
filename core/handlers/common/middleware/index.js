@@ -1,6 +1,8 @@
+const logger = require('@/utils/logger');
+
 const testMiddlewareHandler = (req, res, next) => {
-  console.log('middleware');
-  console.log(req.url);
+  logger.info('middleware');
+  logger.info(req.url);
   next({ t: 'hello' });
 };
 

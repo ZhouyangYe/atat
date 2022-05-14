@@ -1,4 +1,4 @@
-#message {
+.atat-message {
   @posY: 100px;
 
   z-index: 1001;
@@ -7,9 +7,11 @@
   font-size: 16px;
   background-color: #fff;
   border-radius: 6px;
-  box-shadow: 1px 2px 3px 1px #08283a;
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.6);
   overflow: hidden;
   line-height: 16px;
+  cursor: default;
+  transition: top 0.5s ease;
 
   img {
     border-radius: 2px;
@@ -39,11 +41,9 @@
 
   &.show {
     top: 12px;
-    transition: top 0.1s ease;
   }
 
   &.hide {
     top: -100px;
-    transition: none;
   }
 }

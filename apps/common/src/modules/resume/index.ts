@@ -1,4 +1,5 @@
-import { IResume, IResumeLan } from '@/services/intro';
+import { IResume, IResumeLan } from '@/services/interface';
+import { doAnimationInterval } from '@/utils';
 
 import './index.less';
 
@@ -75,12 +76,23 @@ class Resume {
       resume: null,
     },
   };
+  onSave: (resume: IResume) => void;
 
   getDom(): HTMLDivElement {
     return this.resume;
   }
 
-  constructor(getResumeData: Promise<IResume | undefined>, config?: CONFIG) {
+  setRsumeData(res: IResume): void {
+    this.origin_data = JSON.parse(JSON.stringify(res));
+    this.locale.ch.resume = res.ch;
+    this.locale.en.resume = res.en;
+    this.content.innerHTML = this.getResumeContent();
+    this.loadingBar.style.display = 'none';
+    this.loading = false;
+    this.resize();
+  }
+
+  constructor(config?: CONFIG) {
     const {
       show = false,
       mode = MODE.PREVIEW,
@@ -88,18 +100,6 @@ class Resume {
     this.showOnDefault = show;
     this.mode = mode;
     this.render();
-    getResumeData.then((res) => {
-      if (!res) {
-        return;
-      }
-      this.origin_data = JSON.parse(JSON.stringify(res));
-      this.locale.ch.resume = res.ch;
-      this.locale.en.resume = res.en;
-      this.content.innerHTML = this.getResumeContent();
-      this.loadingBar.style.display = 'none';
-      this.loading = false;
-      this.resize();
-    });
   }
 
   private renderTools(str: string): string {
@@ -159,6 +159,41 @@ class Resume {
 
       scrollTo(y);
     };
+
+    let cancelSlide: () => void = null;
+
+    wrap.ontouchstart = (event) => {
+      if (cancelSlide) cancelSlide();
+      event.preventDefault();
+      const initY = event.touches[0].clientY;
+      const initTop = this.content.offsetTop;
+      this.content.style.transition = 'none';
+      let prevY = initY;
+      let speed = 0;
+
+      wrap.ontouchmove = (e) => {
+        e.stopPropagation();
+        const movedTop = e.touches[0].clientY;
+        speed = movedTop - prevY;
+        prevY = movedTop;
+        y = getTop(initTop - initY + movedTop);
+        scrollTo(y);
+      };
+
+      wrap.ontouchend = () => {
+        wrap.ontouchmove = (e) => { e.stopPropagation(); };
+        wrap.ontouchend = null;
+        this.content.style.transition = 'top 0.2s ease';
+        speed *= 50;
+        cancelSlide = doAnimationInterval(() => {
+          scrollTo(getTop(this.content.offsetTop + speed));
+          speed *= 0.8;
+          if (Math.abs(speed) < 1) {
+            cancelSlide();
+          }
+        });
+      };
+    }
 
     const getBarTop = (barY: number) => {
       if (barY < 0) {
@@ -897,6 +932,10 @@ class Resume {
       if (this.loading) return;
 
       if (this.mode === MODE.EDIT) {
+        if (this.onSave) this.onSave({
+          ch: this.locale.ch.resume,
+          en: this.locale.en.resume,
+        });
         return;
       }
 

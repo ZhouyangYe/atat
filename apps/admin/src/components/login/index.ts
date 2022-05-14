@@ -100,6 +100,12 @@ class Login {
       e.stopPropagation();
     };
 
+    this.input.onkeydown = (e) => {
+      if (e.key.toLowerCase() === 'enter') {
+        this.submit();
+      }
+    }
+
     this.login.onclick = this.submit;
   }
 }

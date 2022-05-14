@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const cookie = require('cookie');
 const { session } = require('../utils');
+const { resumeHandler } = require('./handlers');
 
 const adminHandler = (req, res) => {
   res.html('admin');
@@ -27,35 +28,14 @@ const loginHandler = (req, res) => {
   });
 };
 
-const logoutHandler = (req, res, extra) => {
-  if (extra.loggedIn) {
-    clearTimeout(session.admin.session_timer);
-    session.admin.ip = null;
-    session.admin.session_id = null;
-
-    res.json({
-      success: true,
-    });
-    return;
-  }
+const logoutHandler = (req, res) => {
+  clearTimeout(session.admin.session_timer);
+  session.admin.ip = null;
+  session.admin.session_id = null;
 
   res.json({
     success: true,
-    data: 'Already logged out.',
-  })
-};
-
-const resumeHandler = (req, res, extra) => {
-  if (!extra.loggedIn) {
-    res.json({
-      success: false,
-      errorCode: 401,
-      errorMessage: 'Not authorized.',
-    });
-    return;
-  }
-
-  console.log(req.body);
+  });
 };
 
 module.exports = {

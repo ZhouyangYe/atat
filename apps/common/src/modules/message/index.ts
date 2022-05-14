@@ -9,63 +9,62 @@ export enum MODE {
   INFO = 'info',
 }
 
+const icons = {
+  success: '/@resources/static/icons/cat.svg',
+  error: '/@resources/static/icons/dragon.svg',
+  alert: '/@resources/static/icons/dog.svg',
+  info: '/@resources/static/icons/pigeon.svg',
+};
+
+for (const key in icons) {
+  const img = new Image();
+  img.src = (icons as any)[key];
+}
+
 class Message {
-  private message: HTMLDivElement;
-  private icons = {
-    success: document.createElement('img'),
-    error: document.createElement('img'),
-    alert: document.createElement('img'),
-    info: document.createElement('img'),
-  };
   private timer: NodeJS.Timeout;
 
-  getDom(): HTMLDivElement {
-    return this.message;
-  }
+  private static showMessage(msg: string, mode: MODE): void {
+    const message = document.createElement('div'), icon = document.createElement('img');
+    icon.src = icons[mode];
+    message.className = 'atat-message hide';
+    message.innerHTML = '';
+    message.append(icon, msg);
+    document.body.append(message);
+    const resize = () => {
+      message.style.left = `${(screen.width - message.clientWidth) / 2}px`;
+    };
+    setTimeout(() => {
+      resize();
+      message.className = `atat-message ${mode} show`;
+    }, 18);
+    message.onmousedown = (e) => {
+      e.preventDefault();
+    }
 
-  resize(): void {
-    this.message.style.left = `${(screen.width - this.message.clientWidth) / 2}px`;
-  }
-
-  constructor() {
-    this.message = document.createElement('div');
-    this.message.id = 'message';
-    this.message.className = 'hide';
-    this.icons.success.src = '/@resources/static/icons/cat.svg';
-    this.icons.error.src = '/@resources/static/icons/dragon.svg';
-    this.icons.alert.src = '/@resources/static/icons/dog.svg';
-    this.icons.info.src = '/@resources/static/icons/pigeon.svg';
-  }
-
-  private hideAfterDelay(): void {
-    clearTimeout(this.timer);
-    this.timer = setTimeout(() => {
-      this.message.className = 'hide';
+    window.addEventListener('resize', resize, false);
+    setTimeout(() => {
+      message.className = 'atat-message hide';
+      window.removeEventListener('resize', resize, false);
+      setTimeout(() => {
+        message.remove();
+      }, 500);
     }, delay);
   }
 
-  private showMessage(msg: string, mode: MODE): void {
-    this.message.className = 'hide';
-    this.message.innerHTML = '';
-    this.message.append(this.icons[mode], msg);
-    this.message.style.left = `calc(50% - ${this.message.clientWidth}px / 2)`;
-    this.message.className = `${mode} show`;
-    this.hideAfterDelay();
-  }
-
-  success(msg: string): void {
+  static success(msg: string): void {
     this.showMessage(msg, MODE.SUCCESS);
   }
   
-  error(msg: string): void {
+  static error(msg: string): void {
     this.showMessage(msg, MODE.ERROR);
   }
 
-  info(msg: string): void {
+  static info(msg: string): void {
     this.showMessage(msg, MODE.INFO);
   }
 
-  alert(msg: string): void {
+  static alert(msg: string): void {
     this.showMessage(msg, MODE.ALERT);
   }
 }

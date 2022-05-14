@@ -1,38 +1,14 @@
 @keyframes floating {
   0% {
-    transform: perspective(400px) translateZ(0px);
-  }
-
-  12% {
-    transform: perspective(400px) translateZ(-5px);
-  }
-
-  25% {
-    transform: perspective(400px) translateZ(-1px);
-  }
-
-  37% {
-    transform: perspective(400px) translateZ(-5px);
+    transform: perspective(400px) translateZ(-60px);
   }
 
   50% {
-    transform: perspective(400px) translateZ(-2px);
-  }
-
-  62% {
-    transform: perspective(400px) translateZ(-5px);
-  }
-
-  75% {
-    transform: perspective(400px) translateZ(6px);
-  }
-
-  87% {
-    transform: perspective(400px) translateZ(-5px);
+    transform: perspective(400px) translateZ(60px);
   }
 
   100% {
-    transform: perspective(400px) translateZ(0px);
+    transform: perspective(400px) translateZ(-60px);
   }
 }
 
@@ -41,6 +17,7 @@
   display: none;
   padding: 66px;
   transition: transform @duration ease;
+  flex-wrap: wrap;
 
   &.show {
     transform: scale(1, 1);
@@ -52,14 +29,42 @@
 
   .resume {
     flex-grow: 1;
+    text-align: center;
+    transform: rotate(-30deg);
+
     img {
+      width: 150px;
       cursor: pointer;
-      animation: floating 5s ease-out infinite;
+      animation: floating 0.8s linear infinite;
       border-radius: 6px;
       border: 1px solid rgb(29, 54, 99);
       box-shadow: 2px 3px 6px 1px #08283a;
-      display: block;
+      display: inline-block;
       width: 150px;
+
+      &:hover {
+        animation: none;
+      }
+
+      &:active {
+        animation: none;
+        box-shadow: none;
+        transform: perspective(400px) translateZ(-6px);
+        transition: box-shadow 0.1s ease, transform 0.1s ease;
+      }
+    }
+  }
+
+  .logout {
+    flex-grow: 1;
+    text-align: center;
+
+    img {
+      cursor: pointer;
+      width: 150px;
+      animation: floating 0.8s linear infinite;
+      animation-delay: 0.3s;
+      box-shadow: 2px 3px 6px 1px #08283a;
 
       &:hover {
         animation: none;

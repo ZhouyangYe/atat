@@ -1,7 +1,7 @@
 const cookie = require('cookie');
 const { session } = require('../../utils');
 
-const checkWhetherLoggedIn = (req, res, next) => {
+const checkWhetherAlreadyLoggedIn = (req, res, next) => {
   const cookies = cookie.parse(req.headers.cookie || '');
 
   if (cookies.atat_id === session.admin.session_id) {
@@ -11,15 +11,14 @@ const checkWhetherLoggedIn = (req, res, next) => {
       session.admin.ip = null;
     }, session.admin.expire_time);
 
-    next();
+    res.json({
+      success: true,
+    });
+
     return;
   }
-  
-  res.json({
-    success: false,
-    errorCode: 401,
-    errorMessage: 'Not authorized.',
-  });
+
+  next();
 };
 
-module.exports = checkWhetherLoggedIn;
+module.exports = checkWhetherAlreadyLoggedIn;
