@@ -418,6 +418,13 @@ class Resume {
     this.content = content;
     this.loadingBar = this.resume.querySelector<HTMLDivElement>('.loading-bar');
 
+    panel.ondblclick = (e) => {
+      e.stopPropagation();
+    };
+    panel.onclick = (e) => {
+      e.stopPropagation();
+    };
+
     let commit: () => boolean;
 
     if (this.mode === MODE.EDIT) {

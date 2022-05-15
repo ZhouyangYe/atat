@@ -35,6 +35,10 @@ resume.onSave = (data) => {
       message.success('Updated.');
       return;
     }
+    
+    if (res.errorCode === 401) {
+      login.show();
+    }
     message.error('Update failed.');
   });
 };
@@ -115,6 +119,11 @@ const checkActivity = () => {
 
 window.onmousemove = () => {
   // activity checking
+  throttle(checkActivity, 120000, false);
+};
+document.onkeydown = () => {
+  // activity checking
+  console.log('in!');
   throttle(checkActivity, 120000, false);
 };
 

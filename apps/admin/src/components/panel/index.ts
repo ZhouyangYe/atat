@@ -58,6 +58,9 @@ class Panel {
 
     this.panel.append(this.logout, this.resume);
 
+    this.panel.onmousedown = (e) => {
+      e.preventDefault();
+    };
     photo.onclick = () => {
       if (this.resumeClick) this.resumeClick();
     };
