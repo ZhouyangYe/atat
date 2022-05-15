@@ -5,6 +5,8 @@ A little bit this, a little bit that.
   
 There is no specific plan for creating this website, just trying to come up with some interesting ideas and implement them here using web technologies as a practice.  
 Dev tools：cmder + git bash, vscode, phpmyadmin.  
+
+<img align="right" height="305" width="305" src="https://github.com/ZhouyangYe/ZhouyangYe/blob/master/resources/github/cli.png" />
   
 TODOs:
   1. Test nested api path logic ✔
