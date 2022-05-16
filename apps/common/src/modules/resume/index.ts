@@ -239,7 +239,45 @@ class Resume {
   private getResumeContent(): string {
     const resume = this.locale[this.lan].resume;
     return `
-      <div class='main'>
+      <div class='main ${this.lan}'>
+        <h2 id='experience' class='experience'>
+          <img class='icon' src='/@resources/static/resume/work.png' />${this.getText(['工作经历', 'EXPERIENCE'])}
+          ${this.renderTools(`<div class='options'><img data-name='${SECTION.EXPERIENCE}' data-action='${ACTION.ADD}' src='/@resources/static/icons/add.svg'></div>`)}
+        </h2>
+        ${resume.experience.map((e, i) => {
+          return `
+            <h3>
+              ${e.title}
+              ${this.renderTools(`
+                <div class='options'>
+                  <img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'>
+                  <img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.DELETE}' src='/@resources/static/icons/delete.svg'>
+                  ${i === 0 ? '' : `<img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.UP}' src='/@resources/static/icons/up.svg'>`}
+                  ${i === resume.experience.length - 1 ? '' : `<img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.DOWN}' src='/@resources/static/icons/down.svg'>`}
+                </div>
+              `)}
+            </h3>
+            ${e.time !== '\\empty' ? `
+              <p>
+                <img src='/@resources/static/resume/calendar.png' />
+                <span>${e.time}</span>
+              </p>
+            ` : ''}
+            ${e.company !== '\\empty' ? `
+              <p>
+                <img src='/@resources/static/resume/company.png' />
+                <span>${e.company}</span>
+              </p>
+            ` : ''}
+            <ul>
+              ${e.disc.map((d) => {
+                return `
+                  <li><div class='dot'></div>${d}</li>
+                `;
+              }).join('')}
+            </ul>
+          `;
+        }).join('')}
         <h2 id='education' class='education'>
           <img class='icon' src='/@resources/static/resume/education.png' />${this.getText(['教育经历', 'EDUCATION'])}
           ${this.renderTools(`<div class='options'><img data-name='${SECTION.EDUCATION}' data-action='${ACTION.ADD}' src='/@resources/static/icons/add.svg'></div>`)}
@@ -267,57 +305,8 @@ class Resume {
             </p>
           `;
         }).join('')}
-        <h2 id='experience' class='experience'>
-          <img class='icon' src='/@resources/static/resume/work.png' />${this.getText(['工作经历', 'EXPERIENCE'])}
-          ${this.renderTools(`<div class='options'><img data-name='${SECTION.EXPERIENCE}' data-action='${ACTION.ADD}' src='/@resources/static/icons/add.svg'></div>`)}
-        </h2>
-        ${resume.experience.map((e, i) => {
-          return `
-            <h3>
-              ${e.title}
-              ${this.renderTools(`
-                <div class='options'>
-                  <img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'>
-                  <img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.DELETE}' src='/@resources/static/icons/delete.svg'>
-                  ${i === 0 ? '' : `<img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.UP}' src='/@resources/static/icons/up.svg'>`}
-                  ${i === resume.experience.length - 1 ? '' : `<img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.DOWN}' src='/@resources/static/icons/down.svg'>`}
-                </div>
-              `)}
-            </h3>
-            <p>
-              <img src='/@resources/static/resume/calendar.png' />
-              <span>${e.time}</span>
-            </p>
-            <p>
-              <img src='/@resources/static/resume/company.png' />
-              <span>${e.company}</span>
-            </p>
-            <ul>
-              ${e.disc.map((d) => {
-                return `
-                  <li><div class='dot'></div>${d}</li>
-                `;
-              }).join('')}
-            </ul>
-          `;
-        }).join('')}
-        <h2 id='skills' class='skills'>
-          <img class='icon' src='/@resources/static/resume/skill.png' />${this.getText(['职业技能', 'TECHNICAL SKILLS'])}
-          ${this.renderTools(`<div class='options'><img data-name='${SECTION.TECHSKILL}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
-        </h2>
-        <p class='skills'>
-          ${resume.techSkill.skill.map((ts) => {
-            return `<span>${ts}</span>`;
-          }).join(`<span class='dot'></span>`)}
-        </p>
-        <p class='skills'>
-          <span>${this.getText(['熟悉', 'Familiar with'])}: </span>
-          ${resume.techSkill.familiar.map((ts) => {
-            return `<span>${ts}</span>`;
-          }).join(`<span class='dot'></span>`)}
-        </p>
       </div>
-      <div class='side-bar'>
+      <div class='side-bar ${this.lan}'>
         <img class='photo' src='/@resources/static/resume/photo.jpg'>
         <h2 id='name' class='name'>
           ${resume.name}
@@ -334,7 +323,7 @@ class Resume {
             <p class='about-${i} about'>${a}</p>
           `;
         }).join('')}
-        <p class='personality'>${this.getText(['个人能力', 'Personality'])}:&nbsp;&nbsp;&nbsp; ${resume.skill.map((s) => `<span>${s}</span>`).join(`<span class='dot'></span>`)}</p>
+        <p class='personality'>${this.getText(['个人能力', 'Skills'])}:&nbsp;&nbsp;&nbsp; ${resume.skill.map((s) => `<span>${s}</span>`).join(`<span class='dot'></span>`)}</p>
         <h2 id='contact' class='contact'>
           <img class='icon' src='/@resources/static/resume/contact.png'>${this.getText(['联系方式', 'Contact'])}
           ${this.renderTools(`<div class='options'><img data-name='${SECTION.CONTACT}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
@@ -344,14 +333,29 @@ class Resume {
         <p class='info'><img src='/@resources/static/resume/wechat.png'>${resume.contact.wechat}</p>
         <p class='info'><img src='/@resources/static/resume/location.png'>${resume.contact.location}</p>
         <p class='info'><img src='/@resources/static/resume/github.png'>${resume.contact.github}</p>
+        <h2 id='skills' class='skills'>
+          <img class='icon' src='/@resources/static/resume/skill.png' />${this.getText(['职业技能', 'Tech skill'])}
+          ${this.renderTools(`<div class='options'><img data-name='${SECTION.TECHSKILL}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
+        </h2>
+        <p class='skills'>
+          ${resume.techSkill.skill.map((ts) => {
+            return `<span>${ts}</span>`;
+          }).join(`<span class='dot'></span>`)}
+        </p>
+        <p class='skills'>
+          <span>${this.getText(['熟悉', 'Familiar with'])}: </span>
+          ${resume.techSkill.familiar.map((ts) => {
+            return `<span>${ts}</span>`;
+          }).join(`<span class='dot'></span>`)}
+        </p>
         <h2 id='interests' class='bottom'>
-          <img class='icon' src='/@resources/static/resume/interests.png'>${this.getText(['兴趣爱好', 'Interests'])}
+          <img class='icon' src='/@resources/static/resume/interests.png'>${this.getText(['兴趣爱好', 'Hobby'])}
           ${this.renderTools(`<div class='options'><img data-name='${SECTION.INTERESTS}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
         </h2>
         <div class='interests'>
           ${resume.interests.map((i) => {
             return `
-              <div><img src='${i}'></div>
+              <div><span class='dot'></span>${i}</div>
             `;
           }).join('')}
         </div>
@@ -418,12 +422,14 @@ class Resume {
     this.content = content;
     this.loadingBar = this.resume.querySelector<HTMLDivElement>('.loading-bar');
 
-    panel.ondblclick = (e) => {
-      e.stopPropagation();
-    };
-    panel.onclick = (e) => {
-      e.stopPropagation();
-    };
+    if (panel) {
+      panel.ondblclick = (e) => {
+        e.stopPropagation();
+      };
+      panel.onclick = (e) => {
+        e.stopPropagation();
+      };
+    }
 
     let commit: () => boolean;
 
@@ -584,10 +590,10 @@ class Resume {
                   const [positionCh, timeCh, employerCh] = Array.from(inputsCh).map((input) => input.value.trim());
                   const [positionEn, timeEn, employerEn] = Array.from(inputsEn).map((input) => input.value.trim());
                   const experienceChValue = experienceCh.value.trim();
-                  const experienceEnValue = experienceCh.value.trim();
+                  const experienceEnValue = experienceEn.value.trim();
                   if (positionCh && timeCh && employerCh && experienceChValue && positionEn && timeEn && employerEn && experienceEnValue) {
-                    const discCh = experienceCh.value.split('\n').map((str) => str.trim());
-                    const discEn = experienceEn.value.split('\n').map((str) => str.trim());
+                    const discCh = experienceChValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
+                    const discEn = experienceEnValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
                     text_ch.resume.experience.unshift({
                       title: positionCh,
                       time: timeCh,
@@ -631,10 +637,10 @@ class Resume {
                   const [positionCh, timeCh, employerCh] = Array.from(inputsCh).map((input) => input.value.trim());
                   const [positionEn, timeEn, employerEn] = Array.from(inputsEn).map((input) => input.value.trim());
                   const experienceChValue = experienceCh.value.trim();
-                  const experienceEnValue = experienceCh.value.trim();
+                  const experienceEnValue = experienceEn.value.trim();
                   if (positionCh && timeCh && employerCh && experienceChValue && positionEn && timeEn && employerEn && experienceEnValue) {
-                    const discCh = experienceCh.value.split('\n').map((str) => str.trim()).filter((str) => !!str);
-                    const discEn = experienceEn.value.split('\n').map((str) => str.trim()).filter((str) => !!str);
+                    const discCh = experienceChValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
+                    const discEn = experienceEnValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
                     text_ch.resume.experience[index].title = positionCh;
                     text_ch.resume.experience[index].time = timeCh;
                     text_ch.resume.experience[index].company = employerCh;
@@ -859,26 +865,28 @@ class Resume {
             showEditor();
             editorCh.innerHTML = `
               <div class='line'><h3>中文</h3></div>
-              <div class='line'><span class='title'>一:</span><input style='width: 360px' type='text' ></div>
-              <div class='line'><span class='title'>二:</span><input style='width: 360px' type='text' ></div>
-              <div class='line'><span class='title'>三:</span><input style='width: 360px' type='text' ></div>
-              <div class='line'><span class='title'>四:</span><input style='width: 360px' type='text' ></div>
-              <div class='line'><span class='title'>五:</span><input style='width: 360px' type='text' ></div>
-              <div class='line'><span class='title'>六:</span><input style='width: 360px' type='text' ></div>
+              <div class='line'><span class='title'>兴趣爱好:</span><textarea cols='21' rows='6' ></div>
+            `;
+            editorEn.innerHTML = `
+              <div class='line'><h3>English</h3></div>
+              <div class='line'><span class='title'>Interests:</span><textarea cols='21' rows='6' ></div>
             `;
 
-            const interests = editorCh.querySelectorAll('input');
+            const
+              interestsCh = editorCh.querySelector('textarea'),
+              interestsEn = editorEn.querySelector('textarea');
 
-            interests.forEach((interest, i) => {
-              interest.value = text_ch.resume.interests[i];
-            });
+            interestsCh.value = text_ch.resume.interests.join('\n\n');
+            interestsEn.value = text_en.resume.interests.join('\n\n');
 
             commit = () => {
-              const links = Array.from(interests).map((interest) => interest.value.trim()).filter((interest) => !!interest);
-
-              if (links.length === 6) {
-                text_ch.resume.interests = links;
-                text_en.resume.interests = links;
+              const
+                interestCh = interestsCh.value.trim().split('\n').map((str) => str.trim()).filter((str) => !!str),
+                interestEn = interestsEn.value.trim().split('\n').map((str) => str.trim()).filter((str) => !!str);
+                
+              if (interestCh.length && interestEn.length) {
+                text_ch.resume.interests = interestCh;
+                text_en.resume.interests = interestEn;
                 return true;
               }
               return false;

@@ -117,14 +117,16 @@ const checkActivity = () => {
   });
 };
 
+// activity checking
 window.onmousemove = () => {
-  // activity checking
-  throttle(checkActivity, 120000, false);
+  throttle(checkActivity, 60000, false);
 };
-document.onkeydown = () => {
-  // activity checking
-  console.log('in!');
-  throttle(checkActivity, 120000, false);
+resumeDom.onwheel = undefined;
+window.onwheel = () => {
+  throttle(checkActivity, 60000, false);
+};
+window.onkeydown = () => {
+  throttle(checkActivity, 60000, false);
 };
 
 const handleDoubleClick = () => {

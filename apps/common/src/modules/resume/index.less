@@ -120,6 +120,7 @@
   }
 
   .wrap {
+    background-color: #fff;
     flex-grow: 1;
     font-family: 'Times New Roman', Times, serif, '宋体';
     overflow: hidden;
@@ -201,6 +202,16 @@
         flex-grow: 5;
         flex-shrink: 2;
 
+        &.en {
+          h2 {
+            margin-top: 18px;
+          }
+
+          ul {
+            margin-bottom: 12px;
+          }
+        }
+
         h2,
         h3 {
           color: @mainColor;
@@ -208,7 +219,7 @@
         }
 
         h2 {
-          margin: 36px 0 8px;
+          margin: 30px 0 8px;
           font-size: 25px;
           position: relative;
           line-height: 25px;
@@ -219,7 +230,7 @@
             top: 0;
           }
 
-          &.education {
+          &.experience {
             margin-top: 0;
           }
 
@@ -280,7 +291,7 @@
         }
 
         p {
-          margin: 8px 0;
+          margin: 6px 0;
           font-size: 16px;
 
           img {
@@ -296,7 +307,7 @@
           }
 
           &.last {
-            margin-bottom: 16px;
+            margin-bottom: 10px;
           }
         }
 
@@ -318,15 +329,6 @@
             }
           }
         }
-
-        .skills {
-          text-align: justify;
-
-          .dot {
-            margin: 0 8px;
-            display: inline-block;
-          }
-        }
       }
 
       .side-bar {
@@ -345,10 +347,10 @@
         }
 
         h2 {
-          @offset: 50px;
+          @offset: 36px;
           font-weight: normal;
           font-size: 28px;
-          margin: 50px 0 18px;
+          margin: 40px 0 18px;
           margin-left: @offset;
           position: relative;
 
@@ -362,6 +364,13 @@
             position: absolute;
             left: -@offset;
             top: 0;
+          }
+
+          &.skills {
+            .icon {
+              width: 22px;
+              top: 5px;
+            }
           }
           
           .options {
@@ -408,6 +417,12 @@
           margin: 8px 0;
           font-size: 16px;
 
+          &.skills {
+            font-size: 13px;
+            text-indent: 0;
+            text-align: justify;
+          }
+
           &.about-0 {
             text-indent: 0;
           }
@@ -422,7 +437,7 @@
             font-size: 18px;
             line-height: 18px;
             margin: 18px 0;
-            margin-left: 52px;
+            margin-left: 38px;
             word-break: break-all;
 
             &.email {
@@ -434,7 +449,7 @@
               width: 17px;
               height: 18px;
               top: 0;
-              left: -45px;
+              left: -31px;
             }
           }
 
@@ -467,15 +482,14 @@
           flex-wrap: wrap;
 
           div {
-            display: flex;
-            width: 33%;
-            justify-content: center;
-            align-items: flex-end;
-            height: 60px;
+            text-indent: 22px;
+            margin: 6px 0;
+            text-align: justify;
 
-            img {
-              max-width: 32px;
-              max-height: 50px;
+            .dot {
+              background-color: white;
+              display: inline-block;
+              margin-right: 10px;
             }
           }
         }
@@ -488,7 +502,7 @@
       right: 0;
       opacity: 0;
       width: 8px;
-      height: 80px;
+      height: 160px;
       margin: 0 2px;
       border-radius: 3px;
       background-color: #000;
