@@ -45,7 +45,7 @@ class Login {
     this.login.onclick = undefined;
     this.login.classList.add('hide');
     this.timer = setTimeout(() => {
-    this.login.style.display = 'none';
+      this.login.style.display = 'none';
     }, 200);
   }
 
@@ -93,6 +93,10 @@ class Login {
     };
 
     this.input.onclick = (e) => {
+      e.stopPropagation();
+    };
+
+    this.input.ondblclick = (e) => {
       e.stopPropagation();
     };
 
