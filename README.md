@@ -41,7 +41,7 @@ TODOs:
   30. tree shaking
   31. unit test
   32. graphql
-  33. upgrade webpack
+  33. upgrade webpack ✔
   34. 2D physics engine
   35. resume page ✔
   39. resume editor ✔
@@ -51,3 +51,4 @@ TODOs:
   39. login system ✔
   40. blog system
   41. todo list
+  42. HMR

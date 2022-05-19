@@ -31,8 +31,8 @@ const buildModule = (appName, mode, handler, start, done) => {
       }
       handler(name, percentage);
     } else {
-      const { name, err } = data;
-      done(name, err);
+      const { name, err, warning } = data;
+      done(name, err, warning);
       isStarted = false;
     }
   });

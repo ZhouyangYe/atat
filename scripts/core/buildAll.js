@@ -42,7 +42,7 @@ const start = (name) => {
   });
 };
 
-const done = (name, err) => {
+const done = (name, err, warning) => {
   statusMetaMap[name].done = true;
   statusMetaMap[name].cancelTimer();
   const icon = err ? failIcon : successIcon;
@@ -61,6 +61,9 @@ const done = (name, err) => {
 
   if (err) {
     statusMetaMap[name].error = err;
+  }
+  if (warning) {
+    statusMetaMap[name].warning = warning;
   }
 
   // If module 'common' has done building, sync it to node_modules and then start building other modules,

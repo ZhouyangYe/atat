@@ -30,6 +30,7 @@ module.exports = {
           },
           {
             loader: 'less-loader', // compile less
+            options: {},
           },
         ],
       },

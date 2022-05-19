@@ -29,12 +29,21 @@ requireAsync(getPath(name)).then((config = {}) => {
   plugin.apply(compiler);
 
   const handler = (err, stats) => {
-    const error = stats.hasErrors() ? stats.toString() : err;
-    parentPort.postMessage({
-      type: WEBPACK_MESSAGE_TYPE.DONE,
-      err: error,
-      name,
-    });
+    const info = stats.toJson();
+    const error = stats.hasErrors() ? info.errors.map((e) => {
+      return `${e.moduleName}\n${e.message}`;
+    }).join('\n\n') : err;
+    const warning = stats.hasWarnings() ? info.warnings : '';
+
+    // webpack 5 bug, handler is called before ProgressPlugin ends.
+    setTimeout(() => {
+      parentPort.postMessage({
+        type: WEBPACK_MESSAGE_TYPE.DONE,
+        err: error,
+        warning,
+        name,
+      });
+    }, 0);
   };
 
   if (mode === BUILD_MODE.BUILD) {
@@ -44,7 +53,6 @@ requireAsync(getPath(name)).then((config = {}) => {
       aggregateTimeout: 300,
     }, handler);
   }
-
 }).catch((err) => {
   parentPort.postMessage({
     type: WEBPACK_MESSAGE_TYPE.DONE,

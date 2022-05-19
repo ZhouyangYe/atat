@@ -37,10 +37,11 @@ const start = (name) => {
   });
 };
 
-const done = (name, err) => {
+const done = (name, err, warning) => {
   metaDatas[name].done = true;
   metaDatas[name].cancelTimer();
   metaDatas[name].error = err;
+  metaDatas[name].warning = warning;
 
   const icon = err ? failIcon : successIcon;
   metaDatas[name].icon = icon;

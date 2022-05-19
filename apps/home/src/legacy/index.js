@@ -144,37 +144,15 @@ function main() {
   var velocity = [velocityX, velocityY, velocityZ];
   var angleVelocity = [40.0, 40.0, 40.0];
   var FPS = 0.0;//frames per second
-  var count = 0;
-  var countI = 0;
-  var firstSample = [];
-  var FPSsum = 0.0;
-  var countFirst = 0;
   var dltTime = 0;
-  var location = [];
 
   initEventHandlers(canvas, currentAngle, move);
 
   var lastT = Date.now();
   var tick = function () {
     var nowT = Date.now();
-    count++;
-    if (count > 99) {// calculate the FPS, setting it to 1000 is too slow to get a sample, so I set it to 100.
-      count = 0;
-      dltTime = (nowT - lastT) / 1000;
-      lastT = nowT;
-      FPSsample = 100 / dltTime;
-      firstSample[countI] = FPSsample;
-      countI++;
-      if (countI > 127) {
-        FPSsum = FPSsum + FPSsample - firstSample[countFirst];
-        countFirst++;
-        FPS = FPSsum / 128;
-      }
-      else {
-        FPSsum += FPSsample;
-        FPS = FPSsum / countI;
-      }
-    }
+    FPS = 1000 / (nowT - lastT);
+    lastT = nowT;
     draw2D(ctx, FPS);
     draw(gl, dltTime, roomProgram, starProgram, u_MdlMatrix, mdlMatrix, u_NMdlMatrix, viewProjMatrix, u_MvpMatrix, move, currentAngle, bounce, velocity, bounceAngle, angleVelocity);
     requestAnimationFrame(tick, canvas);

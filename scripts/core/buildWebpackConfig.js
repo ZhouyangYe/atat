@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -57,10 +57,6 @@ const buildDevConfig = (config, name) => {
       if (rule.use) rule.use.forEach(loader => {
         if (loader.options) {
           loader.options.sourceMap = true;
-        } else {
-          loader.options = {
-            sourceMap: true,
-          };
         }
       });
     }
@@ -78,7 +74,6 @@ const buildProdConfig = (config, name) => {
   const cssMinifyPlugin = new OptimizeCSSAssetsPlugin({}); // minify css
 
   const jsMinifyPlugin = new TerserPlugin({ // uglify js
-    cache: true,
     parallel: true,
     terserOptions: {},
   });
@@ -91,6 +86,7 @@ const buildProdConfig = (config, name) => {
     }
   } else {
     completeConfig.optimization = {
+      minimize: true,
       minimizer: [cssMinifyPlugin, jsMinifyPlugin],
     };
   }
