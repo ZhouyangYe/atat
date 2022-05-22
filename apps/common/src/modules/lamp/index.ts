@@ -9,8 +9,8 @@ class Lamp {
   private lamp: HTMLDivElement;
   private autoHide: boolean;
   private isMouseOverLamp: boolean;
-  private autoHideTimer: NodeJS.Timer = null;
-  private onSwitch: (on: boolean) => void;
+  private autoHideTimer: NodeJS.Timer | undefined = undefined;
+  private onSwitch?: (on: boolean) => void;
   private on = false;
 
   getDom(): HTMLDivElement {

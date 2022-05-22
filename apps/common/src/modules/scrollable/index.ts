@@ -46,7 +46,7 @@ class ScrollableContainer {
   private isScrollBarMouseDown = false;
 
   /** timer to auto collapse scroll bar container */
-  private collapseTimer: NodeJS.Timeout = null;
+  private collapseTimer: NodeJS.Timeout | undefined = undefined;
 
   /** indicates if cursor is over scroll bar container */
   private isCursorOverBarContainer = false;
@@ -128,7 +128,7 @@ class ScrollableContainer {
   private buildScrollContainer = (): void => {
     const {
       autoHide = this.defaultConfig.color,
-      sensitiveIndicator = this.defaultConfig.sensitiveIndicator,
+      sensitiveIndicator = this.defaultConfig.sensitiveIndicator!,
     } = this.config;
 
     this.dom.style.overflow = 'hidden';
@@ -188,7 +188,7 @@ class ScrollableContainer {
    */
   private onScrollBarResize = (containerHeight: number, contentHeight: number) => {
     const {
-      speed = this.defaultConfig.speed,
+      speed = this.defaultConfig.speed!,
       smoothScrolling = this.defaultConfig.smoothScrolling,
     } = this.config;
 
@@ -292,7 +292,7 @@ class ScrollableContainer {
 
   private buildScrollBar = () => {
     const {
-      color = this.defaultConfig.color,
+      color = this.defaultConfig.color!,
     } = this.config;
 
     this.scrollBar = document.createElement('div');

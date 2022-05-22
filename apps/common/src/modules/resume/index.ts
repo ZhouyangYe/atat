@@ -64,7 +64,7 @@ class Resume {
       save: '保存',
       close: '关闭',
       lan: 'English',
-      resume: null,
+      resume: undefined,
     },
     en: {
       revert: 'Revert',
@@ -73,7 +73,7 @@ class Resume {
       save: 'Save',
       close: 'Close',
       lan: '中文',
-      resume: null,
+      resume: undefined,
     },
   };
   onSave: (resume: IResume) => void;
@@ -82,7 +82,7 @@ class Resume {
     return this.resume;
   }
 
-  setRsumeData(res: IResume): void {
+  setResumeData(res: IResume): void {
     this.origin_data = JSON.parse(JSON.stringify(res));
     this.locale.ch.resume = res.ch;
     this.locale.en.resume = res.en;
@@ -96,7 +96,7 @@ class Resume {
     const {
       show = false,
       mode = MODE.PREVIEW,
-    } = config;
+    } = config || {};
     this.showOnDefault = show;
     this.mode = mode;
     this.render();
@@ -115,15 +115,15 @@ class Resume {
     const
       wrap = this.resume.querySelector<HTMLDivElement>('.wrap'),
       scrollBar = this.resume.querySelector<HTMLDivElement>('.scroll-bar'),
-      containerHeight = wrap.clientHeight;
+      containerHeight = wrap!.clientHeight;
 
     const contentHeight = this.content.clientWidth * 1.4142;
     this.content.style.minHeight = `${contentHeight}px`;
-    scrollBar.style.top = '0';
+    scrollBar!.style.top = '0';
 
     const
       delta = containerHeight - this.content.clientHeight,
-      deltaHeight = containerHeight - scrollBar.clientHeight;
+      deltaHeight = containerHeight - scrollBar!.clientHeight;
 
     const getTop = (top: number) => {
       if (top > 0) {
@@ -141,10 +141,10 @@ class Resume {
         this.content.style.top = `${Math.floor(yAxis)}px`;
       };
 
-    let y = getTop(wrap.offsetTop);
+    let y = getTop(wrap!.offsetTop);
     scrollTo(y);
 
-    wrap.onwheel = (evt) => {
+    wrap!.onwheel = (evt) => {
       if (evt.deltaY > 0) {
         y -= speed;
       } else {
@@ -155,14 +155,14 @@ class Resume {
 
       const barRatio = y / delta;
       const barTop = deltaHeight * barRatio;
-      scrollBar.style.top = `${barTop}px`;
+      scrollBar!.style.top = `${barTop}px`;
 
       scrollTo(y);
     };
 
-    let cancelSlide: () => void = null;
+    let cancelSlide: (() => void) | undefined;
 
-    wrap.ontouchstart = (event) => {
+    wrap!.ontouchstart = (event) => {
       if (cancelSlide) cancelSlide();
       event.preventDefault();
       const initY = event.touches[0].clientY;
@@ -171,7 +171,7 @@ class Resume {
       let prevY = initY;
       let speed = 0;
 
-      wrap.ontouchmove = (e) => {
+      wrap!.ontouchmove = (e) => {
         e.stopPropagation();
         const movedTop = e.touches[0].clientY;
         speed = movedTop - prevY;
@@ -180,15 +180,15 @@ class Resume {
         scrollTo(y);
       };
 
-      wrap.ontouchend = () => {
-        wrap.ontouchmove = (e) => { e.stopPropagation(); };
-        wrap.ontouchend = null;
+      wrap!.ontouchend = () => {
+        wrap!.ontouchmove = (e) => { e.stopPropagation(); };
+        wrap!.ontouchend = null;
         this.content.style.transition = 'top 0.2s ease';
         speed *= 50;
         cancelSlide = doAnimationInterval(() => {
           scrollTo(getTop(this.content.offsetTop + speed));
           speed *= 0.8;
-          if (Math.abs(speed) < 1) {
+          if (Math.abs(speed) < 1 && cancelSlide) {
             cancelSlide();
           }
         });
@@ -205,11 +205,11 @@ class Resume {
       return barY;
     };
 
-    scrollBar.onmousedown = (event) => {
+    scrollBar!.onmousedown = (event) => {
       event.preventDefault();
       const initY = event.clientY;
-      const initTop = scrollBar.offsetTop;
-      scrollBar.style.transition = 'none';
+      const initTop = scrollBar!.offsetTop;
+      scrollBar!.style.transition = 'none';
       this.content.style.transition = 'none';
 
       this.resume.onmousemove = (e) => {
@@ -218,14 +218,14 @@ class Resume {
         const top = getBarTop(initTop + bDelta);
         const barRatio = top / deltaHeight;
         y = getTop(barRatio * delta);
-        scrollBar.style.top = `${top}px`;
+        scrollBar!.style.top = `${top}px`;
         scrollTo(y);
       };
 
       this.resume.onmouseup = () => {
         this.resume.onmousemove = (e) => { e.stopPropagation(); };
         this.resume.onmouseup = null;
-        scrollBar.style.transition = 'top 0.2s ease, opacity 0.2s ease';
+        scrollBar!.style.transition = 'top 0.2s ease, opacity 0.2s ease';
         this.content.style.transition = 'top 0.2s ease';
       };
     }
@@ -237,7 +237,7 @@ class Resume {
   }
 
   private getResumeContent(): string {
-    const resume = this.locale[this.lan].resume;
+    const resume = this.locale[this.lan].resume!;
     return `
       <div class='main ${this.lan}'>
         <h2 id='experience' class='experience'>
@@ -414,13 +414,13 @@ class Resume {
       revert = this.resume.querySelector<HTMLDivElement>('.revert'),
       panel = this.resume.querySelector<HTMLDivElement>('.panel'),
       content = this.resume.querySelector<HTMLDivElement>('.content'),
-      editorCh = this.resume.querySelector<HTMLDivElement>('.editor_ch'),
-      editorEn = this.resume.querySelector<HTMLDivElement>('.editor_en'),
+      editorCh = this.resume.querySelector<HTMLDivElement>('.editor_ch')!,
+      editorEn = this.resume.querySelector<HTMLDivElement>('.editor_en')!,
       ok = this.resume.querySelector<HTMLDivElement>('.ok'),
       cancel = this.resume.querySelector<HTMLDivElement>('.cancel');
 
-    this.content = content;
-    this.loadingBar = this.resume.querySelector<HTMLDivElement>('.loading-bar');
+    this.content = content!;
+    this.loadingBar = this.resume.querySelector<HTMLDivElement>('.loading-bar')!;
 
     if (panel) {
       panel.ondblclick = (e) => {
@@ -431,22 +431,22 @@ class Resume {
       };
     }
 
-    let commit: () => boolean;
+    let commit: (() => boolean) | undefined;
 
     if (this.mode === MODE.EDIT) {
-      content.onclick = (e) => {
+      content!.onclick = (e) => {
         if (this.loading) {
           return;
         }
   
         const target = e.target as HTMLDivElement;
-        const text_ch = this.locale[LANGUAGE.CH];
-        const text_en = this.locale[LANGUAGE.EN];
+        const text_ch = this.locale[LANGUAGE.CH]!;
+        const text_en = this.locale[LANGUAGE.EN]!;
   
         const showEditor = () => {
-          panel.style.display = 'block';
+          panel!.style.display = 'block';
           setTimeout(() => {
-            panel.classList.add('show');
+            panel!.classList.add('show');
           }, 18);
         };
   
@@ -472,8 +472,8 @@ class Resume {
   
                 commit = () => {
                   const index = Number(target.dataset.index);
-                  text_ch.resume.education.splice(index, 1);
-                  text_en.resume.education.splice(index, 1);
+                  text_ch.resume!.education.splice(index, 1);
+                  text_en.resume!.education.splice(index, 1);
                   return true;
                 };
                 break;
@@ -490,12 +490,12 @@ class Resume {
                   const [majorCh, timeCh, schoolCh] = Array.from(inputsCh).map((input) => input.value.trim());
                   const [majorEn, timeEn, schoolEn] = Array.from(inputsEn).map((input) => input.value.trim());
                   if (majorCh && timeCh && schoolCh && majorEn && timeEn && schoolEn) {
-                    text_ch.resume.education.unshift({
+                    text_ch.resume!.education.unshift({
                       major: majorCh,
                       time: timeCh,
                       school: schoolCh,
                     });
-                    text_en.resume.education.unshift({
+                    text_en.resume!.education.unshift({
                       major: majorEn,
                       time: timeEn,
                       school: schoolEn,
@@ -515,8 +515,8 @@ class Resume {
                 const index = Number(target.dataset.index),
                   inputsCh = editorCh.querySelectorAll('input'),
                   inputsEn = editorEn.querySelectorAll('input'),
-                  educationCh = text_ch.resume.education[index],
-                  educationEn = text_en.resume.education[index];
+                  educationCh = text_ch.resume!.education[index],
+                  educationEn = text_en.resume!.education[index];
   
                 inputsCh[0].value = educationCh.major;
                 inputsCh[1].value = educationCh.time;
@@ -543,15 +543,15 @@ class Resume {
               }
               case ACTION.UP: {
                 const index = Number(target.dataset.index);
-                this.swap(text_ch.resume.education, index, index - 1);
-                this.swap(text_en.resume.education, index, index - 1);
+                this.swap(text_ch.resume!.education, index, index - 1);
+                this.swap(text_en.resume!.education, index, index - 1);
                 this.content.innerHTML = this.getResumeContent();
                 break;
               }
               case ACTION.DOWN: {
                 const index = Number(target.dataset.index);
-                this.swap(text_ch.resume.education, index, index + 1);
-                this.swap(text_en.resume.education, index, index + 1);
+                this.swap(text_ch.resume!.education, index, index + 1);
+                this.swap(text_en.resume!.education, index, index + 1);
                 this.content.innerHTML = this.getResumeContent();
                 break;
               }
@@ -589,18 +589,18 @@ class Resume {
                 commit = () => {
                   const [positionCh, timeCh, employerCh] = Array.from(inputsCh).map((input) => input.value.trim());
                   const [positionEn, timeEn, employerEn] = Array.from(inputsEn).map((input) => input.value.trim());
-                  const experienceChValue = experienceCh.value.trim();
-                  const experienceEnValue = experienceEn.value.trim();
+                  const experienceChValue = experienceCh!.value.trim();
+                  const experienceEnValue = experienceEn!.value.trim();
                   if (positionCh && timeCh && employerCh && experienceChValue && positionEn && timeEn && employerEn && experienceEnValue) {
                     const discCh = experienceChValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
                     const discEn = experienceEnValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
-                    text_ch.resume.experience.unshift({
+                    text_ch.resume!.experience.unshift({
                       title: positionCh,
                       time: timeCh,
                       company: employerCh,
                       disc: discCh,
                     });
-                    text_en.resume.experience.unshift({
+                    text_en.resume!.experience.unshift({
                       title: positionEn,
                       time: timeEn,
                       company: employerEn,
@@ -624,31 +624,31 @@ class Resume {
                   experienceEn = editorEn.querySelector('textarea'),
                   index = Number(target.dataset.index);
 
-                inputsCh[0].value = text_ch.resume.experience[index].title;
-                inputsCh[1].value = text_ch.resume.experience[index].time;
-                inputsCh[2].value = text_ch.resume.experience[index].company;
-                experienceCh.value = text_ch.resume.experience[index].disc.join('\n\n');
-                inputsEn[0].value = text_en.resume.experience[index].title;
-                inputsEn[1].value = text_en.resume.experience[index].time;
-                inputsEn[2].value = text_en.resume.experience[index].company;
-                experienceEn.value = text_en.resume.experience[index].disc.join('\n\n');
+                inputsCh[0].value = text_ch.resume!.experience[index].title;
+                inputsCh[1].value = text_ch.resume!.experience[index].time;
+                inputsCh[2].value = text_ch.resume!.experience[index].company;
+                experienceCh!.value = text_ch.resume!.experience[index].disc.join('\n\n');
+                inputsEn[0].value = text_en.resume!.experience[index].title;
+                inputsEn[1].value = text_en.resume!.experience[index].time;
+                inputsEn[2].value = text_en.resume!.experience[index].company;
+                experienceEn!.value = text_en.resume!.experience[index].disc.join('\n\n');
 
                 commit = () => {
                   const [positionCh, timeCh, employerCh] = Array.from(inputsCh).map((input) => input.value.trim());
                   const [positionEn, timeEn, employerEn] = Array.from(inputsEn).map((input) => input.value.trim());
-                  const experienceChValue = experienceCh.value.trim();
-                  const experienceEnValue = experienceEn.value.trim();
+                  const experienceChValue = experienceCh!.value.trim();
+                  const experienceEnValue = experienceEn!.value.trim();
                   if (positionCh && timeCh && employerCh && experienceChValue && positionEn && timeEn && employerEn && experienceEnValue) {
                     const discCh = experienceChValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
                     const discEn = experienceEnValue.split('\n').map((str) => str.trim()).filter((str) => !!str);
-                    text_ch.resume.experience[index].title = positionCh;
-                    text_ch.resume.experience[index].time = timeCh;
-                    text_ch.resume.experience[index].company = employerCh;
-                    text_ch.resume.experience[index].disc = discCh;
-                    text_en.resume.experience[index].title = positionEn;
-                    text_en.resume.experience[index].time = timeEn;
-                    text_en.resume.experience[index].company = employerEn;
-                    text_en.resume.experience[index].disc = discEn;
+                    text_ch.resume!.experience[index].title = positionCh;
+                    text_ch.resume!.experience[index].time = timeCh;
+                    text_ch.resume!.experience[index].company = employerCh;
+                    text_ch.resume!.experience[index].disc = discCh;
+                    text_en.resume!.experience[index].title = positionEn;
+                    text_en.resume!.experience[index].time = timeEn;
+                    text_en.resume!.experience[index].company = employerEn;
+                    text_en.resume!.experience[index].disc = discEn;
 
                     return true;
                   }
@@ -663,8 +663,8 @@ class Resume {
 
                 commit = () => {
                   const index = Number(target.dataset.index);
-                  text_ch.resume.experience.splice(index, 1);
-                  text_en.resume.experience.splice(index, 1);
+                  text_ch.resume!.experience.splice(index, 1);
+                  text_en.resume!.experience.splice(index, 1);
 
                   return true;
                 };
@@ -672,15 +672,15 @@ class Resume {
               }
               case ACTION.UP: {
                 const index = Number(target.dataset.index);
-                this.swap(text_ch.resume.experience, index, index - 1);
-                this.swap(text_en.resume.experience, index, index - 1);
+                this.swap(text_ch.resume!.experience, index, index - 1);
+                this.swap(text_en.resume!.experience, index, index - 1);
                 this.content.innerHTML = this.getResumeContent();
                 break;
               }
               case ACTION.DOWN: {
                 const index = Number(target.dataset.index);
-                this.swap(text_ch.resume.experience, index, index + 1);
-                this.swap(text_en.resume.experience, index, index + 1);
+                this.swap(text_ch.resume!.experience, index, index + 1);
+                this.swap(text_en.resume!.experience, index, index + 1);
                 this.content.innerHTML = this.getResumeContent();
                 break;
               }
@@ -706,19 +706,19 @@ class Resume {
               techSkillsCh = editorCh.querySelectorAll('textarea'),
               techSkillsEn = editorEn.querySelectorAll('textarea');
 
-            techSkillsCh[0].value = text_ch.resume.techSkill.skill.join(', ');
-            techSkillsCh[1].value = text_ch.resume.techSkill.familiar.join(', ');
-            techSkillsEn[0].value = text_en.resume.techSkill.skill.join(', ');
-            techSkillsEn[1].value = text_en.resume.techSkill.familiar.join(', ');
+            techSkillsCh[0].value = text_ch.resume!.techSkill.skill.join(', ');
+            techSkillsCh[1].value = text_ch.resume!.techSkill.familiar.join(', ');
+            techSkillsEn[0].value = text_en.resume!.techSkill.skill.join(', ');
+            techSkillsEn[1].value = text_en.resume!.techSkill.familiar.join(', ');
 
             commit = () => {
               const [skillCh, familiarCh] = Array.from(techSkillsCh).map((skills) => skills.value.trim().split(',').map((skill) => skill.trim()).filter((skill) => !!skill));
               const [skillEn, familiarEn] = Array.from(techSkillsEn).map((skills) => skills.value.trim().split(',').map((skill) => skill.trim()).filter((skill) => !!skill));
               if (skillCh?.length && skillEn?.length && familiarCh?.length && familiarEn?.length) {
-                text_ch.resume.techSkill.skill = skillCh;
-                text_ch.resume.techSkill.familiar = familiarCh;
-                text_en.resume.techSkill.skill = skillEn;
-                text_en.resume.techSkill.familiar = familiarEn;
+                text_ch.resume!.techSkill.skill = skillCh;
+                text_ch.resume!.techSkill.familiar = familiarCh;
+                text_en.resume!.techSkill.skill = skillEn;
+                text_en.resume!.techSkill.familiar = familiarEn;
 
                 return true;
               }
@@ -744,23 +744,23 @@ class Resume {
               infoCh = editorCh.querySelectorAll('input'),
               infoEn = editorEn.querySelectorAll('input');
 
-            infoCh[0].value = text_ch.resume.name;
-            infoCh[1].value = text_ch.resume.title;
-            infoCh[2].value = text_ch.resume.web;
-            infoEn[0].value = text_en.resume.name;
-            infoEn[1].value = text_en.resume.title;
+            infoCh[0].value = text_ch.resume!.name;
+            infoCh[1].value = text_ch.resume!.title;
+            infoCh[2].value = text_ch.resume!.web;
+            infoEn[0].value = text_en.resume!.name;
+            infoEn[1].value = text_en.resume!.title;
 
             commit = () => {
               const [nameCh, titleCh, webCh] = Array.from(infoCh).map((info) => info.value.trim());
               const [nameEn, titleEn] = Array.from(infoEn).map((info) => info.value.trim());
 
               if (nameCh && titleCh && nameEn && titleEn && webCh) {
-                text_ch.resume.name = nameCh;
-                text_ch.resume.title = titleCh;
-                text_ch.resume.web = webCh;
-                text_en.resume.name = nameEn;
-                text_en.resume.title = titleEn;
-                text_en.resume.web = webCh;
+                text_ch.resume!.name = nameCh;
+                text_ch.resume!.title = titleCh;
+                text_ch.resume!.web = webCh;
+                text_en.resume!.name = nameEn;
+                text_en.resume!.title = titleEn;
+                text_en.resume!.web = webCh;
                 return true;
               }
               return false;
@@ -783,10 +783,10 @@ class Resume {
               infoCh = editorCh.querySelectorAll('textarea'),
               infoEn = editorEn.querySelectorAll('textarea');
 
-            infoCh[0].value = text_ch.resume.about.join('\n\n');
-            infoCh[1].value = text_ch.resume.skill.join(', ');
-            infoEn[0].value = text_en.resume.about.join('\n\n');
-            infoEn[1].value = text_en.resume.skill.join(', ');
+            infoCh[0].value = text_ch.resume!.about.join('\n\n');
+            infoCh[1].value = text_ch.resume!.skill.join(', ');
+            infoEn[0].value = text_en.resume!.about.join('\n\n');
+            infoEn[1].value = text_en.resume!.skill.join(', ');
 
             commit = () => {
               const aboutCh = infoCh[0].value.trim().split('\n').filter((skill) => !!skill);
@@ -795,10 +795,10 @@ class Resume {
               const skillEn = infoEn[1].value.trim().split(',').map((info) => info.trim()).filter((info) => !!info);
 
               if (aboutCh?.length && skillCh?.length && aboutEn?.length && skillEn?.length) {
-                text_ch.resume.about = aboutCh;
-                text_ch.resume.skill = skillCh;
-                text_en.resume.about = aboutEn;
-                text_en.resume.skill = skillEn;
+                text_ch.resume!.about = aboutCh;
+                text_ch.resume!.skill = skillCh;
+                text_en.resume!.about = aboutEn;
+                text_en.resume!.skill = skillEn;
                 return true;
               }
               return false;
@@ -828,32 +828,32 @@ class Resume {
               contactCh = editorCh.querySelectorAll('input'),
               contactEn = editorEn.querySelectorAll('input');
             
-            contactCh[0].value = text_ch.resume.contact.phone;
-            contactCh[1].value = text_ch.resume.contact.email;
-            contactCh[2].value = text_ch.resume.contact.wechat;
-            contactCh[3].value = text_ch.resume.contact.location;
-            contactCh[4].value = text_ch.resume.contact.github;
-            contactEn[0].value = text_en.resume.contact.phone;
-            contactEn[1].value = text_en.resume.contact.email;
-            contactEn[2].value = text_en.resume.contact.wechat;
-            contactEn[3].value = text_en.resume.contact.location;
-            contactEn[4].value = text_en.resume.contact.github;
+            contactCh[0].value = text_ch.resume!.contact.phone;
+            contactCh[1].value = text_ch.resume!.contact.email;
+            contactCh[2].value = text_ch.resume!.contact.wechat;
+            contactCh[3].value = text_ch.resume!.contact.location;
+            contactCh[4].value = text_ch.resume!.contact.github;
+            contactEn[0].value = text_en.resume!.contact.phone;
+            contactEn[1].value = text_en.resume!.contact.email;
+            contactEn[2].value = text_en.resume!.contact.wechat;
+            contactEn[3].value = text_en.resume!.contact.location;
+            contactEn[4].value = text_en.resume!.contact.github;
 
             commit = () => {
               const infoCh = Array.from(contactCh).map((contact) => contact.value.trim()).filter((contact) => !!contact);
               const infoEn = Array.from(contactEn).map((contact) => contact.value.trim()).filter((contact) => !!contact);
 
               if (infoCh.length === 5 && infoEn.length === 5) {
-                text_ch.resume.contact.phone = infoCh[0];
-                text_ch.resume.contact.email = infoCh[1];
-                text_ch.resume.contact.wechat = infoCh[2];
-                text_ch.resume.contact.location = infoCh[3];
-                text_ch.resume.contact.github = infoCh[4];
-                text_en.resume.contact.phone = infoEn[0];
-                text_en.resume.contact.email = infoEn[1];
-                text_en.resume.contact.wechat = infoEn[2];
-                text_en.resume.contact.location = infoEn[3];
-                text_en.resume.contact.github = infoEn[4];
+                text_ch.resume!.contact.phone = infoCh[0];
+                text_ch.resume!.contact.email = infoCh[1];
+                text_ch.resume!.contact.wechat = infoCh[2];
+                text_ch.resume!.contact.location = infoCh[3];
+                text_ch.resume!.contact.github = infoCh[4];
+                text_en.resume!.contact.phone = infoEn[0];
+                text_en.resume!.contact.email = infoEn[1];
+                text_en.resume!.contact.wechat = infoEn[2];
+                text_en.resume!.contact.location = infoEn[3];
+                text_en.resume!.contact.github = infoEn[4];
 
                 return true;
               }
@@ -876,17 +876,17 @@ class Resume {
               interestsCh = editorCh.querySelector('textarea'),
               interestsEn = editorEn.querySelector('textarea');
 
-            interestsCh.value = text_ch.resume.interests.join('\n\n');
-            interestsEn.value = text_en.resume.interests.join('\n\n');
+            interestsCh!.value = text_ch.resume!.interests.join('\n\n');
+            interestsEn!.value = text_en.resume!.interests.join('\n\n');
 
             commit = () => {
               const
-                interestCh = interestsCh.value.trim().split('\n').map((str) => str.trim()).filter((str) => !!str),
-                interestEn = interestsEn.value.trim().split('\n').map((str) => str.trim()).filter((str) => !!str);
+                interestCh = interestsCh!.value.trim().split('\n').map((str) => str.trim()).filter((str) => !!str),
+                interestEn = interestsEn!.value.trim().split('\n').map((str) => str.trim()).filter((str) => !!str);
                 
               if (interestCh.length && interestEn.length) {
-                text_ch.resume.interests = interestCh;
-                text_en.resume.interests = interestEn;
+                text_ch.resume!.interests = interestCh;
+                text_en.resume!.interests = interestEn;
                 return true;
               }
               return false;
@@ -898,69 +898,69 @@ class Resume {
         }
       };
     
-      ok.onclick = () => {
+      ok!.onclick = () => {
         clearTimeout(this.timer);
-        if (!commit()) {
+        if (!commit!()) {
           return;
         }
         
         this.content.innerHTML = this.getResumeContent();
-        commit = null;
-        panel.classList.remove('show');
+        commit = undefined;
+        panel!.classList.remove('show');
         setTimeout(() => {
-          panel.style.display = 'none';
+          panel!.style.display = 'none';
         }, 200);
       };
   
-      cancel.onclick = () => {
+      cancel!.onclick = () => {
         clearTimeout(this.timer);
-        commit = null;
-        panel.classList.remove('show');
+        commit = undefined;
+        panel!.classList.remove('show');
         setTimeout(() => {
-          panel.style.display = 'none';
+          panel!.style.display = 'none';
         }, 200);
       };
 
-      revert.onclick = () => {
+      revert!.onclick = () => {
         const copy: IResume = JSON.parse(JSON.stringify(this.origin_data));
         this.locale.ch.resume = copy.ch;
         this.locale.en.resume = copy.en;
-        content.innerHTML = this.getResumeContent();
+        content!.innerHTML = this.getResumeContent();
       };
     }
 
-    language.onclick = () => {
+    language!.onclick = () => {
       if (this.loading) return;
       this.lan = this.lan === LANGUAGE.CH ? LANGUAGE.EN : LANGUAGE.CH;
       const text = this.locale[this.lan];
-      language.innerHTML = text.lan;
-      save.innerHTML = text.save;
-      close.innerHTML = text.close;
+      language!.innerHTML = text.lan;
+      save!.innerHTML = text.save;
+      close!.innerHTML = text.close;
       if (ok) ok.innerHTML = text.ok;
       if (cancel) cancel.innerHTML = text.cancel;
       if (revert) revert.innerHTML = text.revert;
-      content.innerHTML = this.getResumeContent();
+      content!.innerHTML = this.getResumeContent();
       this.resize();
     };
 
-    save.onclick = () => {
+    save!.onclick = () => {
       if (this.loading) return;
 
       if (this.mode === MODE.EDIT) {
         if (this.onSave) this.onSave({
-          ch: this.locale.ch.resume,
-          en: this.locale.en.resume,
+          ch: this.locale.ch.resume!,
+          en: this.locale.en.resume!,
         });
         return;
       }
 
-      content.style.top = '0';
+      content!.style.top = '0';
       this.resume.classList.add('print');
       window.print();
       this.resume.classList.remove('print');
     };
 
-    close.onclick = () => {
+    close!.onclick = () => {
       this.resume.className = 'hide';
       setTimeout(() => {
         this.resume.style.top = '-100vh';

@@ -25,7 +25,7 @@ const getMethod = (type: string) => {
           const urlWithQuery = new URL(getFullUrl(url));
           params && Object.keys(params).forEach(key => {
             if (params[key]) {
-              urlWithQuery.searchParams.set(key, params[key]);
+              urlWithQuery.searchParams.set(key, params[key]!);
             }
           });
           xhr.open(REQUEST_TYPE.GET, urlWithQuery.toString());

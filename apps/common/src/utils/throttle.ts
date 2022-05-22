@@ -10,7 +10,7 @@ export const throttle = (cb: () => void, duration: number, immediately = true): 
 
   const data = map.get(cb);
 
-  if (data.ready) {
+  if (data?.ready) {
     if (immediately || data.initialized) {
       cb();
     }
@@ -20,5 +20,5 @@ export const throttle = (cb: () => void, duration: number, immediately = true): 
       data.ready = true;
     }, duration);
   }
-  return data.ready && (immediately || data.initialized);
+  return data!.ready && (immediately || data!.initialized);
 };

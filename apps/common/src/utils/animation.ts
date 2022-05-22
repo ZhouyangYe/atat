@@ -1,6 +1,6 @@
 export const doAnimationDuration = (fn: () => void, duration = 0): () => void => {
-  let timer: number = null;
-  let start: number = null;
+  let timer: number | undefined = undefined;
+  let start: number | undefined = undefined;
   let stop = false;
 
   function step(timestamp: number): void {
@@ -16,14 +16,14 @@ export const doAnimationDuration = (fn: () => void, duration = 0): () => void =>
 
   return () => {
     stop = true;
-    window.cancelAnimationFrame(timer);
+    window.cancelAnimationFrame(timer!);
   };
 };
 
 export const doAnimationInterval = (fn: () => void, interval = 0): () => void => {
-  let timer: number = null;
+  let timer: number | undefined = undefined;
   let stop = false;
-  let start: number = null;
+  let start: number | undefined = undefined;
 
   function step(timestamp: number): void {
     if (!start) {
@@ -50,6 +50,6 @@ export const doAnimationInterval = (fn: () => void, interval = 0): () => void =>
 
   return () => {
     stop = true;
-    window.cancelAnimationFrame(timer);
+    window.cancelAnimationFrame(timer!);
   };
 };

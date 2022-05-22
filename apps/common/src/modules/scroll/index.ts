@@ -141,7 +141,7 @@ class Scroll {
   private doScroll(list: HTMLDivElement, boxes: HTMLDivElement[], title: HTMLHeadingElement): void {
     const length = boxes.length;
     let index = -1;
-    let oTimer: NodeJS.Timeout = null;
+    let oTimer: NodeJS.Timeout | undefined  = undefined;
     list.onmouseenter = () => {
       boxes.forEach((box) => {
         box.onmouseover = (e) => {
@@ -163,7 +163,7 @@ class Scroll {
       oTimer = setInterval(() => {
         if (index === length) {
           clearInterval(oTimer);
-          oTimer = null;
+          oTimer = undefined;
         } else {
           boxes[index].classList.remove('hide');
           boxes[index].classList.add('show');
@@ -176,7 +176,7 @@ class Scroll {
       this.scroll.style.height = `${title.offsetHeight + 60 / 10} rem`;
       if (oTimer) {
         clearInterval(oTimer);
-        oTimer = null;
+        oTimer = undefined;
       }
       if (index >= length) {
         index = length - 1;
@@ -184,7 +184,7 @@ class Scroll {
       oTimer = setInterval(function () {
         if (index < 0) {
           clearInterval(oTimer);
-          oTimer = null;
+          oTimer = undefined;
         } else {
           boxes[index].onmouseover = null;
           boxes[index].onmouseout = null;
@@ -197,7 +197,7 @@ class Scroll {
   }
 
   private doRotate(list: HTMLDivElement): void {
-    let timer: NodeJS.Timeout = null;
+    let timer: NodeJS.Timeout | undefined = undefined;
     this.scroll.onmouseenter = () => {
       clearTimeout(timer);
       this.scroll.onmousemove = (ev) => {
@@ -218,7 +218,6 @@ class Scroll {
       timer = setTimeout(function () {
         list.style.cssText = 'transform:rotateY(0deg);transition:transform 1.2s ease;';
       }, 1000);
-
       
       if (!this.autoHide) return;
       this.isMouseOverScroll = false;

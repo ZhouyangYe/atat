@@ -7,8 +7,8 @@ export interface ITaskMeta {
 
 const MAX = 100;
 
-const body = document.querySelector<HTMLElement>('body');
-const main = document.querySelector<HTMLImageElement>('#main');
+const body = document.querySelector<HTMLElement>('body')!;
+const main = document.querySelector<HTMLImageElement>('#main')!;
 const loading = document.createElement('DIV') as HTMLElement;
 const progress = document.createElement('DIV') as HTMLElement;
 loading.id = 'atat-loading';

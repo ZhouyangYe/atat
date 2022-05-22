@@ -63,7 +63,7 @@ class Door {
 
   constructor(config: IConfig) {
     this.config = config;
-    this.autoHide = config.autoHide || this.defaultConfig.autoHide;
+    this.autoHide = config.autoHide || this.defaultConfig.autoHide!;
     this.createDoor();
     this.bindAutoHide();
   }
@@ -272,7 +272,7 @@ class Door {
 
     // dye
     const {
-      text = this.defaultConfig.text,
+      text = this.defaultConfig.text!,
       backgroundUrl = this.defaultConfig.backgroundUrl,
       doorColor = this.defaultConfig.doorColor,
       rimColor = this.defaultConfig.rimColor,

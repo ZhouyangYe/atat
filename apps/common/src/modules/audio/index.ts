@@ -33,21 +33,21 @@ class Audio {
 
   private cancelScroll: () => void;
 
-  private rollingTimer: NodeJS.Timer = null;
+  private rollingTimer?: NodeJS.Timer = undefined;
 
   private titleWidth: number;
 
   private titleContainerWidth: number;
 
-  private autoHide: boolean;
+  private autoHide?: boolean;
 
-  private autoHideTimer: NodeJS.Timer = null;
+  private autoHideTimer?: NodeJS.Timer = undefined;
 
   private isMouseOverController = false;
 
   private lock: HTMLElement;
 
-  private handleDocumentClick: () => void;
+  private handleDocumentClick?: () => void;
 
   constructor(config: IConfig) {
     this.config = config;
@@ -86,8 +86,8 @@ class Audio {
 
     this.audio = document.createElement('audio');
     this.audio.src = src;
-    this.audio.autoplay = autoplay;
-    this.audio.loop = loop;
+    this.audio.autoplay = autoplay ?? false;
+    this.audio.loop = loop ?? false;
   };
 
   private hideControllerAfterDelay = (): void => {
@@ -113,7 +113,7 @@ class Audio {
     if (this.autoHide && autoplay) {
       this.handleDocumentClick = () => {
         this.play();
-        document.removeEventListener('click', this.handleDocumentClick, false);
+        document.removeEventListener('click', this.handleDocumentClick!, false);
         this.handleDocumentClick = undefined;
       };
       document.addEventListener('click', this.handleDocumentClick, false);

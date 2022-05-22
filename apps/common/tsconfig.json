@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "alwaysStrict": true,
+    "strictNullChecks": true,
     "experimentalDecorators": true,
     "outDir": "./lib/",
     "sourceMap": true,

@@ -10,7 +10,7 @@ class Crystal {
   private crystal: HTMLDivElement;
   private autoHide: boolean;
   private isMouseOverCrystal: boolean;
-  private autoHideTimer: NodeJS.Timer = null;
+  private autoHideTimer: NodeJS.Timer | undefined = undefined;
 
   getDom(): HTMLDivElement {
     return this.crystal;
@@ -98,7 +98,7 @@ class Crystal {
       e.stopPropagation();
       lButton.onclick = (ev) => { ev.stopPropagation(); };
       rButton.onclick = (ev) => { ev.stopPropagation(); };
-      classNames.push(classNames.shift());
+      classNames.push(classNames.shift()!);
       for (var i = 0; i < lis.length; i++) {
         lis[i].className = classNames[i];
       }
@@ -112,7 +112,7 @@ class Crystal {
       e.stopPropagation();
       lButton.onclick = (ev) => { ev.stopPropagation(); };
       rButton.onclick = (ev) => { ev.stopPropagation(); };
-      classNames.unshift(classNames.pop());
+      classNames.unshift(classNames.pop()!);
       for (var i = 0; i < lis.length; i++) {
         lis[i].className = classNames[i];
       }
