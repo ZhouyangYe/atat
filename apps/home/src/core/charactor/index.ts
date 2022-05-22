@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { scene, fbxLoader } from '@/utils';
+import { scene, fbxLoader, gameState } from '@/utils';
 
-export const addCharactor = (path: string): Promise<{ mixer:THREE.AnimationMixer; object: THREE.Group }> => {
+export const addCharactor = (path: string, name = 'player'): Promise<{ mixer:THREE.AnimationMixer; object: THREE.Group }> => {
   let mixer: THREE.AnimationMixer;
 
   return new Promise((res, rej) => {
@@ -14,7 +14,8 @@ export const addCharactor = (path: string): Promise<{ mixer:THREE.AnimationMixer
       scene.add(object);
       res({ mixer, object });
     }, (xhr) => {
-      console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+      gameState.loading[name] = (xhr.loaded / xhr.total) * 100;
+      console.log(gameState.loading[name]);
     }, function (error) {
       console.error(error);
       rej(error);

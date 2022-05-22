@@ -1,9 +1,39 @@
 html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  height: 100vh;
+  position: relative;
 }
+
+#app {}
 
 #ui {
   position: absolute;
   z-index: 100;
+}
+
+#loading {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+
+  img {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  #progress {
+    font-size: 22px;
+    text-align: center;
+  }
 }
