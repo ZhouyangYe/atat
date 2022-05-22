@@ -160,41 +160,6 @@ class Resume {
       scrollTo(y);
     };
 
-    let cancelSlide: (() => void) | undefined;
-
-    wrap!.ontouchstart = (event) => {
-      if (cancelSlide) cancelSlide();
-      event.preventDefault();
-      const initY = event.touches[0].clientY;
-      const initTop = this.content.offsetTop;
-      this.content.style.transition = 'none';
-      let prevY = initY;
-      let speed = 0;
-
-      wrap!.ontouchmove = (e) => {
-        e.stopPropagation();
-        const movedTop = e.touches[0].clientY;
-        speed = movedTop - prevY;
-        prevY = movedTop;
-        y = getTop(initTop - initY + movedTop);
-        scrollTo(y);
-      };
-
-      wrap!.ontouchend = () => {
-        wrap!.ontouchmove = (e) => { e.stopPropagation(); };
-        wrap!.ontouchend = null;
-        this.content.style.transition = 'top 0.2s ease';
-        speed *= 50;
-        cancelSlide = doAnimationInterval(() => {
-          scrollTo(getTop(this.content.offsetTop + speed));
-          speed *= 0.8;
-          if (Math.abs(speed) < 1 && cancelSlide) {
-            cancelSlide();
-          }
-        });
-      };
-    }
-
     const getBarTop = (barY: number) => {
       if (barY < 0) {
         return 0;
