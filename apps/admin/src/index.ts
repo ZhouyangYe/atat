@@ -17,7 +17,7 @@ const
   loginDom = login.getDom(),
   panel = new Panel(),
   panelDom = panel.getDom(),
-  app = document.getElementById('app');
+  app = document.getElementById('app')!;
 
 getResumeData().then((res) => {
   if (!res.success) {
@@ -25,7 +25,7 @@ getResumeData().then((res) => {
     return;
   }
 
-  resume.setRsumeData(res.data);
+  resume.setResumeData(res.data);
 });
 
 resume.onSave = (data) => {
@@ -121,7 +121,7 @@ const checkActivity = () => {
 window.onmousemove = () => {
   throttle(checkActivity, 60000, false);
 };
-resumeDom.onwheel = undefined;
+resumeDom.onwheel = null;
 window.onwheel = () => {
   throttle(checkActivity, 60000, false);
 };

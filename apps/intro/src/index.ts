@@ -2,4 +2,4 @@ import render from './main';
 
 import './styles';
 
-render(document.querySelector('#app'));
+render(document.querySelector('#app')!);

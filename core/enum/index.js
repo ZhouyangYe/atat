@@ -11,7 +11,8 @@ const CONTENT_TYPE_MAPPING = {
   'svg': 'image/svg+xml',
   'ico': 'image/x-icon',
   'map': 'application/json',
-  'json': 'application/json'
+  'json': 'application/json',
+  "fbx": 'application/octet-stream'
 };
 
 const METHOD_TYPE = {

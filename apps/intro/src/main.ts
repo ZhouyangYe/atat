@@ -89,7 +89,7 @@ const render = (app: HTMLElement): void => {
       return;
     }
 
-    resume.setRsumeData(res.data);
+    resume.setResumeData(res.data);
   });
 
   const audio = new Audio({
@@ -134,7 +134,7 @@ const render = (app: HTMLElement): void => {
     ],
   });
   const scrollDom = scroll.getDom();
-  const resumeBox = scrollDom.querySelector<HTMLDivElement>('.box-5');
+  const resumeBox = scrollDom.querySelector<HTMLDivElement>('.box-5')!;
   resumeBox.onclick = () => {
     resume.show();
   };
