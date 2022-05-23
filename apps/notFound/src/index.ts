@@ -8,7 +8,7 @@ import './styles';
 
 const canvas = document.getElementById('app') as HTMLCanvasElement;
 if (canvas.getContext) {
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d')!;
   let width = window.innerWidth, height = window.innerHeight;
   ctx.canvas.width = width;
   ctx.canvas.height = height;

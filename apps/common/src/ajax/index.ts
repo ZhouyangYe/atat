@@ -1,7 +1,6 @@
 import { getFullUrl } from '@/utils';
 import { REQUEST_TYPE } from './enum';
 
-const ERROR_CODE = 900821;
 const TIMEOUT = 10000;
 const SUCCESS_CODE = 200;
 
@@ -39,7 +38,7 @@ const getMethod = (type: string) => {
               data = JSON.stringify(body);
             } catch (e) {
               rej({
-                errorCode: ERROR_CODE,
+                errorCode: 400,
                 errorMessage: 'Invalid JSON format',
               });
               return;
@@ -74,7 +73,7 @@ const getMethod = (type: string) => {
       xhr.onerror = () => {
         rej({
           success: false,
-          errorCode: ERROR_CODE,
+          errorCode: 500,
           errorMessage: 'Failed to connect to the server.',
         });
       };

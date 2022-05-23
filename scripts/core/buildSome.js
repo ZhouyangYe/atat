@@ -1,10 +1,11 @@
 const cliCursor = require('cli-cursor');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
-const { errorMessage, pointers, successIcon, failIcon } = require('../enum');
-const { drawProgress, handleErrors } = require('./common');
-const { startTimer, clearScreen } = require('../utils');
+const { errorMessage, pointers, successIcon, failIcon, common, BUILD_MODE } = require('../enum');
+const { drawProgress, handleErrors, getCurrentLine } = require('./common');
+const { startTimer, clearScreen, writeOnLine } = require('../utils');
 const buildModule = require('./buildModule');
+const linkCommon = require('./linkCommon');
 
 const metaDatas = {
   lastLine: 0,
@@ -57,38 +58,61 @@ const done = (name, err, warning) => {
       cliCursor.show();
       return;
     }
-  }
 
-  process.stdout.write(`${chalk.yellow(emoji.get('v'))}  ${chalk.green('Done!')}\n`);
-  cliCursor.show();
+    process.stdout.write(`${chalk.yellow(emoji.get('v'))}  ${chalk.green('Done!')}\n`);
+    cliCursor.show();
+  }
 };
 
 const buildSome = (apps, mode) => {
   cliCursor.hide();
   metaDatas.lastLine = apps.length - 1;
-  apps.forEach((app, index) => {
-    const metaData = {
-      /** Current line of the progress bar */
-      line: index,
-      /** Which icon the progress bar is using */
-      icon: '',
-      /** Indicates if the compiling is done for the app */
-      done: false,
-      /** Stop progress bar timer */
-      cancelTimer: null,
-      /** The current percentage */
-      percentage: 0,
-      /** Keep tracking for compilation error of each app */
-      error: null,
-    };
+  const runDev = () => {
+    apps.forEach((app, index) => {
+      const metaData = {
+        /** Current line of the progress bar */
+        line: index,
+        /** Which icon the progress bar is using */
+        icon: '',
+        /** Indicates if the compiling is done for the app */
+        done: false,
+        /** Stop progress bar timer */
+        cancelTimer: null,
+        /** The current percentage */
+        percentage: 0,
+        /** Keep tracking for compilation error of each app */
+        error: null,
+      };
+  
+      metaDatas[app] = metaData;
+      metaDatas.keys.push(app);
+  
+      setTimeout(() => {
+        buildModule(app, mode, handler, start, done);
+      }, 0);
+    });
+  }
 
-    metaDatas[app] = metaData;
-    metaDatas.keys.push(app);
-
-    setTimeout(() => {
-      buildModule(app, mode, handler, start, done);
-    }, 0);
-  });
+  if (apps.indexOf(common) !== -1 && mode === BUILD_MODE.DEV) {
+    const currentLine = getCurrentLine(0);
+    let index = 0;
+    const cancelTimer = startTimer(() => {
+      index = index % 4;
+      const dots = new Array(3).fill(' ');
+      for (let i = 0; i < index; i++) {
+        dots[i] = '.';
+      }
+      writeOnLine(process.stdout, currentLine, `${pointers[index]} linking [${chalk.cyan(common)}]${dots.join('')}`);
+      index++;
+    });
+    linkCommon().then(() => {
+      cancelTimer();
+      runDev();
+    });
+    return;
+  }
+  
+  runDev();
 };
 
 module.exports = buildSome;

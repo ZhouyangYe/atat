@@ -5,7 +5,9 @@ const config = require('./config');
 const server = require('http').createServer();
 
 const PORT = config.MAJIANG_PORT;
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  cors: true,
+});
 startMajiangServer(io);
 
 server.listen(PORT, '0.0.0.0', () => {

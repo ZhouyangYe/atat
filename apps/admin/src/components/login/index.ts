@@ -3,10 +3,10 @@ import './index.less';
 class Login {
   private login: HTMLDivElement;
   private input: HTMLInputElement;
-  private password: string;
+  private password: string | undefined;
   private loading = false;
   private timer: NodeJS.Timer;
-  onClick: (password: string) => Promise<void>;
+  onClick?: (password?: string) => Promise<void>;
 
   onSubmit(): void {
     this.loading = true;
@@ -42,7 +42,7 @@ class Login {
   hide(): void {
     clearTimeout(this.timer);
 
-    this.login.onclick = undefined;
+    this.login.onclick = null;
     this.login.classList.add('hide');
     this.timer = setTimeout(() => {
       this.login.style.display = 'none';
@@ -75,9 +75,9 @@ class Login {
       </div>
     `;
 
-    this.input = this.login.querySelector<HTMLInputElement>('#password');
+    this.input = this.login.querySelector<HTMLInputElement>('#password')!;
 
-    const title = this.login.querySelector('span');
+    const title = this.login.querySelector('span')!;
 
     title.onmousedown = (e) => {
       e.preventDefault();

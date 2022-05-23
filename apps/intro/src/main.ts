@@ -33,7 +33,9 @@ const createAboutSection = () => {
   content.className = 'why';
 
   const p1 = document.createElement('p');
-  p1.innerHTML = '做这个网站并没有什么特别明确的目的性，想写些什么就写些什么，主要用来尝试一些自己感兴趣的技术。';
+  p1.innerHTML = `做这个网站并没有什么特别明确的目的性，想写些什么就写些什么，主要用来尝试一些自己感兴趣的技术。`;
+  const clarification = document.createElement('p');
+  clarification.innerHTML = `网站的素材：图片，音乐，都来自于网上，如有涉及侵权请联系删除：810036635@qq.com。`;
   const p2 = document.createElement('p');
   p2.innerHTML = `There is no specific plan for creating this website, just trying to come up with some interesting ideas and implement them here using web technologies as a practice.`;
   const p3 = document.createElement('p');
@@ -49,6 +51,7 @@ const createAboutSection = () => {
 
   content.append(
     p1,
+    clarification,
     p2,
     p3,
   );
@@ -245,7 +248,13 @@ const render = (app: HTMLElement): void => {
       if (background2) {
         contentSection.style.backgroundImage = `url(${getFullUrl(`${background2.path}/${background2.name}`)})`;
       }
+    } else {
+      welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/album/dream.jpg)`;
+      contentSection.style.backgroundImage = `url(@resources/dynamic/images/album/land.jpg)`;
     }
+  }).catch(() => {
+    welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/album/dream.jpg)`;
+    contentSection.style.backgroundImage = `url(@resources/dynamic/images/album/land.jpg)`;
   });
 
   window.onresize = () => {

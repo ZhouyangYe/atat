@@ -8,11 +8,13 @@ const introHandler = (req, res) => {
 };
 
 const getIntroInfo = (req, res) => {
+  let queryBackground, queryProfile;
+
   const backgroundSql = `SELECT path,name,orders FROM images WHERE type = '${IMAGE_TYPE.ALBUM}' AND picked = 1`;
-  const queryBackground = db.query(backgroundSql);
+  queryBackground = db.query(backgroundSql);
 
   const profileSql = `SELECT path,name,orders FROM images WHERE type = '${IMAGE_TYPE.PROFILE}' AND picked = 1`;
-  const queryProfile = db.query(profileSql);
+  queryProfile = db.query(profileSql);
 
   Promise.all([queryBackground, queryProfile]).then((values) => {
     const backgroundData = values[0];

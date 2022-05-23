@@ -33,7 +33,9 @@ requireAsync(getPath(name)).then((config = {}) => {
     const error = stats.hasErrors() ? info.errors.map((e) => {
       return `${e.moduleName}\n${e.message}`;
     }).join('\n\n') : err;
-    const warning = stats.hasWarnings() ? info.warnings : '';
+    const warning = stats.hasWarnings() ? info.warnings.map((w) => {
+      return `${w.stack}\n${w.message}`;
+    }).join('\n\n') : '';
 
     // webpack 5 bug, handler is called before ProgressPlugin ends.
     setTimeout(() => {

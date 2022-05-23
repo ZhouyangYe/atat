@@ -53,8 +53,8 @@ export const start = (ctx: CanvasRenderingContext2D, elements: IElements, socket
     });
 
     socket.on('win', () => {
-      document.onmousemove = undefined;
-      document.onkeydown = undefined;
+      document.onmousemove = null;
+      document.onkeydown = null;
       elements.announcement.innerHTML = 'You win!!!';
       elements.announcement.className = 'show';
       fadeOut(elements.announcement);
@@ -62,8 +62,8 @@ export const start = (ctx: CanvasRenderingContext2D, elements: IElements, socket
     });
 
     socket.on('lose', () => {
-      document.onmousemove = undefined;
-      document.onkeydown = undefined;
+      document.onmousemove = null;
+      document.onkeydown = null;
       elements.announcement.innerHTML = 'You lose!!!';
       elements.announcement.className = 'show';
       fadeOut(elements.announcement);

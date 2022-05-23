@@ -108,7 +108,7 @@ const getProjection = (n: Vector, o: Polygon): [Vector, Vector] => {
 }
 
 const handleProjection = (o1: Polygon, o2: Polygon): { collide: boolean, offset?: number, dir?: Vector, length?: number } => {
-  let offset = -1, dir: Vector, line: [Vector, Vector], l = -1;
+  let offset = -1, dir: Vector | undefined = undefined, line: [Vector, Vector], l = -1;
 
   for (let i = 0, length = o1.d.length; i < length; i++) {
     const dot1 = o1.d[i], dot2 = o1.d[i === length - 1 ? 0 : i + 1],
@@ -159,19 +159,19 @@ const handlePolygonCollision = (o1: Polygon, o2: Polygon): boolean => {
   else if (p1.offset === p2.offset && p1.offset === 0) {
     return false;
   }
-  else if (p1.offset < p2.offset || (p1.offset === p2.offset && p1.length < p2.length)) {
-    const offset2 = p1.offset * o1.mass / (o1.mass + o2.mass);
-    const offset1 = p1.offset - offset2;
+  else if (p1.offset! < p2.offset! || (p1.offset === p2.offset && p1.length! < p2.length!)) {
+    const offset2 = p1.offset! * o1.mass / (o1.mass + o2.mass);
+    const offset1 = p1.offset! - offset2;
 
-    o1.setPos(plusVector(o1.position, multiplyVector(p1.dir, offset1)));
-    o2.setPos(minusVector(o2.position, multiplyVector(p1.dir, offset2)));
+    o1.setPos(plusVector(o1.position, multiplyVector(p1.dir!, offset1)));
+    o2.setPos(minusVector(o2.position, multiplyVector(p1.dir!, offset2)));
   }
   else {
-    const offset2 = p2.offset * o1.mass / (o1.mass + o2.mass);
-    const offset1 = p2.offset - offset2;
+    const offset2 = p2.offset! * o1.mass / (o1.mass + o2.mass);
+    const offset1 = p2.offset! - offset2;
 
-    o1.setPos(minusVector(o1.position, multiplyVector(p2.dir, offset1)));
-    o2.setPos(plusVector(o2.position, multiplyVector(p2.dir, offset2)));
+    o1.setPos(minusVector(o1.position, multiplyVector(p2.dir!, offset1)));
+    o2.setPos(plusVector(o2.position, multiplyVector(p2.dir!, offset2)));
   }
 
   return true;

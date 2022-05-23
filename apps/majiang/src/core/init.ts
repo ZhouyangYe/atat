@@ -4,8 +4,8 @@ import { start } from './start';
 
 export const init = (table: HTMLCanvasElement, elements: IElements, socket: Socket): void => {
   if (table.getContext) {
-    const ctx = table.getContext('2d');
-    let messageTimer: NodeJS.Timer = null;
+    const ctx = table.getContext('2d')!;
+    let messageTimer: NodeJS.Timer | undefined = undefined;
 
     clearPanel(ctx, table.width, table.height);
 

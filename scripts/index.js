@@ -45,9 +45,11 @@ switch (command) {
       cleanApps(allApps);
     } else if (contains([...allApps, node_modules], subArgs)) {
       cleanApps(subArgs);
+    } else if (subArgs.length === 1 && subArgs[0] === 'all') {
+      cleanApps([...allApps, node_modules]);
     } else {
       console.error('Invalid apps!\n', true);
-      console.info(`Apps should be one of these: ${allApps.join(', ')}.`, true);
+      console.info(`Apps should be one of these: ${allApps.join(', ')}, ${node_modules}.`, true);
     }
     break;
   case COMMANDS.PASSWORD:
