@@ -2,7 +2,7 @@ require('./utils/overrideRequire');
 const http = require('http');
 const { mainHandler, decorateIO, use, bodyParser } = require('./core/handlers');
 const bindAllRoutes = require('./router');
-const config = require('./config');
+const config = require('./utils/config');
 const logger = require('./utils/logger');
 
 const PORT = config.WEB_PORT;

@@ -1,7 +1,7 @@
 require('./utils/overrideRequire');
 const logger = require('./utils/logger');
 const { startMajiangServer } = require('./core/majiang');
-const config = require('./config');
+const config = require('./utils/config');
 const server = require('http').createServer();
 
 const PORT = config.MAJIANG_PORT;

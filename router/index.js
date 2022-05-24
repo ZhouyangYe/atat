@@ -1,6 +1,6 @@
 const coreHandler = require('../core/handlers');
 const { COMMON_ROUTE, API_NOT_FOUND } = require('./enum');
-const config = require('../config');
+const config = require('../utils/config');
 
 const routeList = require('./routes');
 

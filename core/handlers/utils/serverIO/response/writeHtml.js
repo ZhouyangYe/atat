@@ -1,6 +1,6 @@
 /** Read and send html files */
 const fs = require('fs');
-const config = require('@/config');
+const config = require('@/utils/config');
 const { CONTENT_TYPE_MAPPING } = require('@/core/enum');
 
 const namespace = 'html';

@@ -1,7 +1,7 @@
 /**
  * Create log tool for dev
  */
-const config = require('@/config');
+const config = require('@/utils/config');
 const { MODE } = require('./enum');
 
 const logger = {

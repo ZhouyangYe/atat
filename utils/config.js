@@ -3,7 +3,7 @@ const path = require('path');
 
 const config = {};
 
-fs.readFileSync(path.resolve(__dirname, './server.config'), 'utf-8').split(/\r?\n/).forEach((line) => {
+fs.readFileSync(path.resolve(__dirname, '../server.config'), 'utf-8').split(/\r?\n/).forEach((line) => {
   readLine(line);
 });
 
