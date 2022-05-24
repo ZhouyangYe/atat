@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "start-majiang": "nodemon majiang.js",
+    "start-pingpong": "nodemon pingpong.js",
     "build": "npm run scripts -- build",
     "dev": "npm run scripts -- dev",
     "clean": "npm run scripts -- clean",

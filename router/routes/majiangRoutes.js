@@ -1,4 +1,4 @@
-const { majiangHandler } = require('../../core/handlers/majiang');
+const { majiangHandler } = require('@/core/handlers/majiang');
 
 const majiangRoutes = {
   match: '/majiang',

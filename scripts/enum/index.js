@@ -34,7 +34,7 @@ const initLine = 6;
 /** Line space */
 const delta = 2;
 
-const appList = ['stories', 'home', 'intro', 'notFound', 'majiang', 'admin'];
+const appList = ['stories', 'home', 'intro', 'notFound', 'majiang', 'pingpong', 'admin'];
 const common = 'common';
 const node_modules = 'modules';
 

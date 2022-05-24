@@ -4,6 +4,7 @@ const { storiesRoutes } = require('./storiesRoutes');
 const { homeRoutes } = require('./homeRoutes');
 const { introRoutes } = require('./introRoutes');
 const { majiangRoutes } = require('./majiangRoutes');
+const { pingpongRoutes } = require('./pingpongRoutes');
 const { adminRoutes } = require('./adminRoutes');
 
 const { commonRoutes } = require('./commonRoutes');
@@ -17,6 +18,7 @@ module.exports = [
   homeRoutes,
   introRoutes,
   majiangRoutes,
+  pingpongRoutes,
   adminRoutes,
   // Common api routes
   commonRoutes,

@@ -3,7 +3,7 @@ import { init } from './core';
 
 import './styles';
 
-const socket = io(`${document.location.protocol}//${document.location.hostname}:39888`);
+const socket = io(`${document.location.protocol}//${document.location.hostname}:39666`);
 
 const tableWrap = document.querySelector<HTMLElement>('#wrap')!;
 const table = document.querySelector<HTMLCanvasElement>('#table')!;

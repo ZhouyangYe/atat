@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <base href="/pingpong/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/png" href="./favicon.png"/>
+  <link rel="stylesheet" href="./dist/main.css">
+  <title>乒乓球 - Pingpong</title>
+</head>
+
+<body>
+  <h3 id="oppo-name">Waiting for player . . .</h3>
+  <div id="wrap">
+    <canvas id="table" width="600" height="700"></canvas>
+    <div id="ready-icon"></div>
+    <div id="announcement" class="hide"></div>
+  </div>
+  <input type="text" id="name" maxlength="30" placeholder="Player name">
+  <p id="error-message"></p>
+  <script src="./dist/main.js"></script>
+</body>
+
+</html>
