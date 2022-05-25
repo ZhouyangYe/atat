@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import ReactDom from 'react-dom';
+import React from 'react';
+import ReactDom from 'react-dom/client';
+import RootComponent from './Root';
 
-const Testa: React.FC<any> = () => {
-  return <div>Hello World!</div>;
-};
+const root = ReactDom.createRoot(document.getElementById('app')!);
 
-ReactDom.render(<Testa />, document.getElementById('app'));
+root.render(<RootComponent />);

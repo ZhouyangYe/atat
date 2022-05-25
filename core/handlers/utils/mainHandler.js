@@ -36,7 +36,7 @@ const getMethod = (type) => {
       if (
         req.method.toLowerCase() !== type ||
         (isRegex && !pattern.test(req.url)) ||
-        (!isRegex && pattern !== req.url)
+        (!isRegex && pattern !== req.url.split('?')[0])
       ) {
         return false;
       }

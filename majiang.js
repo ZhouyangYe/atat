@@ -13,4 +13,3 @@ startMajiangServer(io);
 server.listen(PORT, '0.0.0.0', () => {
   logger.info(`Listening on ${PORT}`);
 });
-

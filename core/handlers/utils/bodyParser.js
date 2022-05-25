@@ -1,8 +1,11 @@
+const url = require('url');
 const { METHOD_TYPE } = require('@/core/enum');
 
 module.exports = (req, res, next) => {
   switch (req.method.toLowerCase()) {
     case METHOD_TYPE.GET: {
+      const queryObject = url.parse(req.url, true).query;
+      req.query = queryObject;
       next();
       break;
     }
