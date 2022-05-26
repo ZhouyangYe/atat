@@ -1,3 +1,17 @@
+@keyframes shine {
+  0% {
+    background-position: -2000px;
+  }
+
+  30% {
+    background-position: -2000px;
+  }
+
+  100% {
+    background-position: 2000px;
+  }
+}
+
 html {
   height: 100%;
 
@@ -23,7 +37,7 @@ html {
         height: 100vh;
 
         a.reference {
-          color: darkcyan;
+          color: rgba(0, 139, 139, 0.6);
         }
 
         z-index: 1;
@@ -32,27 +46,98 @@ html {
       #about {
         position: relative;
         height: auto;
+        text-align: justify;
+        width: 100%;
 
         .why {
-          opacity: 0.6;
-          box-sizing: border-box;
           font-size: 20px;
           line-height: 50px;
-          color: rgb(78, 126, 158);
+          color: rgba(36, 51, 61, 0.6);
+          width: 100%;
           max-width: 600px;
           margin: 0 auto;
-          padding: 36px 18px;
+          overflow: hidden;
+
+          &>div {
+            @color: rgba(78, 126, 158, 1);
+            background: linear-gradient(-30deg, rgba(255, 255, 255, 0) 40%, @color 48%, @color 52%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 100%) -2000px 0px no-repeat;
+            background: -webkit-linear-gradient(-30deg, rgba(255, 255, 255, 0) 40%, @color 48%, @color 52%, rgba(255, 255, 255, 0) 60%, rgba(255, 255, 255, 0) 100%) -2000px 0px no-repeat;
+            background-clip: text;
+            -webkit-background-clip: text;
+            animation: shine 6s infinite ease;
+            position: relative;
+            width: 500%;
+            left: -200%;
+
+            &>div {
+              box-sizing: border-box;
+              margin: 0 auto;
+              padding: 36px 18px;
+              width: calc(100% / 5);
+            }
+          }
 
           p {
             text-indent: 40px;
           }
 
-          @media only screen and (max-width: 700px) {
-            padding: 8px;
-            font-size: 18px;
-            margin-bottom: 16px;
+          .resume {
+            display: none;
           }
         }
+      }
+
+      @media only screen and (max-width: 700px) {
+        overflow-y: auto !important;
+
+        #welcome,
+        #content,
+        #audio,
+        #door,
+        #star,
+        #scroll,
+        #crystal,
+        #lamp,
+        .scroll-bar-container {
+          display: none !important;
+        }
+
+        #about {
+          height: 100vh;
+          overflow-y: auto;
+          background: url('@resources/static/mobile/poem.jpg');
+          background-size: cover;
+
+          .why {
+            @color: rgba(26, 32, 31, 0.8);
+            color: rgba(29, 39, 37, 0.6);
+            line-height: 25px;
+            font-size: 18px;
+
+            &>div {
+              background: linear-gradient(-30deg, rgba(255, 255, 255, 0) 25%, @color 40%, @color 45%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%) -2000px 0px no-repeat;
+              background: -webkit-linear-gradient(-30deg, rgba(255, 255, 255, 0) 36%, @color 47%, @color 53%, rgba(255, 255, 255, 0) 64%, rgba(255, 255, 255, 0) 100%) -2000px 0px no-repeat;
+              background-clip: text;
+              -webkit-background-clip: text;
+            }
+
+            a.reference {
+              color: rgba(17, 63, 58, 0.6);
+              font-size: 16px;
+            }
+
+            .resume {
+              display: block;
+            }
+          }
+        }
+
+      }
+    }
+
+    @media only screen and (max-width: 700px) {
+      #circle-wrap {
+        display: none !important;
       }
     }
   }

@@ -1,12 +1,8 @@
 import React from 'react';
 
-interface Params {
-
-}
-
-const Article: React.FC<Params> = () => {
+const Article: React.FC<any> = () => {
   return (
-    <div>Hello Blog</div>
+    <div>Hello Article</div>
   );
 };
 

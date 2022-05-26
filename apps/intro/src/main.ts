@@ -33,9 +33,9 @@ const createAboutSection = () => {
   content.className = 'why';
 
   const p1 = document.createElement('p');
-  p1.innerHTML = `做这个网站并没有什么特别明确的目的性，想写些什么就写些什么，主要用来尝试一些自己感兴趣的技术。`;
+  p1.innerHTML = `做这个网站并没有什么特别明确的目的性，想到什么就写些什么，主要用来尝试一些自己感兴趣的技术。`;
   const clarification = document.createElement('p');
-  clarification.innerHTML = `网站的素材：图片，音乐，都来自于网上，如有涉及侵权请联系删除：810036635@qq.com。`;
+  clarification.innerHTML = `网站的素材：图片，音乐，都来自于网上，如有涉及侵权请联系删除更换：810036635@qq.com。`;
   const p2 = document.createElement('p');
   p2.innerHTML = `There is no specific plan for creating this website, just trying to come up with some interesting ideas and implement them here using web technologies as a practice.`;
   const p3 = document.createElement('p');
@@ -43,20 +43,31 @@ const createAboutSection = () => {
   reference.className = 'reference';
   reference.target = '_blank';
   reference.href = 'https://github.com/ZhouyangYe/atat';
-  reference.innerHTML = 'https://github.com/ZhouyangYe/atat';
+  reference.innerHTML = 'Github';
   reference.onmousedown = (e) => { e.stopPropagation(); };
   reference.onclick = (e) => { e.stopPropagation(); };
-  p3.innerHTML = '代码地址：';
+  p3.innerHTML = '代码：';
   p3.appendChild(reference);
+  const p4 = document.createElement('p'), p5 = document.createElement('p');
+  p4.innerHTML = `主页：<a class='reference' href='/stories'>Blog</a>`;
+  p4.onmousedown = (e) => { e.stopPropagation(); };
+  p5.className = 'resume';
+  p5.innerHTML = `简历：<a class='reference' href='javascript:void(0)'>Resume</a>`;
 
-  content.append(
+  const wrap = document.createElement('div');
+  const wrap2 = document.createElement('div');
+  wrap2.append(
     p1,
     clarification,
     p2,
+    p5,
     p3,
+    p4,
   );
+  wrap.append(wrap2);
+  content.append(wrap);
 
-  aboutSection.appendChild(content);
+  aboutSection.append(content);
 
   return aboutSection;
 };
@@ -74,7 +85,7 @@ const render = (app: HTMLElement): void => {
   const { resize } = scrollableContainer;
 
   const welcomeSection = createWelcomeSection();
-  const aboutSection = createAboutSection();
+  const aboutSection = createAboutSection(), aboutResume = aboutSection.querySelector<HTMLDivElement>('.resume .reference')!;
   const contentSection = createContentSection();
 
   const door = new Door({ href: '/home' });
@@ -98,6 +109,7 @@ const render = (app: HTMLElement): void => {
   const audio = new Audio({
     src: '/@resources/dynamic/audios/sword.mp3',
     title: '武林群侠传·剑庐',
+    autoplay: window.innerWidth > 700,
   });
   const audioDom = audio.getDom();
 
@@ -109,13 +121,13 @@ const render = (app: HTMLElement): void => {
         text: 'zye0821@gmail.com',
       },
       {
-        type: TYPE.PHONE,
-        text: '15268159839',
-      },
-      {
         type: TYPE.LINK,
         text: 'bewhat1wannabe',
         prefix: 'WeChat',
+      },
+      {
+        type: TYPE.PHONE,
+        text: '15268159839',
       },
       {
         type: TYPE.LINK,
@@ -139,6 +151,9 @@ const render = (app: HTMLElement): void => {
   const scrollDom = scroll.getDom();
   const resumeBox = scrollDom.querySelector<HTMLDivElement>('.box-5')!;
   resumeBox.onclick = () => {
+    resume.show();
+  };
+  aboutResume.onclick = () => {
     resume.show();
   };
 

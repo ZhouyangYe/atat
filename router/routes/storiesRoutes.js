@@ -1,8 +1,8 @@
-const { storiesHandler, getRandomImages } = require('@/core/handlers/stories');
+const { storiesHandler, getRandomImages, getArticles } = require('@/core/handlers/stories');
 const { METHOD_TYPE } = require('@/core/enum');
 
 const storiesRoutes = {
-  match: /^\/stories$/,
+  match: /^\/stories.*$/,
   handler: storiesHandler,
   namespace: 'stories',
   apis: [
@@ -10,6 +10,11 @@ const storiesRoutes = {
       url: '/images',
       method: METHOD_TYPE.GET,
       handler: getRandomImages,
+    },
+    {
+      url: '/articles',
+      method: METHOD_TYPE.GET,
+      handler: getArticles,
     },
   ],
 };

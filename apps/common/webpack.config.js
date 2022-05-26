@@ -10,6 +10,7 @@ module.exports = {
     framework: path.resolve(__dirname, './src/framework/index.ts'),
     ['services/intro']: path.resolve(__dirname, './src/services/intro/index.ts'),
     ['services/admin']: path.resolve(__dirname, './src/services/admin/index.ts'),
+    ['services/stories']: path.resolve(__dirname, './src/services/stories/index.ts'),
     ['modules/loading']: path.resolve(__dirname, './src/modules/loading/index.ts'),
     ['modules/scrollable']: path.resolve(__dirname, './src/modules/scrollable/index.ts'),
     ['modules/door']: path.resolve(__dirname, './src/modules/door/index.ts'),

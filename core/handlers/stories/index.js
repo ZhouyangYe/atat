@@ -1,4 +1,5 @@
 const images = require('./images');
+const blog = require('./blog');
 
 const storiesHandler = (req, res) => {
   res.html('stories');
@@ -6,5 +7,6 @@ const storiesHandler = (req, res) => {
 
 module.exports = {
   ...images,
+  ...blog,
   storiesHandler,
 };
