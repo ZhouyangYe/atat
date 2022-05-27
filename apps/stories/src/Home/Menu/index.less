@@ -1,0 +1,49 @@
+.home-menu {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 25px auto 36px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 8px;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  @media only screen and (max-width: 800px) {
+    justify-content: center;
+    margin: 0 auto 30px;
+  }
+
+  .title {
+    margin-right: 8px;
+    padding: 6px 0;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  .bar {
+    position: relative;
+    background-color: #fff;
+    width: 200px;
+    height: 3px;
+    cursor: pointer;
+
+    .switch {
+      position: absolute;
+      top: -4px;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 100%;
+      background-color: rgb(178, 235, 245);
+    }
+  }
+}
