@@ -44,16 +44,14 @@ class Panel {
     this.resume.className = 'resume';
     this.logout.className = 'logout';
 
-    const photo = document.createElement('img');
-    photo.src = '/@resources/static/resume/photo.jpg';
-    photo.alt = 'Edit resume';
-    photo.title = 'Edit resume';
+    const photo = document.createElement('div');
+    photo.className = 'wrap';
+    photo.innerHTML = `<img src='/@resources/static/resume/photo.jpg' alt='Edit resume' title='Edit resume'>`;
     this.resume.append(photo);
 
-    const icon = document.createElement('img');
-    icon.src = '/@resources/static/icons/logout.svg';
-    icon.alt = 'Log out';
-    icon.title = 'Log out';
+    const icon = document.createElement('div');
+    icon.className = 'wrap';
+    icon.innerHTML = `<img src='/@resources/static/icons/logout.svg' alt='Log out' title='Log out'>`;
     this.logout.append(icon);
 
     this.panel.append(this.logout, this.resume);

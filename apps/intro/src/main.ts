@@ -35,7 +35,9 @@ const createAboutSection = () => {
   const p1 = document.createElement('p');
   p1.innerHTML = `做这个网站并没有什么特别明确的目的性，想到什么就写些什么，主要用来尝试一些自己感兴趣的技术。`;
   const clarification = document.createElement('p');
-  clarification.innerHTML = `网站的素材：图片，音乐，都来自于网上，如有涉及侵权请联系删除更换：810036635@qq.com。`;
+  clarification.innerHTML = `网站的素材：图片，音乐，都来自于网上，如有涉及侵权请联系删除更换：<a class='reference' href='mailto:810036635@qq.com'>810036635@qq.com</a>。`;
+  const email = clarification.querySelector('a');
+  email!.onmousedown = (e) => { e.stopPropagation(); };
   const p2 = document.createElement('p');
   p2.innerHTML = `There is no specific plan for creating this website, just trying to come up with some interesting ideas and implement them here using web technologies as a practice.`;
   const p3 = document.createElement('p');
@@ -48,11 +50,13 @@ const createAboutSection = () => {
   reference.onclick = (e) => { e.stopPropagation(); };
   p3.innerHTML = '代码：';
   p3.appendChild(reference);
-  const p4 = document.createElement('p'), p5 = document.createElement('p');
+  const p4 = document.createElement('p'), p5 = document.createElement('p'), p6 = document.createElement('p');
   p4.innerHTML = `主页：<a class='reference' href='/stories'>Blog</a>`;
   p4.onmousedown = (e) => { e.stopPropagation(); };
   p5.className = 'resume';
   p5.innerHTML = `简历：<a class='reference' href='javascript:void(0)'>Resume</a>`;
+  p6.className = 'admin';
+  p6.innerHTML = `Admin：<a class='reference' href='/admin'>Entry</a>`;
 
   const wrap = document.createElement('div');
   const wrap2 = document.createElement('div');
@@ -63,6 +67,7 @@ const createAboutSection = () => {
     p5,
     p3,
     p4,
+    p6,
   );
   wrap.append(wrap2);
   content.append(wrap);
@@ -143,13 +148,19 @@ const render = (app: HTMLElement): void => {
       },
       {
         type: TYPE.LINK,
+        text: 'Entry',
+        prefix: 'Admin',
+        link: '/admin',
+      },
+      {
+        type: TYPE.LINK,
         text: 'Zhouyang Ye',
         prefix: 'Resume',
       },
     ],
   });
   const scrollDom = scroll.getDom();
-  const resumeBox = scrollDom.querySelector<HTMLDivElement>('.box-5')!;
+  const resumeBox = scrollDom.querySelector<HTMLAnchorElement>('.box-6 a')!;
   resumeBox.onclick = () => {
     resume.show();
   };
@@ -217,6 +228,9 @@ const render = (app: HTMLElement): void => {
   resume.resize();
 
   const handleDoubleClick = () => {
+    if (window.innerWidth < 700) {
+      return;
+    }
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
     } else {

@@ -59,6 +59,8 @@ panel.logoutClick = () => {
       login.show();
       panel.hide();
       message.success('You are logged out.');
+    } else {
+      message.info('Already logged out.');
     }
   }).catch(() => {
     message.error('Something is wrong.');
@@ -106,6 +108,7 @@ login.onSubmit();
 
 window.onresize = () => {
   resume.resize();
+  login.resize();
 };
 
 const checkActivity = () => {
@@ -126,6 +129,12 @@ window.onwheel = () => {
   throttle(checkActivity, 60000, false);
 };
 window.onkeydown = () => {
+  throttle(checkActivity, 60000, false);
+};
+window.ontouchstart = () => {
+  throttle(checkActivity, 60000, false);
+};
+window.onwheel = () => {
   throttle(checkActivity, 60000, false);
 };
 

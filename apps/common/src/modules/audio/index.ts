@@ -47,8 +47,6 @@ class Audio {
 
   private lock: HTMLElement;
 
-  private handleDocumentClick?: () => void;
-
   constructor(config: IConfig) {
     this.config = config;
 
@@ -110,15 +108,6 @@ class Audio {
     this.controller.style.backgroundRepeat = 'no-repeat';
     this.controller.className = this.autoHide ? 'hide' : 'show';
 
-    if (this.autoHide && autoplay) {
-      this.handleDocumentClick = () => {
-        this.play();
-        document.removeEventListener('click', this.handleDocumentClick!, false);
-        this.handleDocumentClick = undefined;
-      };
-      document.addEventListener('click', this.handleDocumentClick, false);
-    }
-
     this.controller.onmouseenter = () => {
       if (!this.autoHide) return;
 
@@ -138,21 +127,13 @@ class Audio {
       evt.stopPropagation();
     };
 
-    const removeDocumentListener = () => {
-      if (this.handleDocumentClick) {
-        document.removeEventListener('click', this.handleDocumentClick, false);
-        this.handleDocumentClick = undefined;
-      }
-    };
     this.playButton = document.createElement('img');
     this.playButton.className = 'play-button';
     this.audio.onplay = () => {
-      removeDocumentListener();
       this.rolling();
       this.playButton.src = '/@resources/static/icons/pause-2.svg';
     };
     this.audio.onpause = () => {
-      removeDocumentListener();
       clearTimeout(this.rollingTimer);
       if (this.cancelScroll) this.cancelScroll();
       this.playButton.src = '/@resources/static/icons/play-button-2.svg';

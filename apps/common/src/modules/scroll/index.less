@@ -44,6 +44,13 @@
   z-index: 99;
   transition: opacity 0.7s ease, top 0.7s ease, box-shadow 0.7s ease;
 
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   &.show {
     top: 1.8em;
     opacity: 1;
@@ -67,7 +74,11 @@
   #list div,
   #list .strip {
     position: absolute;
-    cursor: pointer;
+    cursor: default;
+
+    a {
+      cursor: pointer;
+    }
   }
 
   #list div>span {

@@ -30,47 +30,115 @@
 }
 
 #login {
-  display: none;
+  @borderRadius: 8px;
   z-index: 1000;
   width: @width;
   height: @height;
   position: fixed;
-  border-radius: 8px;
+  border-radius: @borderRadius;
   text-align: center;
-  box-shadow: 2px 3px 6px 1px #08283a;
-  background: url('@resources/static/admin/password.jpg');
-  background-size: cover;
-  cursor: pointer;
+  box-shadow: 0 3px 8px 1px rgba(0, 0, 0, 0.8);
   @duration: 0.2s;
-  transition: opacity @duration ease, transform @duration ease, box-shadow @duration ease;
-
   left: calc(50% - @width / 2);
-  top: calc(43% - @height / 2);
+  top: -200px;
+  transition: box-shadow 0.2s ease;
 
-  &.active {
-    box-shadow: none;
-    transition: box-shadow 0.02s ease;
+  .bar-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    .bar {
+      cursor: pointer;
+      border-radius: @borderRadius;
+      background: url('@resources/static/admin/password.jpg');
+      background-size: cover;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .shadow {
+    opacity: 0.6;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    box-shadow: 0 -3px 8px 1px rgba(0, 0, 0, 0.8);
+    border-radius: @borderRadius;
+    transition: box-shadow 0.2s ease;
+
+    .content-wrap {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+
+      .content {
+        top: 0;
+        left: 0;
+        position: absolute;
+        cursor: default;
+        border-radius: @borderRadius;
+  
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+  
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform: rotateX(180deg);
+        background: url('@resources/static/admin/password.jpg');
+  
+        input {
+          cursor: default;
+        }
+      }
+    }
   }
 
   &.hide {
     box-shadow: none;
-    transform: scale(0, 0);
+
+    .shadow {
+      box-shadow: none;
+    }
+
+    .bar-wrap .bar {
+      transition: top 0.3s ease 0.2s;
+      top: 100%;
+    }
+
+    .shadow .content-wrap .content {
+      transition: top 0.3s ease 0.2s;
+      top: -100%;
+    }
   }
 
   .loading-bar {
     position: relative;
     display: none;
     width: 170px;
-    top: -6px;
+    top: -2px;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
 
     .wave {
-      width: 5px;
+      width: 3px;
       height: 22px;
-      background: linear-gradient(45deg, rgb(40, 76, 109), rgb(135, 151, 156));
-      margin: 6px;
+      background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(255, 255, 255, 0.5));
+      margin: 7px;
       animation: wave 1s linear infinite;
       border-radius: 20px;
     }
@@ -115,7 +183,7 @@
   &.loading {
     cursor: not-allowed;
 
-    #password {
+    .password {
       display: none;
     }
 
@@ -149,7 +217,7 @@
     }
   }
 
-  #password {
+  .password {
     width: 160px;
   }
 }
