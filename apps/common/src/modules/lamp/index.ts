@@ -1,3 +1,5 @@
+import { getLeft } from '@/utils';
+
 import './index.less';
 
 export interface Config {
@@ -48,15 +50,6 @@ class Lamp {
     }, 3000);
   };
 
-  private getLeft(obj: HTMLElement): number {
-    let left = 0;
-    while (obj) {
-      left += obj.offsetLeft;
-      obj = obj.offsetParent as HTMLElement;
-    }
-    return left;
-  }
-
   private render(): void {
     this.lamp = document.createElement('div');
     this.lamp.id = 'lamp';
@@ -91,7 +84,7 @@ class Lamp {
     let toggleL = true;
     let toggleR = true;
     const swing = (e: MouseEvent) => {
-      const left = this.getLeft(combine);
+      const left = getLeft(combine);
       if (e.clientX > (left + 15)) {
         if (toggleL) {
           combine.className = 'combine swingl1';

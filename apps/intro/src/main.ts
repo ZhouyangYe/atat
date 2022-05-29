@@ -1,6 +1,6 @@
 import { getIntroInfo, getResumeData } from 'atat-common/lib/services/intro';
 import message from 'atat-common/lib/modules/message';
-import { getFullUrl } from 'atat-common/lib/utils';
+import { getFullUrl, getLeft, getTop } from 'atat-common/lib/utils';
 import ScrollableContainer from 'atat-common/lib/modules/scrollable';
 import Door from 'atat-common/lib/modules/door';
 import Audio from 'atat-common/lib/modules/audio';
@@ -35,7 +35,7 @@ const createAboutSection = () => {
   const p1 = document.createElement('p');
   p1.innerHTML = `做这个网站并没有什么特别明确的目的性，想到什么就写些什么，主要用来尝试一些自己感兴趣的技术。`;
   const clarification = document.createElement('p');
-  clarification.innerHTML = `网站的素材：图片，音乐，都来自于网上，如有涉及侵权请联系删除更换：<a class='reference' href='mailto:810036635@qq.com'>810036635@qq.com</a>。`;
+  clarification.innerHTML = `网站的一部分素材：图片，音乐，canvas背景等来自于网上（代码中有标注license和地址），如有涉及侵权请联系删除更换：<a class='reference' href='mailto:810036635@qq.com'>810036635@qq.com</a>。`;
   const email = clarification.querySelector('a');
   email!.onmousedown = (e) => { e.stopPropagation(); };
   const p2 = document.createElement('p');
@@ -84,7 +84,164 @@ const createContentSection = () => {
   return contentSection;
 };
 
+const handleCat = () => {
+  const hole = document.getElementById('hole') as HTMLDivElement;
+  const cat = hole.querySelector<HTMLDivElement>('#cat')!;
+  const home = cat.querySelector<HTMLDivElement>('#home')!;
+  const handle = cat.querySelector<HTMLDivElement>('.handle')!;
+
+  const
+    catWidth = cat.clientWidth, catHeight = cat.clientHeight;
+
+  const holeRadius = 200, holeRadius2 = 40000;
+  let holeCenter = { x: window.innerWidth / 2, y: window.innerHeight - 20 - holeRadius };
+
+  const detect = (left: number, top: number) => {
+    const topLeftIn = Math.pow(left - holeCenter.x, 2) + Math.pow(top - holeCenter.y, 2) < holeRadius2;
+    const topRightIn = Math.pow(left + catWidth - holeCenter.x, 2) + Math.pow(top - holeCenter.y, 2) < holeRadius2;
+    const bottomLeftIn = Math.pow(left - holeCenter.x, 2) + Math.pow(top + catHeight - holeCenter.y, 2) < holeRadius2;
+    const bottomRightIn = Math.pow(left + catWidth - holeCenter.x, 2) + Math.pow(top + catHeight - holeCenter.y, 2) < holeRadius2;
+
+    const contain = topLeftIn && topRightIn && bottomLeftIn && bottomRightIn;
+    const collide = topLeftIn || topRightIn || bottomLeftIn || bottomRightIn;
+
+    return {
+      contain,
+      collide,
+    };
+  };
+
+  cat.onmouseenter = (e) => {
+    e.stopPropagation();
+  };
+
+  cat.onmouseleave = (e) => {
+    e.stopPropagation();
+  };
+
+  const offsetPos = 197;
+
+  let mouseIn = false;
+  const x = 47, y = 85;
+  let mouseEnter: (() => void) | null = () => {
+    hole.classList.remove('hide');
+    cat.style.left = `${x}px`;
+    cat.style.top = `${y}px`;
+  };
+  hole.onmouseleave = () => {
+    hole.classList.add('hide');
+    cat.style.left = `${x - offsetPos}px`;
+    cat.style.top = `${y - offsetPos}px`;
+  }
+  const mouseHandler = (e: MouseEvent) => {
+    if (!mouseEnter) return;
+    const inside = Math.pow(e.clientX - holeCenter.x, 2) + Math.pow(e.clientY - holeCenter.y, 2) < 400;
+    if (!mouseIn && inside) {
+      mouseEnter();
+    }
+    mouseIn = inside;
+  };
+  window.addEventListener('mousemove', mouseHandler, false);
+
+  handle.onmousedown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (cat.classList.contains('hide')) {
+      mouseEnter = null;
+      hole.onmouseleave = null;
+      cat.classList.remove('hide');
+      home.style.boxShadow = '3px 3px 6px 3px rgb(0, 0, 0, 0.6)';
+      setTimeout(() => {
+        cat.style.left = `${cat.offsetLeft + holeCenter.x - holeRadius}px`;
+        cat.style.top = `${cat.offsetTop + holeCenter.y - holeRadius}px`;
+        cat.style.position = 'fixed';
+      }, 18);
+    }
+    const
+      originX = e.clientX, originY = e.clientY,
+      deltaX = originX - getLeft(cat), deltaY = originY - getTop(cat),
+      windowWidth = window.innerWidth, windowHeight = window.innerHeight,
+      boundX = windowWidth - catWidth, boundY = windowHeight - catHeight;
+
+    let left = originX - deltaX, top = originY - deltaY, isContain = false;
+
+    const handleMove = (event: MouseEvent) => {
+      left = event.clientX - deltaX, top = event.clientY - deltaY;
+      left = left < 0 ? 0 : left > boundX ? boundX : left;
+      top = top < 30 ? 30 : top > boundY ? boundY : top;
+
+      const { contain, collide } = detect(left, top);
+      isContain = contain;
+      if (contain) {
+        hole.classList.add('active');
+      } else {
+        hole.classList.remove('active');
+      }
+
+      if (collide) {
+        hole.classList.remove('hide');
+      } else {
+        hole.classList.add('hide');
+      }
+
+      cat.style.left = `${left}px`;
+      cat.style.top = `${top}px`;
+    };
+    window.addEventListener('mousemove', handleMove, false);
+
+    const handleUp = () => {
+      if (isContain) {
+        const currentX = left - holeCenter.x + holeRadius, currentY = top - holeCenter.y + holeRadius;
+        cat.style.left = `${currentX}px`;
+        cat.style.top = `${currentY}px`;
+        cat.style.position = 'absolute';
+        home.style.boxShadow = 'none';
+        mouseEnter = () => {
+          hole.classList.remove('hide');
+          cat.style.left = `${currentX}px`;
+          cat.style.top = `${currentY}px`;
+        };
+        hole.onmouseleave = () => {
+          hole.classList.add('hide');
+          cat.style.left = `${currentX - offsetPos}px`;
+          cat.style.top = `${currentY - offsetPos}px`;
+        }
+        setTimeout(() => {
+          hole.classList.add('hide');
+          cat.classList.add('hide');
+          cat.style.left = `${currentX - offsetPos}px`;
+          cat.style.top = `${currentY - offsetPos}px`;
+        }, 200);
+      } else {
+        hole.classList.add('hide');
+      }
+      window.removeEventListener('mousemove', handleMove, false);
+      window.removeEventListener('mouseup', handleUp, false);
+    }
+    window.addEventListener('mouseup', handleUp, false);
+  };
+
+  return () => {
+    if (!cat.classList.contains('hide')) {
+      const
+        windowWidth = window.innerWidth, windowHeight = window.innerHeight,
+        boundX = windowWidth - catWidth, boundY = windowHeight - catHeight;
+
+      let l = cat.offsetLeft, t = cat.offsetTop;
+      l = l < 0 ? 0 : l > boundX ? boundX : l;
+      t = t < 30 ? 30 : t > boundY ? boundY : t;
+
+      cat.style.left = `${l}px`;
+      cat.style.top = `${t}px`;
+    }
+
+    holeCenter = { x: window.innerWidth / 2, y: window.innerHeight - 20 - holeRadius };
+  };
+};
+
 const render = (app: HTMLElement): void => {
+  const catResize = handleCat();
   const scrollableContainer = new ScrollableContainer(app);
   const container = scrollableContainer.getContainer();
   const { resize } = scrollableContainer;
@@ -289,6 +446,7 @@ const render = (app: HTMLElement): void => {
   window.onresize = () => {
     resize();
     resume.resize();
+    catResize();
   };
 };
 

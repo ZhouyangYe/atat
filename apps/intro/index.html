@@ -15,9 +15,112 @@
       width: 100vw;
       height: 100vh;
     }
+
+    #hole {
+      z-index: 16;
+      position: fixed;
+      width: 400px;
+      height: 400px;
+      bottom: 20px;
+      left: calc(50% - 200px);
+      overflow: hidden;
+      border-radius: 100%;
+      background-color: rgb(255, 95, 95);
+      box-shadow: inset 2px 2px 12px 3px rgb(0, 0, 0, 0.8);
+      transition: width 0.2s ease, height 0.2s ease, left 0.2s ease, bottom 0.2s ease;
+    }
+
+    #hole.hide {
+      display: block;
+      width: 6px;
+      height: 6px;
+      left: calc(50% - 3px);
+      bottom: 217px;
+    }
+
+    #hole.active {
+      background-color: rgb(78, 228, 64);
+    }
+
+    #cat {
+      position: absolute;
+      width: 306px;
+      height: 230px;
+      z-index: 16;
+      top: -112px;
+      left: -150px;
+    }
+
+    #cat.hide {
+      display: block;
+      transition: left 0.2s ease, top 0.2s ease;
+    }
+
+    #cat #home {
+      box-sizing: border-box;
+      position: relative;
+      border: 3px solid rgba(54, 53, 51, 0.6);
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      box-shadow: 3px 3px 6px 3px rgb(0, 0, 0, 0.6);
+      background-color: rgb(161, 161, 161);
+      transition: box-shadow 0.2s ease;
+    }
+
+    #cat .handle {
+      cursor: grab;
+      height: 30px;
+      width: 66px;
+      position: absolute;
+      top: -30px;
+      left: calc(50% - 33px);
+    }
+
+    #cat .handle div {
+      position: absolute;
+    }
+
+    #cat .handle .left,
+    #cat .handle .right {
+      width: 6px;
+      height: 14px;
+      top: 16px;
+      background-color: rgb(44, 20, 20);
+    }
+
+    #cat .handle .left {
+      left: calc(50% - 33px);
+    }
+
+    #cat .handle .right {
+      left: calc(50% + 27px);
+    }
+
+    #cat .handle .top {
+      width: 100%;
+      height: 16px;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      background-color: rgb(44, 20, 20);
+    }
+
+    #cat canvas {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      display: block;
+    }
+
     @media only screen and (max-width: 700px) {
       #background {
         display: block;
+      }
+
+      #hole {
+        display: none;
       }
     }
   </style>
@@ -26,9 +129,27 @@
 <body>
   <canvas id="background"></canvas>
   <div id="app"></div>
-  <script src="./vendors/anime.min.js"></script>
-  <script src="./vendors/script.js"></script>
+  <div id="hole" class="hide">
+    <div id="cat" class="hide">
+      <div class="handle">
+        <div class="left"></div>
+        <div class="right"></div>
+        <div class="top"></div>
+      </div>
+      <div id="home"></div>
+    </div>
+  </div>
+
   <script src="./dist/main.js"></script>
+
+  <script src='./vendors/cat/three.min.js'></script>
+  <script src='./vendors/cat/tweenmax.min.js'></script>
+  <script src='./vendors/cat/orbitcontrols.js'></script>
+  <script src='./vendors/cat/cat.js'></script>
+  <script src="./vendors/cat/script.js"></script>
+
+  <script src="./vendors/background/anime.min.js"></script>
+  <script src="./vendors/background/script.js"></script>
 </body>
 
 </html>
