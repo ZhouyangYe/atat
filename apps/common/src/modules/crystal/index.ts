@@ -31,9 +31,9 @@ class Crystal {
   constructor(config?: Config) {
     const {
       backgrounds = [
-        '/@resources/static/materials/crystal/bg1.jpg',
-        '/@resources/static/materials/crystal/bg2.jpg',
-        '/@resources/static/materials/crystal/bg3.jpg',
+        '/@resources/static/materials/crystal/bg1.gif',
+        '/@resources/static/materials/crystal/bg2.gif',
+        '/@resources/static/materials/crystal/bg3.gif',
       ],
       autoHide = true,
     } = config || {};

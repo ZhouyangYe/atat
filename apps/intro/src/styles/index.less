@@ -49,6 +49,17 @@ html {
         text-align: justify;
         width: 100%;
 
+        .profile {
+          @l: 100px;
+          width: @l;
+          height: @l;
+          border-radius: 100%;
+          display: none;
+          background-image: url('@resources/dynamic/images/profile/cangxing.jpg');
+          background-size: cover;
+          margin: 0 auto 40px;
+        }
+
         .why {
           font-size: 20px;
           line-height: 50px;
@@ -91,7 +102,7 @@ html {
         }
       }
 
-      @media only screen and (max-width: 700px) {
+      @media only screen and (max-width: 1000px) {
         overflow-y: auto !important;
 
         #welcome,
@@ -110,6 +121,10 @@ html {
           height: 100vh;
           overflow-y: auto;
           background: none;
+
+          .profile {
+            display: block;
+          }
 
           .why {
             @color: rgba(255, 255, 255, 1);
@@ -142,7 +157,7 @@ html {
       }
     }
 
-    @media only screen and (max-width: 700px) {
+    @media only screen and (max-width: 1000px) {
       #circle-wrap {
         display: none !important;
       }

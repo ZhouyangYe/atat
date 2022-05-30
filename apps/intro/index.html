@@ -16,7 +16,20 @@
       height: 100vh;
     }
 
+    #background2 {
+      display: none;
+      opacity: 0.8;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background-image: url('@resources/static/mobile/mountain.jpg');
+      background-size: cover;
+    }
+
     #hole {
+      cursor: pointer;
       z-index: 16;
       position: fixed;
       width: 400px;
@@ -27,19 +40,26 @@
       border-radius: 100%;
       background-color: rgb(255, 95, 95);
       box-shadow: inset 2px 2px 12px 3px rgb(0, 0, 0, 0.8);
-      transition: width 0.2s ease, height 0.2s ease, left 0.2s ease, bottom 0.2s ease;
+      transition: width 0.2s ease-in, height 0.2s ease-in, left 0.2s ease-in, bottom 0.2s ease-in;
     }
 
     #hole.hide {
       display: block;
-      width: 6px;
-      height: 6px;
-      left: calc(50% - 3px);
-      bottom: 217px;
+      width: 90px;
+      height: 90px;
+      left: calc(50% - 45px);
+      bottom: 175px;
+    }
+
+    #hole.hidden {
+      width: 0;
+      height: 0;
+      left: calc(50%);
+      bottom: 220px;
     }
 
     #hole.active {
-      background-color: rgb(78, 228, 64);
+      background-color: rgb(137, 226, 55);
     }
 
     #cat {
@@ -47,27 +67,27 @@
       width: 306px;
       height: 230px;
       z-index: 16;
-      top: -112px;
-      left: -150px;
+      top: -83px;
+      left: -108px;
     }
 
     #cat.hide {
       display: block;
-      transition: left 0.2s ease, top 0.2s ease;
+      transition: left 0.2s ease-in, top 0.2s ease-in;
     }
 
     #cat #home {
       box-sizing: border-box;
       position: relative;
-      border: 3px solid rgba(54, 53, 51, 0.6);
+      border: 3px solid rgba(62, 74, 247, 0.6);
       width: 100%;
       height: 100%;
       overflow: hidden;
       border-top-left-radius: 16px;
       border-top-right-radius: 16px;
-      box-shadow: 3px 3px 6px 3px rgb(0, 0, 0, 0.6);
-      background-color: rgb(161, 161, 161);
-      transition: box-shadow 0.2s ease;
+      background: url('@resources/static/materials/wall.jpg');
+      background-size: cover;
+      transition: box-shadow 0.2s ease-in;
     }
 
     #cat .handle {
@@ -88,7 +108,7 @@
       width: 6px;
       height: 14px;
       top: 16px;
-      background-color: rgb(44, 20, 20);
+      background-color: rgb(59, 54, 50);
     }
 
     #cat .handle .left {
@@ -104,7 +124,11 @@
       height: 16px;
       border-top-left-radius: 6px;
       border-top-right-radius: 6px;
-      background-color: rgb(44, 20, 20);
+      background-color: rgb(5, 130, 202);
+    }
+
+    #cat .handle:hover .top {
+      background-color: rgb(221, 241, 37);
     }
 
     #cat canvas {
@@ -114,13 +138,17 @@
       display: block;
     }
 
-    @media only screen and (max-width: 700px) {
+    @media only screen and (max-width: 1000px) {
       #background {
         display: block;
       }
 
+      #background2 {
+        display: block;
+      }
+
       #hole {
-        display: none;
+        display: none !important;
       }
     }
   </style>
@@ -128,8 +156,9 @@
 
 <body>
   <canvas id="background"></canvas>
+  <div id="background2"></div>
   <div id="app"></div>
-  <div id="hole" class="hide">
+  <div id="hole" class="hide active">
     <div id="cat" class="hide">
       <div class="handle">
         <div class="left"></div>

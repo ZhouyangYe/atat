@@ -32,8 +32,10 @@ const createAboutSection = () => {
   const content = document.createElement('main');
   content.className = 'why';
 
+  const profile = document.createElement('div');
+  profile.className = 'profile';
   const p1 = document.createElement('p');
-  p1.innerHTML = `做这个网站并没有什么特别明确的目的性，想到什么就写些什么，主要用来尝试一些自己感兴趣的技术。`;
+  p1.innerHTML = `做这个网站没有什么特别明确的目的性，想到什么就写些什么，用来尝试一些自己感兴趣的技术。`;
   const clarification = document.createElement('p');
   clarification.innerHTML = `网站的一部分素材：图片，音乐，canvas背景等来自于网上（代码中有标注license和地址），如有涉及侵权请联系删除更换：<a class='reference' href='mailto:810036635@qq.com'>810036635@qq.com</a>。`;
   const email = clarification.querySelector('a');
@@ -56,11 +58,12 @@ const createAboutSection = () => {
   p5.className = 'resume';
   p5.innerHTML = `简历：<a class='reference' href='javascript:void(0)'>Resume</a>`;
   p6.className = 'admin';
-  p6.innerHTML = `Admin：<a class='reference' href='/admin'>Entry</a>`;
+  p6.innerHTML = `管理：<a class='reference' href='/admin'>Admin</a>`;
 
   const wrap = document.createElement('div');
   const wrap2 = document.createElement('div');
   wrap2.append(
+    profile,
     p1,
     clarification,
     p2,
@@ -119,39 +122,33 @@ const handleCat = () => {
     e.stopPropagation();
   };
 
-  const offsetPos = 197;
+  hole.onmousedown = (e) => {
+    e.stopPropagation();
+  };
 
-  let mouseIn = false;
-  const x = 47, y = 85;
-  let mouseEnter: (() => void) | null = () => {
+  const offsetPos = 155;
+
+  const x = -108, y = -83;
+  hole.onclick = () => {
     hole.classList.remove('hide');
-    cat.style.left = `${x}px`;
-    cat.style.top = `${y}px`;
+    cat.style.left = `${x + offsetPos}px`;
+    cat.style.top = `${y + offsetPos}px`;
   };
   hole.onmouseleave = () => {
     hole.classList.add('hide');
-    cat.style.left = `${x - offsetPos}px`;
-    cat.style.top = `${y - offsetPos}px`;
+    cat.style.left = `${x}px`;
+    cat.style.top = `${y}px`;
   }
-  const mouseHandler = (e: MouseEvent) => {
-    if (!mouseEnter) return;
-    const inside = Math.pow(e.clientX - holeCenter.x, 2) + Math.pow(e.clientY - holeCenter.y, 2) < 400;
-    if (!mouseIn && inside) {
-      mouseEnter();
-    }
-    mouseIn = inside;
-  };
-  window.addEventListener('mousemove', mouseHandler, false);
 
   handle.onmousedown = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
     if (cat.classList.contains('hide')) {
-      mouseEnter = null;
+      hole.onclick = null;
       hole.onmouseleave = null;
       cat.classList.remove('hide');
-      home.style.boxShadow = '3px 3px 6px 3px rgb(0, 0, 0, 0.6)';
+      home.style.boxShadow = '2px 2px 6px 3px rgb(0, 0, 0, 0.8)';
       setTimeout(() => {
         cat.style.left = `${cat.offsetLeft + holeCenter.x - holeRadius}px`;
         cat.style.top = `${cat.offsetTop + holeCenter.y - holeRadius}px`;
@@ -180,9 +177,9 @@ const handleCat = () => {
       }
 
       if (collide) {
-        hole.classList.remove('hide');
+        hole.classList.remove('hidden', 'hide');
       } else {
-        hole.classList.add('hide');
+        hole.classList.add('hidden');
       }
 
       cat.style.left = `${left}px`;
@@ -197,7 +194,7 @@ const handleCat = () => {
         cat.style.top = `${currentY}px`;
         cat.style.position = 'absolute';
         home.style.boxShadow = 'none';
-        mouseEnter = () => {
+        hole.onclick = () => {
           hole.classList.remove('hide');
           cat.style.left = `${currentX}px`;
           cat.style.top = `${currentY}px`;
@@ -305,7 +302,7 @@ const render = (app: HTMLElement): void => {
       },
       {
         type: TYPE.LINK,
-        text: 'Entry',
+        text: 'Link',
         prefix: 'Admin',
         link: '/admin',
       },
@@ -435,12 +432,12 @@ const render = (app: HTMLElement): void => {
         contentSection.style.backgroundImage = `url(${getFullUrl(`${background2.path}/${background2.name}`)})`;
       }
     } else {
-      welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/album/dream.jpg)`;
-      contentSection.style.backgroundImage = `url(@resources/dynamic/images/album/land.jpg)`;
+      welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/album/grass.jpg)`;
+      contentSection.style.backgroundImage = `url(@resources/dynamic/images/album/room.jpg)`;
     }
   }).catch(() => {
-    welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/album/dream.jpg)`;
-    contentSection.style.backgroundImage = `url(@resources/dynamic/images/album/land.jpg)`;
+    welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/album/grass.jpg)`;
+    contentSection.style.backgroundImage = `url(@resources/dynamic/images/album/room.jpg)`;
   });
 
   window.onresize = () => {

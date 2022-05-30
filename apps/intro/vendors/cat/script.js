@@ -35,10 +35,9 @@
   //SCREEN & MOUSE VARIABLES
 
   var HEIGHT, WIDTH, windowHalfX, windowHalfY,
-    mousePos = { x: 0, y: 0 },
+    mousePos = { x: 150, y: 0 },
     oldMousePos = { x: 0, y: 0 },
     ballWallDepth = 28;
-
 
   //3D OBJECTS VARIABLES
 
@@ -166,7 +165,6 @@
 
 
   Ball = function () {
-
     var redMat = new THREE.MeshLambertMaterial({
       color: 0x630d15,
       shading: THREE.FlatShading
@@ -198,7 +196,6 @@
       woolV.vertex = v;
       if (i > 0) woolV.attach(this.verts[(i - 1)]);
       this.verts.push(woolV);
-
     }
     this.string = new THREE.Line(stringGeom, stringMat);
 
@@ -267,7 +264,6 @@
         object.receiveShadow = true;
       }
     });
-
   }
 
   /* 
