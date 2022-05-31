@@ -11,7 +11,7 @@ interface Params {
   article: IArticle;
 }
 
-const ArticleItem = ({ article, width, height, left, top }: Params, ref: Ref<HTMLLIElement>) => {
+const Picture = ({ article, width, height, left, top }: Params, ref: Ref<HTMLLIElement>) => {
   const margin = 6 + width / 60;
 
   return (
@@ -22,4 +22,4 @@ const ArticleItem = ({ article, width, height, left, top }: Params, ref: Ref<HTM
   );
 };
 
-export default React.forwardRef<HTMLLIElement, Params>(ArticleItem);
+export default React.forwardRef<HTMLLIElement, Params>(Picture);

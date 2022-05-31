@@ -1,0 +1,41 @@
+.album {
+  background-color: rgba(127, 214, 255, 0.8);
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  ul {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  footer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    padding-bottom: 36px;
+    display: flex;
+    justify-content: center;
+
+    .load {
+      color: black;
+      font-size: 12px;
+      line-height: 12px;
+      padding: 6px 8px;
+      cursor: pointer;
+      background-color: rgba(193, 211, 92, 0.3);
+
+      &:hover {
+        color: rgb(20, 34, 94);
+        background-color: rgba(75, 156, 75, 0.6);
+        transition: background-color 0.1s ease, color 0.1s ease;
+      }
+    }
+  }
+}

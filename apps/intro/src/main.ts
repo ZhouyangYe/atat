@@ -128,7 +128,7 @@ const handleCat = () => {
 
   const offsetPos = 155;
 
-  const x = -108, y = -83;
+  const x = -108, y = -73;
   hole.onclick = () => {
     hole.classList.remove('hide');
     cat.style.left = `${x + offsetPos}px`;

@@ -1,0 +1,103 @@
+@keyframes shine {
+  0% {
+    background-position: -400px;
+  }
+
+  30% {
+    background-position: -400px;
+  }
+
+  100% {
+    background-position: 900px;
+  }
+}
+
+.info {
+  position: relative;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px 36px 0;
+  background-image: url('@resources/static/materials/header_background.jpg');
+  background-size: cover;
+
+  .main {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+
+    img {
+      width: 30px;
+    }
+  }
+
+  .profile {
+    box-shadow: inset 3px 3px 8px 2px #000;
+    @width: 125px;
+    width: @width;
+    height: @width;
+    border-radius: 100%;
+    background-image: url('@resources/dynamic/images/profile/profile2.jpg');
+    background-size: contain;
+    margin: 0 auto;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 16px auto;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    background: linear-gradient(-30deg, rgba(255, 255, 255, 0) 50px, rgba(255, 255, 255, 1) 90px, rgba(255, 255, 255, 1) 140px, rgba(255, 255, 255, 0) 180px) -400px 0px no-repeat;
+    background: -webkit-linear-gradient(-30deg, rgba(255, 255, 255, 0) 50px, rgba(255, 255, 255, 1) 90px, rgba(255, 255, 255, 1) 140px, rgba(255, 255, 255, 0) 180px) -400px 0px no-repeat;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: shine 6s infinite ease;
+  }
+
+  nav {
+    margin-top: 36px;
+    display: flex;
+    justify-content: center;
+
+    .nav {
+      cursor: pointer;
+      line-height: 16px;
+      padding-bottom: 3px;
+      opacity: 0.6;
+      margin: 0 8px;
+      color: rgb(255, 255, 255);
+      position: relative;
+      font-size: 14px;
+      text-decoration: none;
+      display: block;
+
+      .underline {
+        width: 0;
+        height: 1px;
+        background-color: rgb(255, 255, 255);
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transition: left 0.2s ease, width 0.2s ease, opacity 0.2s ease;
+      }
+
+      &:hover {
+        opacity: 1;
+
+        .underline {
+          width: 100%;
+          left: 0;
+        }
+      }
+
+      &.active {
+        opacity: 1;
+
+        .underline {
+          width: 100%;
+          left: 0;
+        }
+      }
+    }
+  }
+}

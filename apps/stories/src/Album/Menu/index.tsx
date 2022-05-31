@@ -54,12 +54,12 @@ const Menu: React.FC<Params> = ({ setWidth, width, panelWidth = 0 }) => {
   };
 
   return (
-    <div className='home-menu'>
+    <div className='album-menu'>
       <div className='title'>宽度：</div>
       <div ref={ref} className='bar' onClick={(e) => {
         if (!ref.current) return;
         const l = e.clientX - getLeft(ref.current);
-        setLeft(l);
+        setLeft(l < 0 ? 0 : l > 200 ? 200 : l);
       }}>
         <div className='switch' onMouseDown={handleDown} style={{ left: left - 6 }}></div>
       </div>

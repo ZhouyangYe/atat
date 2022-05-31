@@ -15,7 +15,6 @@ export const addCharactor = (path: string, name = 'player'): Promise<{ mixer:THR
       res({ mixer, object });
     }, (xhr) => {
       gameState.loading[name] = (xhr.loaded / xhr.total) * 100;
-      console.log(gameState.loading[name]);
     }, function (error) {
       console.error(error);
       rej(error);

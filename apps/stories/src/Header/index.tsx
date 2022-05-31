@@ -1,0 +1,26 @@
+import React, { useCallback } from 'react';
+import { NavLink } from 'react-router-dom';
+
+import './index.less';
+
+const Header: React.FC<any> = () => {
+  const handleActive = useCallback(({ isActive }: { isActive: boolean }) => {
+    return isActive ? 'nav active' : 'nav';
+  }, []);
+
+  return (
+    <header className='info'>
+      <a className='main' href="/"><img src="@resources/static/icons/home.svg" /></a>
+      <div className='profile'></div>
+      <p>Web开发 · Game dev · 猫</p>
+      <nav>
+        <NavLink className={handleActive} to='/'><div>主页 · Home<div className='underline'></div></div></NavLink>
+        <NavLink className={handleActive} to='/articles'><div>日志 · Articles<div className='underline'></div></div></NavLink>
+        <NavLink className={handleActive} to='/album'><div>相册 · Album<div className='underline'></div></div></NavLink>
+        <NavLink className={handleActive} to='/visualization'><div>可视化 · Visualization<div className='underline'></div></div></NavLink>
+      </nav>
+    </header>
+  )
+};
+
+export default Header;
