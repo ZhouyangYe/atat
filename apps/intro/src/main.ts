@@ -35,7 +35,7 @@ const createAboutSection = () => {
   const profile = document.createElement('div');
   profile.className = 'profile';
   const p1 = document.createElement('p');
-  p1.innerHTML = `做这个网站没有什么特别明确的目的性，想到什么就写些什么，用来尝试一些自己感兴趣的技术。`;
+  p1.innerHTML = `开发这个网站没有什么特别明确的目的性，想到什么就写些什么，用来尝试一些自己感兴趣的技术。`;
   const clarification = document.createElement('p');
   clarification.innerHTML = `网站的一部分素材：图片，音乐，canvas背景等来自于网上（代码中有标注license和地址），如有涉及侵权请联系删除更换：<a class='reference' href='mailto:810036635@qq.com'>810036635@qq.com</a>。`;
   const email = clarification.querySelector('a');
@@ -273,7 +273,7 @@ const render = (app: HTMLElement): void => {
   const audioDom = audio.getDom();
 
   const scroll = new Scroll({
-    title: 'Hello!',
+    title: '你 好',
     items: [
       {
         type: TYPE.EMAIL,
