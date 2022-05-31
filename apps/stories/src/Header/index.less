@@ -21,6 +21,14 @@
   background-image: url('@resources/static/materials/header_background.jpg');
   background-size: cover;
 
+  @media only screen and (max-width: 700px) {
+    padding: 25px 6px 0;
+
+    span {
+      display: none;
+    }
+  }
+
   .main {
     position: absolute;
     left: 12px;
@@ -60,16 +68,24 @@
     justify-content: center;
 
     .nav {
+      text-align: center;
       cursor: pointer;
       line-height: 16px;
       padding-bottom: 3px;
       opacity: 0.6;
-      margin: 0 8px;
+      margin: 0 18px;
       color: rgb(255, 255, 255);
       position: relative;
       font-size: 14px;
       text-decoration: none;
       display: block;
+
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
 
       .underline {
         width: 0;

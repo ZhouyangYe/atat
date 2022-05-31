@@ -14,10 +14,10 @@ const Header: React.FC<any> = () => {
       <div className='profile'></div>
       <p>Web开发 · Game dev · 猫</p>
       <nav>
-        <NavLink className={handleActive} to='/'><div>主页 · Home<div className='underline'></div></div></NavLink>
-        <NavLink className={handleActive} to='/articles'><div>日志 · Articles<div className='underline'></div></div></NavLink>
-        <NavLink className={handleActive} to='/album'><div>相册 · Album<div className='underline'></div></div></NavLink>
-        <NavLink className={handleActive} to='/visualization'><div>可视化 · Visualization<div className='underline'></div></div></NavLink>
+        <NavLink className={handleActive} to='/'><div>主页 <span>·</span> Home<div className='underline'></div></div></NavLink>
+        <NavLink className={handleActive} to='/articles'><div>日志 <span>·</span> Articles<div className='underline'></div></div></NavLink>
+        <NavLink className={handleActive} to='/album'><div>相册 <span>·</span> Album<div className='underline'></div></div></NavLink>
+        <NavLink className={handleActive} to='/visualization'><div>可视化 <span>·</span> Visualization<div className='underline'></div></div></NavLink>
       </nav>
     </header>
   )
