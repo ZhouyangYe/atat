@@ -1,4 +1,54 @@
 .home {
   padding: 18px;
-  background-color: rgba(250, 235, 215, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  color:rgba(0, 0, 0, 0.8);
+
+  aside, main {
+    box-sizing: border-box;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.5);
+  }
+
+  aside {
+    min-width: 287px;
+    width: 287px;
+    margin-right: 16px;
+    text-indent: 32px;
+
+    a {
+      color: rgb(7, 128, 87);
+    }
+
+    p {
+      text-align: justify;
+      line-height: 36px;
+
+      img {
+        height: 36px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  main {
+    width: calc(100% - 303px);
+    flex-grow: 1;
+    flex-shrink: 1;
+    position: relative;
+  }
+
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+
+    aside, main {
+      width: 100%;
+      height: auto;
+    }
+
+    aside {
+      margin-right: 0;
+      margin-bottom: 16px;
+    }
+  }
 }

@@ -1,0 +1,55 @@
+.source-code {
+  position: relative;
+
+  .header {
+    margin-bottom: 16px;
+    border-bottom: 1px solid #666;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    h2 {
+      margin: 0;
+      padding: 0;
+      font-weight: 500;
+      font-size: 22px;
+      text-align: center;
+    }
+
+    .content {
+      @height: 36px;
+      height: @height;
+      line-height: @height;
+
+      img {
+        cursor: pointer;
+        height: 20px;
+        vertical-align: middle;
+        margin-right: 16px;
+      }
+
+      span {
+        font-size: 18px;
+        vertical-align: middle;
+      }
+    }
+
+    .path {
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .code {
+    width: 100%;
+    max-height: 556px;
+    overflow: auto;
+  }
+}

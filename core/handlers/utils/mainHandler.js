@@ -5,6 +5,34 @@ const decorateResponse = require('./serverIO/response');
 const handlers = [];
 const serverMiddleware = [];
 
+const testUrl = (req, pattern, url) => {
+  // support query
+  const path = url.split('?')[0];
+  const units = path.split('/').slice(1);
+  const pUnits = pattern.split('/').slice(1);
+  const params = {};
+
+  if (units.length !== pUnits.length && !(pUnits.length - units.length === 1 && /^:.*/.test(pUnits[pUnits.length - 1]))) {
+    return false;
+  }
+
+  for (let i = 0, length = pUnits.length; i < length; i++) {
+    // support /:something
+    if (/^:.*/.test(pUnits[i])) {
+      params[pUnits[i].slice(1)] = units[i];
+      continue;
+    }
+
+    if (units[i] !== pUnits[i]) {
+      return false;
+    }
+  }
+
+  req.params = params;
+
+  return true;
+};
+
 const use = (middleware) => {
   serverMiddleware.push(middleware);
 };
@@ -36,7 +64,7 @@ const getMethod = (type) => {
       if (
         req.method.toLowerCase() !== type ||
         (isRegex && !pattern.test(req.url)) ||
-        (!isRegex && pattern !== req.url.split('?')[0])
+        (!isRegex && !testUrl(req, pattern, req.url))
       ) {
         return false;
       }

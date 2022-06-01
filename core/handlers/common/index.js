@@ -1,5 +1,5 @@
-const { testHandler } = require('./test');
+const sourcecode = require('./sourcecode');
 
 module.exports = {
-  testHandler,
+  ...sourcecode,
 };

@@ -11,6 +11,8 @@ const { commonRoutes } = require('./commonRoutes');
 const { notFoundRoutes, notFoundApiRoutes } = require('./notFoundRoutes');
 
 module.exports = [
+  // Common api routes
+  commonRoutes,
   // Static files
   staticFileRoutes,
   // Main routes
@@ -20,8 +22,6 @@ module.exports = [
   majiangRoutes,
   pingpongRoutes,
   adminRoutes,
-  // Common api routes
-  commonRoutes,
   // Not found
   notFoundApiRoutes,
   notFoundRoutes,

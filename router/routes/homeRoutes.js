@@ -1,6 +1,5 @@
 const { homeHandler } = require('../../core/handlers/home');
-const { testHandler } = require('../../core/handlers/common');
-const { testMiddlewareHandler } = require('../../core/handlers/common/middleware');
+const { test } = require('../../core/handlers/common');
 const { METHOD_TYPE } = require('../../core/enum');
 
 const homeRoutes = {
@@ -11,8 +10,7 @@ const homeRoutes = {
     {
       url: '/test',
       method: METHOD_TYPE.GET,
-      handler: testHandler,
-      middleware: [testMiddlewareHandler],
+      handler: test,
     },
   ],
 };
