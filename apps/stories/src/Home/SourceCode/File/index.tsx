@@ -25,6 +25,16 @@ const iconMap = {
   [EXT.HTML]: '@resources/static/icons/html.svg',
   [EXT.CSS]: '@resources/static/icons/css.svg',
   [EXT.LESS]: '@resources/static/icons/less.svg',
+  [EXT.MP3]: '@resources/static/icons/audio.svg',
+  [EXT.MP4]: '@resources/static/icons/video.svg',
+  [EXT.FBX]: '@resources/static/icons/model.svg',
+  [EXT.GIF]: '@resources/static/icons/gif.svg',
+  [EXT.JPEG]: '@resources/static/icons/image.svg',
+  [EXT.JPG]: '@resources/static/icons/image.svg',
+  [EXT.PNG]: '@resources/static/icons/image.svg',
+  [EXT.BMP]: '@resources/static/icons/image.svg',
+  [EXT.SVG]: '@resources/static/icons/image.svg',
+  [EXT.ICO]: '@resources/static/icons/image.svg',
 };
 
 const File: React.FC<Params> = ({ ext, filename, onclick }) => {

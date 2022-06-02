@@ -1,7 +1,7 @@
 const { staticFileHandler } = require('../../core/handlers');
 
 const staticFileRoutes = {
-  match: /(\.js|\.json|\.ts|\.css|\.jpeg|\.jpg|\.png|\.gif|\.html|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
+  match: /(\.js|\.json|\.ts|\.css|\.jpeg|\.jpg|\.png|\.bmp|\.gif|\.html|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
   handler: staticFileHandler,
 };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import BasePage from '@/BasePage';
 import SourceCode from './SourceCode';
 
+import 'atat-common/lib/modules/message/index.css';
 import './index.less';
 
 const Home: React.FC<any> = () => {

@@ -1,5 +1,6 @@
 const ignore_list = [
-  /(\.jpeg|\.jpg|\.png|\.gif|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx|\.git)$/,
+  /(\.jpeg|\.jpg|\.png|\.gif|\.bmp|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
+  /(\.git)$/,
   'package-lock.json',
   './data.json',
   'vscodeConfigs',
@@ -9,8 +10,16 @@ const ignore_list = [
   'common/lib',
 ];
 
-const test = (path) => {
+const test = (path, disableRead = true) => {
   for (let i = 0, length = ignore_list.length; i < length; i++) {
+    if (i === 0) {
+      if (!disableRead) {
+        continue;
+      }
+      if (ignore_list[i].test(path)) {
+        return true;
+      }
+    }
     if (typeof ignore_list[i] === 'object') {
       if (ignore_list[i].test(path)) {
         return true;
@@ -19,7 +28,7 @@ const test = (path) => {
       return true;
     }
   }
-  
+
   return false;
 };
 

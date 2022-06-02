@@ -44,7 +44,7 @@ const getFileInfo = (req, res) => {
           return;
         }
 
-        resData(res, { isDir: true, files: files.filter((file) => !ignore.test(`${combinedPath}/${file}`))});
+        resData(res, { isDir: true, files: files.filter((file) => !ignore.test(`${combinedPath}/${file}`, false))});
       });
     }
 

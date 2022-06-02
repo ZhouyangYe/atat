@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getFileInfo, IFileInfo } from 'atat-common/lib/services/stories';
 import message from 'atat-common/lib/modules/message';
 import { EXT, getExt } from 'atat-common/lib/utils';
+import Loading from '@/utils/Loading';
 import File from './File';
 import Code from './Code';
 
@@ -13,6 +14,7 @@ interface FileData {
 }
 
 const SourceCode: React.FC<any> = () => {
+  const [loading, setLoading] = useState(true);
   const [element, setElement] = useState<FileData>();
   const [path, setPath] = useState<string>();
 
@@ -76,6 +78,7 @@ const SourceCode: React.FC<any> = () => {
   }, [path]);
 
   useEffect(() => {
+    setLoading(true);
     getFileInfo({ path }).then((res) => {
       if (res.success) {
         setElement({
@@ -83,8 +86,29 @@ const SourceCode: React.FC<any> = () => {
           ext: EXT.NONE,
         });
       } else {
+        setElement({
+          info: {
+            isDir: false,
+            data: '无法显示。 Unavailable.',
+            files: [],
+          },
+          ext: EXT.UNKNOWN,
+        });
         message.error('Failed to get file info.');
       }
+
+      setLoading(false);
+    }).catch(() => {
+      setElement({
+        info: {
+          isDir: false,
+          data: '无法显示。 Unavailable.',
+          files: [],
+        },
+        ext: EXT.UNKNOWN,
+      });
+      message.error('Failed to get file info.');
+      setLoading(false);
     });
   }, [path]);
 
@@ -108,7 +132,7 @@ const SourceCode: React.FC<any> = () => {
         </div>
       </div>
       <div className='code'>
-        {content}
+        {loading ? <Loading /> : content}
       </div>
     </div>
   );

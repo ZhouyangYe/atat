@@ -32,7 +32,7 @@ class Message {
     message.append(icon, msg);
     document.body.append(message);
     const resize = () => {
-      message.style.left = `${(screen.width - message.clientWidth) / 2}px`;
+      message.style.left = `${(window.innerWidth - message.clientWidth) / 2}px`;
     };
     setTimeout(() => {
       resize();

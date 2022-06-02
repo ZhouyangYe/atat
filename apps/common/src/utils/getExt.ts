@@ -14,6 +14,16 @@ export enum EXT {
   HTML = 'html',
   LESS = 'less',
   CSS = 'css',
+  MP3 = 'mp3',
+  MP4 = 'mp4',
+  FBX = 'fbx',
+  GIF = 'gif',
+  PNG = 'png',
+  JPG = 'jpg',
+  JPEG = 'jpeg',
+  BMP = 'bmp',
+  SVG = 'svg',
+  ICO = 'ico',
 }
 
 export const getExt = (filename: string): EXT => {
@@ -25,7 +35,7 @@ export const getExt = (filename: string): EXT => {
 
   const ext = units.pop()!;
 
-  if (Object.values(EXT).includes(ext as EXT)) {
+  if (Object.values(EXT).includes(ext.toLowerCase() as EXT)) {
     return ext as EXT;
   }
 
