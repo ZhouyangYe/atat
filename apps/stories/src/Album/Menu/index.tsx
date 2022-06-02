@@ -9,7 +9,7 @@ interface Params {
   setWidth: (num: number) => void;
 }
 
-const max = 500;
+const max = 550;
 
 const Menu: React.FC<Params> = ({ setWidth, width, panelWidth = 0 }) => {
   const ref = useRef<HTMLDivElement>(null);

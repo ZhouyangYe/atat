@@ -22,6 +22,7 @@ let prevPageDom: HTMLDivElement | null = null;
 const BasePage: React.FC<Param> = ({ className, children }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState(!prevPage ? State.SHOW : pages.indexOf(className) < pages.indexOf(prevPage) ? State.HIDE_LEFT : State.HIDE_RIGHT);
+  console.log(className, state);
 
   prevPage = className;
 
@@ -52,6 +53,7 @@ const BasePage: React.FC<Param> = ({ className, children }) => {
         root.removeChild(prevPageDom!);
       }, 318);
     }
+    console.log(className);
     setState(State.SHOW);
 
     return () => {

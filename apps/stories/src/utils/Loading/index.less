@@ -1,10 +1,10 @@
 @keyframes slide {
   0% {
-    background-position: -800px;
+    background-position: 130%;
   }
-
+  
   100% {
-    background-position: 800px;
+    background-position: -30%;
   }
 }
 
@@ -18,9 +18,10 @@
     height: 16px;
     width: 100%;
     margin-bottom: 25px;
-    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0) 100%) no-repeat;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%) no-repeat;
     background-color: rgba(255, 255, 255, 0.5);
-    animation: slide 1.6s ease infinite;
+    background-size: 400% 100%;
+    animation: slide 2s ease infinite;
 
     &:last-child {
       width: 86%;

@@ -6,7 +6,7 @@ interface Params {
   rows?: number;
 }
 
-const Loading: React.FC<Params> = ({ rows = 8 }) => {
+export const Loading: React.FC<Params> = ({ rows = 8 }) => {
   const list = useMemo(() => {
     return new Array(rows).fill('').map((row, i) =>{
       if (i === 0) {
@@ -22,5 +22,3 @@ const Loading: React.FC<Params> = ({ rows = 8 }) => {
     </div>
   );
 };
-
-export default Loading;

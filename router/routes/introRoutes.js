@@ -2,7 +2,7 @@ const { introHandler, getIntroInfo, getResumeData } = require('../../core/handle
 const { METHOD_TYPE } = require('../../core/enum');
 
 const introRoutes = {
-  match: /^\/*$/,
+  match: /^\/intro.*$/,
   handler: introHandler,
   namespace: 'intro',
   apis: [

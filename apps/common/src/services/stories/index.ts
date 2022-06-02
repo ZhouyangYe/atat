@@ -1,2 +1,3 @@
-export * from './getArticles';
+export * from './getAlbum';
 export * from './getFileInfo';
+export * from './getArticles';

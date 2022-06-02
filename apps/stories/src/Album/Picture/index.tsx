@@ -1,5 +1,5 @@
 import React, { Ref, useEffect, useState } from 'react';
-import { IArticle } from 'atat-common/lib/services/stories'
+import { IAlbum } from 'atat-common/lib/services/stories'
 
 import './index.less';
 
@@ -8,7 +8,7 @@ interface Params {
   height: number;
   top: number;
   left: number;
-  article: IArticle;
+  article: IAlbum;
 }
 
 const Picture = ({ article, width, height, left, top }: Params, ref: Ref<HTMLLIElement>) => {

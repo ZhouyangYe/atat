@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getFileInfo, IFileInfo } from 'atat-common/lib/services/stories';
 import message from 'atat-common/lib/modules/message';
 import { EXT, getExt } from 'atat-common/lib/utils';
-import Loading from '@/utils/Loading';
+import { Loading } from '@/utils';
 import File from './File';
 import Code from './Code';
 
@@ -83,7 +83,7 @@ const SourceCode: React.FC<any> = () => {
       if (res.success) {
         setElement({
           info: res.data,
-          ext: EXT.NONE,
+          ext: getExt(path || 'root'),
         });
       } else {
         setElement({

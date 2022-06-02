@@ -1,4 +1,4 @@
-const { storiesHandler, getRandomImages, getArticles } = require('@/core/handlers/stories');
+const { storiesHandler, getRandomImages, getAlbum, getArticle } = require('@/core/handlers/stories');
 const { METHOD_TYPE } = require('@/core/enum');
 
 const storiesRoutes = {
@@ -12,9 +12,14 @@ const storiesRoutes = {
       handler: getRandomImages,
     },
     {
+      url: '/album',
+      method: METHOD_TYPE.GET,
+      handler: getAlbum,
+    },
+    {
       url: '/articles',
       method: METHOD_TYPE.GET,
-      handler: getArticles,
+      handler: getArticle,
     },
   ],
 };

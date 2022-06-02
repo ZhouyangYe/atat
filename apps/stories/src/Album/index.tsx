@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { getArticles, IArticle } from 'atat-common/lib/services/stories';
+import { getAlbum, IAlbum } from 'atat-common/lib/services/stories';
 import BasePage from '@/BasePage';
 import Menu from './Menu';
 import Picture from './Picture';
@@ -11,7 +11,7 @@ let shortest = 0;
 let longest = 0;
 
 const Home: React.FC<any> = () => {
-  const [articles, setArticles] = useState<IArticle[]>();
+  const [articles, setArticles] = useState<IAlbum[]>();
   const [panelWidth, setPanelWidth] = useState<number>();
   const [width, setWidth] = useState<number>(200);
   const [height, setHeight] = useState<number>(0);
@@ -20,7 +20,7 @@ const Home: React.FC<any> = () => {
   const articleRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
-    getArticles().then((res) => {
+    getAlbum().then((res) => {
       if (res.success) {
         setArticles(res.data);
       }

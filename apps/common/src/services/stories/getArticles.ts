@@ -2,12 +2,10 @@ import { get } from '@/ajax';
 import { IResponse } from '../interface';
 
 export interface IArticle {
-  picture: {
-    link: string;
-    ratio: number;
-  };
-  desc: string;
   id: string;
+  title: string;
+  desc: string;
+  thumbnail: string;
 }
 
 export const getArticles = (): Promise<IResponse<IArticle[]>> => {

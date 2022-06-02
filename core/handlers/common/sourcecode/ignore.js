@@ -1,30 +1,27 @@
-const ignore_list = [
-  /(\.jpeg|\.jpg|\.png|\.gif|\.bmp|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
+const forbidden_list = [
   /(\.git)$/,
   'package-lock.json',
-  './data.json',
-  'vscodeConfigs',
-  'server.config',
   'dist',
   'node_modules',
   'common/lib',
 ];
 
+const ignore_list = [
+  ...forbidden_list,
+  './data.json',
+  'server.config',
+  /(\.jpeg|\.jpg|\.png|\.gif|\.bmp|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
+];
+
 const test = (path, disableRead = true) => {
-  for (let i = 0, length = ignore_list.length; i < length; i++) {
-    if (i === 0) {
-      if (!disableRead) {
-        continue;
-      }
-      if (ignore_list[i].test(path)) {
+  const list = disableRead ? ignore_list : forbidden_list;
+
+  for (let i = 0, length = list.length; i < length; i++) {
+    if (typeof list[i] === 'object') {
+      if (list[i].test(path)) {
         return true;
       }
-    }
-    if (typeof ignore_list[i] === 'object') {
-      if (ignore_list[i].test(path)) {
-        return true;
-      }
-    } else if (path.includes(ignore_list[i])) {
+    } else if (path.includes(list[i])) {
       return true;
     }
   }

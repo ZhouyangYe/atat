@@ -39,9 +39,9 @@ const iconMap = {
 
 const File: React.FC<Params> = ({ ext, filename, onclick }) => {
   return (
-    <div onClick={onclick} className={`atat-file`}>
+    <div className={`atat-file`}>
       <img src={iconMap[ext]} />
-      <span className='filename'>{filename}</span>
+      <span onClick={onclick} className='filename'>{filename}</span>
     </div>
   );
 };
