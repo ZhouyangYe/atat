@@ -31,6 +31,7 @@ const BasePage: React.FC<Param> = ({ className, children }) => {
     const
       root = document.querySelector<HTMLDivElement>('#app')!,
       header = document.querySelector<HTMLHeadingElement>('#blog-header')!,
+      footer = document.querySelector<HTMLDivElement>('#footer')!,
       hold = ref.current!;
 
     requestAnimationFrame(() => {
@@ -44,6 +45,7 @@ const BasePage: React.FC<Param> = ({ className, children }) => {
       timer = setTimeout(() => {
         while (toBeDestroyed.length) {
           const dom = toBeDestroyed.pop()!;
+          footer.style.display = 'block';
 
           root.removeChild(dom);
         }
@@ -54,6 +56,7 @@ const BasePage: React.FC<Param> = ({ className, children }) => {
     setState(State.SHOW);
 
     return () => {
+      footer.style.display = 'none';
       if (hold) {
         const
           width = header.clientWidth,

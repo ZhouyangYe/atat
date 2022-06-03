@@ -1,32 +1,47 @@
 .atat-article {
+  position: relative;
+  font-size: 10px;
+
   background-color: rgba(245, 245, 245, 0.6);
-  padding: 16px;
+  padding: 1.6em;
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 1.6em;
 
   .thumbnail {
-    max-width: 200px;
-    min-width: 200px;
-    height: 230px;
-    margin-right: 18px;
+    max-width: 20em;
+    min-width: 20em;
+    height: 23em;
+    margin-right: 1.8em;
     background-size: cover;
   }
 
   .content {
     h2 {
+      font-size: inherit;
       vertical-align: top;
-      height: 30px;
-      font-size: 25px;
+      height: 3em;
       font-weight: 500;
-      margin-bottom: 10px;
+      margin-bottom: 1em;
+
+      span {
+        font-size: 2.5em;
+      }
     }
 
     p {
-      max-height: 190px;
+      font-size: inherit;
+      max-height: 19em;
       overflow-y: auto;
-      font-size: 20px;
       margin: 0;
-      line-height: 30px;
+      line-height: 3em;
+
+      span {
+        font-size: 2em;
+      }
     }
+  }
+
+  @media only screen and (max-width: 700px) {
+    font-size: 5px;
   }
 }

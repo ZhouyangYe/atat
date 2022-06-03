@@ -36,12 +36,16 @@ const Menu: React.FC<Params> = ({ setWidth, width, panelWidth = 0 }) => {
 
   const handleDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    const l = e.clientX - getLeft(ref.current!);
+    const clamp = l < 0 ? 0 : l > 200 ? 200 : l;
+    setLeft(clamp);
+
     let delta = 0;
     const startX = e.clientX;
 
     const handleMove = (e: MouseEvent) => {
       delta = e.clientX - startX;
-      const l = left + delta;
+      const l = clamp + delta;
       setLeft(l < 0 ? 0 : l > 200 ? 200 : l);
     }
     window.addEventListener('mousemove', handleMove, false);
@@ -53,15 +57,39 @@ const Menu: React.FC<Params> = ({ setWidth, width, panelWidth = 0 }) => {
     window.addEventListener('mouseup', handleUp, false);
   };
 
+  const handleTouch = (e: React.TouchEvent) => {
+    e.preventDefault();
+    const l = e.touches[0].clientX - getLeft(ref.current!);
+    const clamp = l < 0 ? 0 : l > 200 ? 200 : l;
+    setLeft(clamp);
+
+    let delta = 0;
+    const startX = e.touches[0].clientX;
+
+    const handleMove = (e: TouchEvent) => {
+      delta = e.touches[0].clientX - startX;
+      const l = clamp + delta;
+      setLeft(l < 0 ? 0 : l > 200 ? 200 : l);
+    }
+    window.addEventListener('touchmove', handleMove, false);
+
+    const handleUp = () => {
+      window.removeEventListener('touchmove', handleMove, false);
+      window.removeEventListener('touchend', handleUp, false);
+    };
+    window.addEventListener('touchend', handleUp, false);
+  };
+
   return (
     <div className='album-menu'>
       <div className='title'>宽度：</div>
-      <div ref={ref} className='bar' onClick={(e) => {
-        if (!ref.current) return;
-        const l = e.clientX - getLeft(ref.current);
-        setLeft(l < 0 ? 0 : l > 200 ? 200 : l);
-      }}>
-        <div className='switch' onMouseDown={handleDown} style={{ left: left - 6 }}></div>
+      <div
+        ref={ref}
+        className='bar'
+        onMouseDown={handleDown}
+        onTouchStart={handleTouch}
+      >
+        <div className='switch' style={{ left: left - 6 }}></div>
       </div>
     </div>
   );

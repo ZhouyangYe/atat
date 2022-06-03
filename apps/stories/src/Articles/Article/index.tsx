@@ -12,8 +12,8 @@ const Article: React.FC<Params> = ({ article }) => {
     <div className='atat-article'>
       <div className='thumbnail' style={{ backgroundImage: `url(${article.thumbnail})` }}></div>
       <div className='content'>
-        <h2>{article.title}</h2>
-        <p>{article.desc}</p>
+        <h2><span>{article.title}</span></h2>
+        <p><span>{article.desc}</span></p>
       </div>
     </div>
   );
