@@ -6,9 +6,10 @@ const { introRoutes } = require('./introRoutes');
 const { majiangRoutes } = require('./majiangRoutes');
 const { pingpongRoutes } = require('./pingpongRoutes');
 const { adminRoutes } = require('./adminRoutes');
+const { testRoutes } = require('./testRoutes');
 
 const { commonRoutes } = require('./commonRoutes');
-const { notFoundRoutes, notFoundApiRoutes } = require('./notFoundRoutes');
+const { notFoundApiRoutes } = require('./notFoundRoutes');
 
 module.exports = [
   // Common api routes
@@ -16,13 +17,14 @@ module.exports = [
   // Static files
   staticFileRoutes,
   // Main routes
-  storiesRoutes,
   homeRoutes,
   introRoutes,
   majiangRoutes,
   pingpongRoutes,
   adminRoutes,
+  testRoutes,
+  // Main SPA page
+  storiesRoutes,
   // Not found
   notFoundApiRoutes,
-  notFoundRoutes,
 ];

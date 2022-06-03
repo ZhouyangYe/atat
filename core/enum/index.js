@@ -20,6 +20,11 @@ const METHOD_TYPE = {
   POST: 'post'
 };
 
+const METHOD_MODE = {
+  PAGE: 'page',
+  API: 'api',
+};
+
 const ROLE = {
   ADMIN: 'admin',
   VISITOR: 'visitor',
@@ -34,6 +39,7 @@ const IMAGE_TYPE = {
 module.exports = {
   CONTENT_TYPE_MAPPING,
   METHOD_TYPE,
+  METHOD_MODE,
   IMAGE_TYPE,
   ROLE,
 };

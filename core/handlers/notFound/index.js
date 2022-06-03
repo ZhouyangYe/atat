@@ -1,7 +1,3 @@
-const notFoundHandler = (req, res) => {
-  res.html('notFound');
-};
-
 const notFoundApiHandler = (req, res) => {
   res.writeHead(404);
   res.write('Not found api!');
@@ -9,6 +5,5 @@ const notFoundApiHandler = (req, res) => {
 };
 
 module.exports = {
-  notFoundHandler,
   notFoundApiHandler,
 };

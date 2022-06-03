@@ -6,8 +6,6 @@ import { throttle } from 'atat-common/lib/utils';
 import Login from './components/login';
 import Panel from './components/panel';
 
-import 'atat-common/lib/modules/resume/index.css';
-import 'atat-common/lib/modules/message/index.css';
 import './styles';
 
 const

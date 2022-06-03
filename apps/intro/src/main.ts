@@ -10,14 +10,6 @@ import Lamp from 'atat-common/lib/modules/lamp';
 import BouncingStar from './components/BouncingStar';
 import Resume from 'atat-common/lib/modules/resume';
 
-import 'atat-common/lib/modules/scrollable/index.css';
-import 'atat-common/lib/modules/door/index.css';
-import 'atat-common/lib/modules/audio/index.css';
-import 'atat-common/lib/modules/scroll/index.css';
-import 'atat-common/lib/modules/crystal/index.css';
-import 'atat-common/lib/modules/lamp/index.css';
-import 'atat-common/lib/modules/resume/index.css';
-
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
   welcomeSection.id = 'welcome';
@@ -53,7 +45,7 @@ const createAboutSection = () => {
   p3.innerHTML = '代码：';
   p3.appendChild(reference);
   const p4 = document.createElement('p'), p5 = document.createElement('p'), p6 = document.createElement('p');
-  p4.innerHTML = `主页：<a class='reference' href='/stories'>Blog</a>`;
+  p4.innerHTML = `主页：<a class='reference' href='/'>Blog</a>`;
   p4.onmousedown = (e) => { e.stopPropagation(); };
   p5.className = 'resume';
   p5.innerHTML = `简历：<a class='reference' href='javascript:void(0)'>Resume</a>`;

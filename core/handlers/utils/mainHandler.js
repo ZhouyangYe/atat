@@ -1,16 +1,20 @@
-const { METHOD_TYPE } = require('@/core/enum');
+const { METHOD_TYPE, METHOD_MODE } = require('@/core/enum');
 const decorateRequest = require('./serverIO/request');
 const decorateResponse = require('./serverIO/response');
 
-const handlers = [];
+const handlers = {
+  [METHOD_MODE.PAGE]: [],
+  [METHOD_MODE.API]: [],
+};
 const serverMiddleware = [];
 
 const testUrl = (req, pattern, url) => {
   // support query
-  const path = url.split('?')[0];
-  const units = path.split('/').slice(1);
-  const pUnits = pattern.split('/').slice(1);
-  const params = {};
+  const
+    path = url.split('?')[0],
+    units = path.split('/').slice(1),
+    pUnits = pattern.split('/').slice(1),
+    params = {};
 
   if (units.length !== pUnits.length && !(pUnits.length - units.length === 1 && /^:.*/.test(pUnits[pUnits.length - 1]))) {
     return false;
@@ -56,7 +60,7 @@ const applyMiddleware = (req, res, middleware, cb) => {
 };
 
 const getMethod = (type) => {
-  const method = (pattern, cb, middleware = []) => {
+  const method = (pattern, cb, middleware = [], mode = METHOD_MODE.API) => {
     const combinedMiddleware = [...serverMiddleware, ...middleware];
     const handler = (req, res) => {
       const isRegex = typeof pattern === 'object';
@@ -77,7 +81,8 @@ const getMethod = (type) => {
 
       return true;
     };
-    handlers.push(handler);
+
+    handlers[mode].push(handler);
   };
   return method;
 };
@@ -91,8 +96,9 @@ const decorateIO = (req, res) => {
 }
 
 const mainHandler = (req, res) => {
-  for (const index in handlers) {
-    const found = handlers[index](req, res);
+  const list = /^\/api\/.*/.test(req.url) ? handlers[METHOD_MODE.API] : handlers[METHOD_MODE.PAGE];
+  for (const index in list) {
+    const found = list[index](req, res);
     if (found) return;
   }
 

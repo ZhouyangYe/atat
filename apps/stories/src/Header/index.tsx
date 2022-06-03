@@ -9,7 +9,7 @@ const Header: React.FC<any> = () => {
   }, []);
 
   return (
-    <header className='info'>
+    <header id="blog-header" className='info'>
       <a className='main' href="/intro"><img src="@resources/static/icons/home.svg" /></a>
       <div className='profile'></div>
       <p>Web开发 · Game dev · 猫</p>

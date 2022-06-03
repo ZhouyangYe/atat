@@ -5,7 +5,6 @@
   padding: 25px 0 72px;
   position: relative;
   transition: left 0.3s ease, opacity 0.3s linear;
-  min-height: 666px;
 
   &.hide-left {
     opacity: 0;
@@ -20,5 +19,12 @@
   &.show {
     left: 0;
     opacity: 1;
+  }
+
+  &.hide {
+    padding: 0;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden;
   }
 }

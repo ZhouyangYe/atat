@@ -1,4 +1,5 @@
 const coreHandler = require('../core/handlers');
+const { METHOD_MODE } = require('@/core/enum');
 const { COMMON_ROUTE, API_NOT_FOUND } = require('./enum');
 const config = require('../utils/config');
 
@@ -22,12 +23,11 @@ const bindApis = (apis, prefix) => {
 const bindAllRoutes = () => {
   routeList.forEach(route => {
     const { match, handler, namespace, apis } = route;
-    if (match && handler) {
-      coreHandler.get(match, handler);
-    }
-
     if (namespace === API_NOT_FOUND) {
+      coreHandler.get(match, handler);
       coreHandler.post(match, handler);
+    } else if (match && handler) {
+      coreHandler.get(match, handler, [], METHOD_MODE.PAGE);
     }
 
     const baseUrl = config.API_BASE_URL;
