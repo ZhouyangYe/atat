@@ -424,12 +424,12 @@ const render = (app: HTMLElement): void => {
         contentSection.style.backgroundImage = `url(${getFullUrl(`${background2.path}/${background2.name}`)})`;
       }
     } else {
-      welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/wallpaper/grass.jpg)`;
-      contentSection.style.backgroundImage = `url(@resources/dynamic/images/wallpaper/room.jpg)`;
+      welcomeSection.style.backgroundImage = `url(@resources/static/wallpaper/grass.jpg)`;
+      contentSection.style.backgroundImage = `url(@resources/static/wallpaper/room.jpg)`;
     }
   }).catch(() => {
-    welcomeSection.style.backgroundImage = `url(@resources/dynamic/images/wallpaper/grass.jpg)`;
-    contentSection.style.backgroundImage = `url(@resources/dynamic/images/wallpaper/room.jpg)`;
+    welcomeSection.style.backgroundImage = `url(@resources/static/wallpaper/grass.jpg)`;
+    contentSection.style.backgroundImage = `url(@resources/static/wallpaper/room.jpg)`;
   });
 
   window.onresize = () => {
