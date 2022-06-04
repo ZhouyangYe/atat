@@ -1,0 +1,56 @@
+.atat-algorithm {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  background-color: #fff;
+  padding: 12px;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  header {
+    .play {
+      cursor: pointer;
+      width: 36px;
+      margin-bottom: 16px;
+    }
+  }
+
+  .panel {
+    width: 100%;
+    text-align: center;
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+
+    .bar {
+      display: inline-block;
+      box-sizing: border-box;
+      width: 0.5%;
+      border: 1px solid #666;
+      background-color: aquamarine;
+
+      &.range {
+        background-color: rgb(7, 4, 4);
+      }
+
+      &.range1 {
+        background-color: rgb(193, 243, 12);
+      }
+
+      &.range2 {
+        background-color: rgb(184, 39, 39);
+      }
+
+      &.pointer1 {
+        background-color: rgb(73, 211, 46);
+      }
+
+      &.pointer2 {
+        background-color: rgb(95, 39, 184);
+      }
+    }
+  }
+}
