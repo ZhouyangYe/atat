@@ -10,7 +10,7 @@ const Visualization: React.FC<any> = () => {
   return (
     <BasePage className='visualization'>
       <BubbleSort />
-      <MergeSort />
+      {/* <MergeSort /> */}
       <div className='source-code-wrap'>
         <SourceCode root='apps^stories^src^Visualization^MergeSort' maxHeight={800} minHeight={500} />
       </div>

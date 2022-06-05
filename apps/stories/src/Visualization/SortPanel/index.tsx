@@ -4,9 +4,10 @@ import { ORDER } from '../enum';
 import './index.less';
 
 interface Params<T> {
+  desc: string;
   initState: T;
   sort: (numbers: number[], stat: T, compareFunc: (num1: number, num2: number) => number) => boolean;
-  render: (stat: T, num: number, index: number, width: string) => React.ReactElement;
+  render: (stat: T, num: number, index: number, width: string, nums: number[]) => React.ReactElement;
   temp?: {
     numbers: number[];
     render: (stat: T, num: number, index: number, width: string, nums: number[], compareFunc: (num1: number, num2: number) => number) => React.ReactElement;
@@ -39,7 +40,7 @@ const orderFunc = {
 };
 let timer: NodeJS.Timeout, delay = 0;
 
-function SortPanel<T>({ initState, temp, sort, render }: Params<T>) {
+function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
   const [status, setStatus] = useState<T>({ ...initState });
   const [tempNumbers, setTempNumbers] = useState<number[]>(temp ? new Array(200).fill(0) : []);
   const [numbers, setNumbers] = useState(new Array(200).fill(0).map(() => Math.ceil(Math.random() * 200)));
@@ -86,7 +87,7 @@ function SortPanel<T>({ initState, temp, sort, render }: Params<T>) {
 
   const list = useMemo(() => {
     return numbers.map((num, i) => {
-      return render(status, num, i, width);
+      return render(status, num, i, width, numbers);
     });
   }, [numbers]);
 
@@ -142,8 +143,8 @@ function SortPanel<T>({ initState, temp, sort, render }: Params<T>) {
   return (
     <div className='atat-algorithm'>
       <header>
-        <img onClick={handleToggle} className='play' src={paused ? '@resources/static/icons/play-button-1.svg' : '@resources/static/icons/pause-1.svg'} />
-        <img onClick={handleReset} className={`reset ${done ? '' : 'forbidden'}`} src="@resources/static/icons/reset.svg" />
+        <img onClick={handleToggle} className='play' title={paused ? 'Play' : 'Pause'} src={paused ? '@resources/static/icons/play-button-1.svg' : '@resources/static/icons/pause-1.svg'} />
+        <img onClick={handleReset} className={`reset ${done ? '' : 'forbidden'}`} title="Reset" src="@resources/static/icons/reset.svg" />
         <div className={`order ${done ? '' : 'forbidden'}`}>
           <a className={order === ORDER.ASCEND ? 'active' : ''} onClick={handleAscend}>Asc</a>
           <a className={order === ORDER.DESCEND ? 'active' : ''} onClick={handleDescend}>Desc</a>
@@ -160,7 +161,7 @@ function SortPanel<T>({ initState, temp, sort, render }: Params<T>) {
         {list}
       </div>
       <h3>Result</h3>
-      <p>Merge sort, 时间复杂度O(nlogn)</p>
+      <p>{desc}</p>
     </div>
   );
 }

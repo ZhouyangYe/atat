@@ -1,146 +1,49 @@
 import React, { useCallback } from 'react';
 import SortPanel from '../SortPanel';
 
-import './index.less';
-
-interface MergeSortState {
-  level: number;
-  sectionIndex: number;
-  tempPointer: number;
-  pointer1: number;
-  pointer2: number;
-  start: number;
-  mid: number;
-  end: number;
+interface BubbleSortState {
+  round: number;
+  pointer: number;
 }
 
-const tempArray: number[] = [];
+let initialized = false;
 
-const merge = (arr: number[], state: MergeSortState, compare: (num1: number, num2: number) => number) => {
-  if (state.pointer1 <= state.mid || state.pointer2 <= state.end) {
-    if (state.pointer1 > state.mid) {
-      tempArray[state.tempPointer] = arr[state.pointer2];
-      state.pointer2++;
-      state.tempPointer++;
-    } else if (state.pointer2 > state.end) {
-      tempArray[state.tempPointer] = arr[state.pointer1];
-      state.pointer1++;
-      state.tempPointer++;
-    } else {
-      if (compare(arr[state.pointer1], arr[state.pointer2]) > 0) {
-        tempArray[state.tempPointer] = arr[state.pointer1];
-        state.pointer1++;
-      } else {
-        tempArray[state.tempPointer] = arr[state.pointer2];
-        state.pointer2++;
-      }
-      state.tempPointer++;
-    }
+const swap = (arr: number[], i1: number, i2: number) => {
+  const temp = arr[i1];
+  arr[i1] = arr[i2];
+  arr[i2] = temp;
+}
 
-    return true;
+const bubbleSort = (arr: number[], state: BubbleSortState, compare: (num1: number, num2: number) => number): boolean => {
+  initialized = true;
+  const length1 = arr.length - 1, length2 = length1 - state.round;
+
+  if (compare(arr[state.pointer], arr[state.pointer + 1]) > 0) {
+    swap(arr, state.pointer, state.pointer + 1);
+  }
+  state.pointer++;
+  if (state.pointer >= length2) {
+    state.round++;
+    state.pointer = 0;
   }
 
-  for (let i = state.start; i <= state.end; i++) {
-    arr[i] = tempArray[i];
-  }
-
-  return false;
+  return state.round < length1;
 };
 
-const mergeSort = (arr: number[], state: MergeSortState, compare: (num1: number, num2: number) => number): boolean => {
-  const mergeDone = !merge(arr, state, compare);
-  if (mergeDone) {
-    const l = Math.pow(2, state.level);
-    const offset = l * 2, delta1 = l - 1, delta2 = offset - 1;
-    state.sectionIndex += offset;
-
-    if (state.sectionIndex < arr.length) {
-      state.start = state.sectionIndex;
-      state.mid = state.sectionIndex + delta1;
-      state.mid = state.mid < arr.length ? state.mid : arr.length - 1; // clamp
-      state.end = state.sectionIndex + delta2;
-      state.end = state.end < arr.length ? state.end : arr.length - 1; // clamp
-
-      const start2 = state.mid + 1;
-      state.tempPointer = state.start;
-      state.pointer1 = state.start;
-      state.pointer2 = start2;
-    } else {
-      state.level += 1;
-
-      if (Math.pow(2, state.level - 1) >= arr.length) {
-        return false;
-      }
-
-      const l = Math.pow(2, state.level);
-      const offset = l * 2, delta1 = l - 1, delta2 = offset - 1;
-
-      state.sectionIndex = 0;
-
-      state.start = state.sectionIndex;
-      state.mid = state.sectionIndex + delta1;
-      state.mid = state.mid < arr.length ? state.mid : arr.length - 1; // clamp
-      state.end = state.sectionIndex + delta2;
-      state.end = state.end < arr.length ? state.end : arr.length - 1; // clamp
-
-      const start2 = state.mid + 1;
-      state.tempPointer = state.start;
-      state.pointer1 = state.start;
-      state.pointer2 = start2;
-    }
-  }
-
-  return true;
-};
-
-const state = { level: 0, sectionIndex: 0, tempPointer: 0, pointer1: 0, pointer2: 1, start: 0, mid: 0, end: 1, };
+const state = { round: 0, pointer: 0 };
 
 const BubbleSort: React.FC<any> = () => {
-  const renderResult = useCallback((status: MergeSortState, num: number, i: number, width: string) => {
-    const
-      pointer1 = status.pointer1 > status.mid ? null : status.pointer1,
-      pointer2 = status.pointer2 > status.end ? null : status.pointer2;
-
+  const renderResult = useCallback((status: BubbleSortState, num: number, i: number, width: string, nums: number[]) => {
     let className = '';
-    if (pointer1 === i) {
+    const length1 = nums.length - 1, length2 = length1 - status.round;
+    const pointer = initialized ? status.pointer + 1 >= length2 ? 0 : status.pointer + 1 : status.pointer;
+
+    if (i === pointer) {
       className = 'pointer1';
-    } else if (pointer2 === i) {
+    } else if (i === pointer + 1) {
       className = 'pointer2';
-    } else if (i >= status.start && i <= status.mid) {
+    } else if (i >= 0 && i <= length2) {
       className = 'range1';
-    } else if (i > status.mid && i <= status.end) {
-      className = 'range2';
-    }
-
-    if (pointer1 === null && pointer2 === null && i >= status.start && i <= status.end) {
-      className = 'range';
-    }
-
-    return (
-      <div key={i} className={`bar ${className}`} style={{ height: num, width }}></div>
-    );
-  }, []);
-
-  const renderTemp = useCallback((status: MergeSortState, num: number, i: number, width: string, nums: number[], compareFunc: (num1: number, num2: number) => number) => {
-    const
-      pointer1 = status.pointer1 > status.mid ? null : status.pointer1,
-      pointer2 = status.pointer2 > status.end ? null : status.pointer2;
-
-    let className = '';
-    if (status.tempPointer === i) {
-      if (pointer1 === null && pointer2 === null) {
-        className = '';
-      } else if (pointer1 === null) {
-        className = 'pointer2';
-      } else if (pointer2 === null) {
-        className = 'pointer1';
-      } else if (compareFunc(nums[pointer1], nums[pointer2]) > 0) {
-        className = 'pointer1';
-      } else {
-        className = 'pointer2';
-      }
-    } else if (i >= status.start && i <= status.end) {
-      className = 'range';
     }
 
     return (
@@ -149,7 +52,7 @@ const BubbleSort: React.FC<any> = () => {
   }, []);
 
   return (
-    <SortPanel initState={state} sort={mergeSort} render={renderResult} temp={{ numbers: tempArray, render: renderTemp }} />
+    <SortPanel desc='Bubble sort, 时间复杂度O(n2)' initState={state} sort={bubbleSort} render={renderResult} />
   );
 };
 
