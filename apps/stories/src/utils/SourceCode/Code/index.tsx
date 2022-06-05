@@ -17,6 +17,7 @@ const Code: React.FC<Params> = ({ ext, data }) => {
       case EXT.LESS:
       case EXT.JS:
       case EXT.TS:
+      case EXT.TSX:
       case EXT.JSON:
       case EXT.MD:
         return `language-${ext}`;

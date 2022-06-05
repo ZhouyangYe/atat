@@ -1,10 +1,11 @@
 import { getFullUrl } from '@/utils';
 import { REQUEST_TYPE } from './enum';
 
-const TIMEOUT = 10000;
+const TIMEOUT = 30000;
 const SUCCESS_CODE = 200;
 
 export interface Options {
+  timeout?: number;
   params?: { [key: string]: string | undefined };
   body?: any;
 }
@@ -16,7 +17,7 @@ const getMethod = (type: string) => {
       const xhr = new XMLHttpRequest();
       let data: any = null;
 
-      xhr.timeout = TIMEOUT;
+      xhr.timeout = options?.timeout ?? TIMEOUT;
       xhr.responseType = 'json';
 
       switch (type) {
@@ -75,6 +76,14 @@ const getMethod = (type: string) => {
           success: false,
           errorCode: 500,
           errorMessage: 'Failed to connect to the server.',
+        });
+      };
+
+      xhr.ontimeout = () => {
+        rej({
+          success: false,
+          errorCode: 408,
+          errorMessage: 'Timeout',
         });
       };
     });

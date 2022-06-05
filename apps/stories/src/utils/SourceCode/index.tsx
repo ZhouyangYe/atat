@@ -13,10 +13,16 @@ interface FileData {
   ext: string;
 }
 
-const SourceCode: React.FC<any> = () => {
+interface Params {
+  root?: string;
+  maxHeight?: number;
+  minHeight?: number;
+}
+
+const SourceCode: React.FC<Params> = ({ root, maxHeight = 600, minHeight = 0 }) => {
   const [loading, setLoading] = useState(true);
   const [element, setElement] = useState<FileData>();
-  const [path, setPath] = useState<string>();
+  const [path, setPath] = useState<string | undefined>(root);
 
   const content = useMemo(() => {
     if (!element) {
@@ -53,15 +59,15 @@ const SourceCode: React.FC<any> = () => {
   }, [element]);
 
   const links = useMemo(() => {
-    const root = <span key="root" className="path" onClick={() => {
-      setPath(undefined);
+    const r = <span key="root" className="path" onClick={() => {
+      setPath(root);
     }}>/root</span>;
 
     if (!path) {
-      return root;
+      return r;
     }
 
-    const paths = path.split('^');
+    const paths = path.slice(root?.length || 0).split('^');
 
     const result = paths.map((f, i) => (
       <span
@@ -72,7 +78,7 @@ const SourceCode: React.FC<any> = () => {
         }}
       >/{f}</span>
     ));
-    result.unshift(root);
+    result.unshift(r);
 
     return result;
   }, [path]);
@@ -113,6 +119,10 @@ const SourceCode: React.FC<any> = () => {
   }, [path]);
 
   const handleBack = useCallback(() => {
+    if (path === root) {
+      return;
+    }
+
     let newPath = path?.split('^');
     if (newPath?.length) {
       newPath.pop();
@@ -131,7 +141,7 @@ const SourceCode: React.FC<any> = () => {
           {links}
         </div>
       </div>
-      <div className='code'>
+      <div className='code' style={{ maxHeight, minHeight }}>
         {loading ? <Loading /> : content}
       </div>
     </div>
