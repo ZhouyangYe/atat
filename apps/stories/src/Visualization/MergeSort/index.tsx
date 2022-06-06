@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
-import SortPanel from '../SortPanel';
+import React, { useCallback, lazy, Suspense } from 'react';
+
+const SortPanel = lazy(() => import('../SortPanel'));
 
 interface MergeSortState {
   level: number;
@@ -147,7 +148,9 @@ const MergeSort: React.FC<any> = () => {
   }, []);
 
   return (
-    <SortPanel desc='Merge sort, 时间复杂度O(nlogn)' initState={state} sort={mergeSort} render={renderResult} temp={{ numbers: tempArray, render: renderTemp }} />
+    <Suspense>
+      <SortPanel desc='Merge sort, 时间复杂度O(nlogn)' initState={state} sort={mergeSort} render={renderResult} temp={{ numbers: tempArray, render: renderTemp }} />
+    </Suspense>
   );
 };
 

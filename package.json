@@ -37,6 +37,7 @@
   "dependencies": {
     "atat-common": "file:apps/common",
     "chalk": "^4.1.0",
+    "cheerio": "^1.0.0-rc.11",
     "clear": "^0.1.0",
     "cli-cursor": "^3.1.0",
     "cookie": "^0.5.0",

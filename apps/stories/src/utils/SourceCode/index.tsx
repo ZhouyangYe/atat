@@ -15,11 +15,12 @@ interface FileData {
 
 interface Params {
   root?: string;
+  filter?: string[];
   maxHeight?: number;
   minHeight?: number;
 }
 
-const SourceCode: React.FC<Params> = ({ root, maxHeight = 600, minHeight = 0 }) => {
+const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight = 0 }) => {
   const [loading, setLoading] = useState(true);
   const [element, setElement] = useState<FileData>();
   const [path, setPath] = useState<string | undefined>(root);
@@ -32,7 +33,9 @@ const SourceCode: React.FC<Params> = ({ root, maxHeight = 600, minHeight = 0 }) 
     if (element.info.isDir) {
       return (
         <>
-          {element.info.files.sort((file1, file2) => {
+          {element.info.files.filter((file) => (
+            path === root && filter ? filter?.includes(file) : true
+          )).sort((file1, file2) => {
             const ext1 = getExt(file1), ext2 = getExt(file2);
 
             if (ext1 === ext2) {
@@ -67,14 +70,14 @@ const SourceCode: React.FC<Params> = ({ root, maxHeight = 600, minHeight = 0 }) 
       return r;
     }
 
-    const paths = path.slice(root?.length || 0).split('^');
+    const paths = path === root ? [] : path.slice(root?.length ? root.length + 1 : 0).split('^');
 
     const result = paths.map((f, i) => (
       <span
         key={f}
         className="path"
         onClick={() => {
-          setPath(paths.slice(0, i + 1).join('^'));
+          setPath(root ? `${root}^${paths.slice(0, i + 1).join('^')}` : paths.slice(0, i + 1).join('^'));
         }}
       >/{f}</span>
     ));

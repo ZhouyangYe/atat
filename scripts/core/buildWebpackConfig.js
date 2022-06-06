@@ -63,6 +63,11 @@ const buildDevConfig = (config, name) => {
     delete rule.id;
   });
 
+  // use local code for dev
+  if (config.externals) {
+    completeConfig.externals = undefined;
+  }
+
   return buildCommonConfig(completeConfig, name);
 };
 

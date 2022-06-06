@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
-import SortPanel from '../SortPanel';
+import React, { useCallback, lazy, Suspense } from 'react';
+
+const SortPanel = lazy(() => import('../SortPanel'));
 
 interface BubbleSortState {
   round: number;
@@ -50,7 +51,9 @@ const BubbleSort: React.FC<any> = () => {
   }, []);
 
   return (
-    <SortPanel desc='Bubble sort, 时间复杂度O(n2)' initState={state} sort={bubbleSort} render={renderResult} />
+    <Suspense>
+      <SortPanel desc='Bubble sort, 时间复杂度O(n2)' initState={state} sort={bubbleSort} render={renderResult} />
+    </Suspense>
   );
 };
 

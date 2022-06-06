@@ -3,7 +3,11 @@ import { NavLink } from 'react-router-dom';
 
 import './index.less';
 
-const Header: React.FC<any> = () => {
+interface Params {
+  onClick: () => void;
+}
+
+const Header: React.FC<Params> = ({ onClick }) => {
   const handleActive = useCallback(({ isActive }: { isActive: boolean }) => {
     return isActive ? 'nav active' : 'nav';
   }, []);
@@ -11,7 +15,7 @@ const Header: React.FC<any> = () => {
   return (
     <header id="blog-header" className='info'>
       <a className='main' href="/intro"><img src="@resources/static/icons/home.svg" /></a>
-      <div className='profile'></div>
+      <div className='profile' onClick={onClick}></div>
       <p>Web开发 · Game dev · 猫</p>
       <nav>
         <NavLink className={handleActive} to='/'><div>主页 <span>·</span> Home<div className='underline'></div></div></NavLink>

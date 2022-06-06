@@ -9,7 +9,7 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "module": "commonjs",
+    "module": "esnext",
     "target": "es6",
     "baseUrl": ".",
     "rootDir": "src",

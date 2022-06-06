@@ -17,7 +17,7 @@
   box-sizing: border-box;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 25px 36px 0;
+  padding: 32px 36px 0;
   background-image: url('@resources/static/materials/header_background.jpg');
   background-size: cover;
 
@@ -47,6 +47,7 @@
   }
 
   .profile {
+    cursor: pointer;
     box-shadow: inset 3px 3px 8px 2px #000;
     @width: 125px;
     width: @width;
@@ -55,11 +56,20 @@
     background-image: url('@resources/dynamic/images/profile/profile2.jpg');
     background-size: contain;
     margin: 0 auto;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 3px 3px 8px 2px #000;
+    }
+
+    &:active {
+      box-shadow: none;
+    }
   }
 
   p {
-    font-size: 12px;
-    margin: 16px auto;
+    font-size: 13px;
+    margin: 16px auto 32px;
     color: rgba(255, 255, 255, 0.7);
     text-align: center;
     background: linear-gradient(-30deg, rgba(255, 255, 255, 0) 50px, rgba(255, 255, 255, 1) 90px, rgba(255, 255, 255, 1) 140px, rgba(255, 255, 255, 0) 180px) -400px 0px no-repeat;
@@ -79,11 +89,11 @@
       cursor: pointer;
       line-height: 16px;
       padding-bottom: 3px;
-      opacity: 0.6;
+      opacity: 0.3;
       margin: 0 18px;
       color: rgb(255, 255, 255);
       position: relative;
-      font-size: 14px;
+      font-size: 12px;
       text-decoration: none;
       display: block;
 

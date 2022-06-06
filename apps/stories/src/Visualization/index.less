@@ -2,6 +2,52 @@
   padding: 18px;
   background-color: rgba(231, 133, 67, 0.8);
 
+  &>header {
+    display: flex;
+    padding: 6px;
+    margin-bottom: 12px;
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: center;
+    overflow: hidden;
+    transition: height 0.3s ease;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    img {
+      cursor: pointer;
+      height: 36px;
+    }
+
+    &>.menu {
+      display: flex;
+      flex-wrap: wrap;
+
+      a {
+        color: aliceblue;
+        display: block;
+        padding: 6px 8px;
+        margin: 6px;
+        background-color: rgb(29, 28, 49);
+        opacity: 0.6;
+
+        &:hover {
+          transition: background-color 0.2s ease, color 0.2s ease;
+          background-color: aliceblue;
+          color: rgb(29, 28, 49);
+        }
+
+        &.active {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   .source-code-wrap {
     margin-top: 12px;
     padding: 6px;
