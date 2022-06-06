@@ -29,11 +29,11 @@ requireAsync(getPath(name)).then((config = {}) => {
   plugin.apply(compiler);
 
   const handler = (err, stats) => {
-    const info = stats.toJson();
-    const error = stats.hasErrors() ? info.errors.map((e) => {
+    const info = stats && stats.toJson();
+    const error = stats && stats.hasErrors() ? info.errors.map((e) => {
       return `${e.moduleName}\n${e.message}`;
     }).join('\n\n') : err;
-    const warning = stats.hasWarnings() ? info.warnings.map((w) => {
+    const warning = stats && stats.hasWarnings() ? info.warnings.map((w) => {
       return `${w.stack}\n${w.message}`;
     }).join('\n\n') : '';
 

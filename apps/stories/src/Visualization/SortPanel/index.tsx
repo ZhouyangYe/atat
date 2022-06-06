@@ -72,14 +72,13 @@ function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
 
     const stat = { ...status };
     const shouldContinue = sort(numbers, stat, orderFunc[order]);
-    if (shouldContinue) {
-      setNumbers([...numbers]);
-      if (temp) setTempNumbers([...temp.numbers]);
+    setNumbers([...numbers]);
+    if (temp) setTempNumbers([...temp.numbers]);
+    timer = setTimeout(() => {
+      setStatus({ ...stat });
+    }, delay);
 
-      timer = setTimeout(() => {
-        setStatus({ ...stat });
-      }, delay);
-    } else {
+    if (!shouldContinue) {
       setDone(true);
       setPaused(true)
     }

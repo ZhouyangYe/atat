@@ -66,7 +66,7 @@ const mergeSort = (arr: number[], state: MergeSortState, compare: (num1: number,
     } else {
       state.level += 1;
 
-      if (Math.pow(2, state.level - 1) >= arr.length) {
+      if (Math.pow(2, state.level) >= arr.length) {
         return false;
       }
 
