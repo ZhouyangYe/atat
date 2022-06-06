@@ -13,8 +13,10 @@ const writeHtml = (res) => {
     fs.readFile(filePath, 'utf-8', (err, data) => {
       const
         $ = cheerio.load(data),
-        externalLinks = $('external').html().trim(),
         headTags = $('head').html().trim();
+
+      let externalLinks = $('external').html();
+      externalLinks = externalLinks ? externalLinks.trim() : '';
 
       $('body').find('external').remove();
       const bodyTags = $('body').html().trim();
