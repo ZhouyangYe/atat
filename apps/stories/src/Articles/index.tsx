@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { getArticles, IArticle } from 'atat-common/lib/services/stories';
 import BasePage from '@/BasePage';
+import { Loading } from '@/utils';
 import Article from './Article';
 
 import './index.less';
@@ -24,7 +25,7 @@ const Articles: React.FC<any> = () => {
         );
       });
     }
-    return <></>;
+    return <Loading />;
   }, [articles]);
 
   return (

@@ -1,4 +1,4 @@
-const forbidden_list = [
+const ignore_list = [
   /(\.git)$/,
   'package-lock.json',
   'dist',
@@ -6,15 +6,15 @@ const forbidden_list = [
   'common/lib',
 ];
 
-const ignore_list = [
-  ...forbidden_list,
+const forbidden_list = [
+  ...ignore_list,
   './data.json',
   'server.config',
   /(\.jpeg|\.jpg|\.png|\.gif|\.bmp|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
 ];
 
 const test = (path, disableRead = true) => {
-  const list = disableRead ? ignore_list : forbidden_list;
+  const list = disableRead ? forbidden_list : ignore_list;
 
   for (let i = 0, length = list.length; i < length; i++) {
     if (typeof list[i] === 'object') {

@@ -1,6 +1,7 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { getAlbum, IAlbum } from 'atat-common/lib/services/stories';
 import BasePage from '@/BasePage';
+import { Loading } from '@/utils';
 import Menu from './Menu';
 import Picture from './Picture';
 
@@ -77,11 +78,12 @@ const Home: React.FC<any> = () => {
 
   useLayoutEffect(() => {
     setPanelWidth(panelRef.current?.clientWidth);
-  }, []);
+  }, [articles]);
 
   return (
     <BasePage className='album'>
       <Menu width={width} setWidth={setWidth} panelWidth={panelWidth} />
+      {articles ? <></> : <Loading />}
       <ul ref={panelRef} style={{ height }}>
         {items}
       </ul>
