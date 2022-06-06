@@ -95,7 +95,7 @@ const mergeSort = (arr: number[], state: MergeSortState, compare: (num1: number,
 const state = { level: 0, sectionIndex: 0, tempPointer: 0, pointer1: 0, pointer2: 1, start: 0, mid: 0, end: 1, };
 
 const MergeSort: React.FC<any> = () => {
-  const renderResult = useCallback((status: MergeSortState, num: number, i: number, width: string) => {
+  const renderResult = useCallback((status: MergeSortState, i: number) => {
     const
       pointer1 = status.pointer1 > status.mid ? null : status.pointer1,
       pointer2 = status.pointer2 > status.end ? null : status.pointer2;
@@ -115,12 +115,12 @@ const MergeSort: React.FC<any> = () => {
       className = 'range';
     }
 
-    return (
-      <div key={i} className={`bar ${className}`} style={{ height: num, width }}></div>
-    );
+    return {
+      className,
+    };
   }, []);
 
-  const renderTemp = useCallback((status: MergeSortState, num: number, i: number, width: string, nums: number[], compareFunc: (num1: number, num2: number) => number) => {
+  const renderTemp = useCallback((status: MergeSortState, i: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => {
     const
       pointer1 = status.pointer1 > status.mid ? null : status.pointer1,
       pointer2 = status.pointer2 > status.end ? null : status.pointer2;
@@ -142,9 +142,9 @@ const MergeSort: React.FC<any> = () => {
       className = 'range';
     }
 
-    return (
-      <div key={i} className={`bar ${className}`} style={{ height: num, width }}></div>
-    );
+    return {
+      className,
+    };
   }, []);
 
   return (

@@ -31,7 +31,7 @@ const bubbleSort = (arr: number[], state: BubbleSortState, compare: (num1: numbe
 const state = { round: 0, pointer: 0 };
 
 const BubbleSort: React.FC<any> = () => {
-  const renderResult = useCallback((status: BubbleSortState, num: number, i: number, width: string, nums: number[]) => {
+  const renderResult = useCallback((status: BubbleSortState, i: number, nums: number[]) => {
     let className = '';
     const length1 = nums.length - 1, length2 = length1 - status.round;
 
@@ -45,9 +45,9 @@ const BubbleSort: React.FC<any> = () => {
       className = 'range1';
     }
 
-    return (
-      <div key={i} className={`bar ${className}`} style={{ height: num, width }}></div>
-    );
+    return {
+      className,
+    };
   }, []);
 
   return (

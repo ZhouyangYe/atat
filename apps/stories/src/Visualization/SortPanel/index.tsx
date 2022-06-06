@@ -7,10 +7,10 @@ interface Params<T> {
   desc: string;
   initState: T;
   sort: (numbers: number[], stat: T, compareFunc: (num1: number, num2: number) => number) => boolean;
-  render: (stat: T, num: number, index: number, width: string, nums: number[]) => React.ReactElement;
+  render: (stat: T, index: number, nums: number[]) => { className: string; };
   temp?: {
     numbers: number[];
-    render: (stat: T, num: number, index: number, width: string, nums: number[], compareFunc: (num1: number, num2: number) => number) => React.ReactElement;
+    render: (stat: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
   }
 }
 
@@ -64,6 +64,7 @@ function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
 
     return () => {
       clearTimeout(timer);
+      if (temp) temp.numbers.length = 0;
     };
   }, []);
 
@@ -86,13 +87,15 @@ function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
 
   const list = useMemo(() => {
     return numbers.map((num, i) => {
-      return render(status, num, i, width, numbers);
+      const params = render(status, i, numbers);
+      return <div key={i} title={`${num}`} className={`bar ${params.className}`} style={{ height: num, width }}></div>;
     });
   }, [numbers]);
 
   const tempList = temp ? useMemo(() => {
     return tempNumbers.map((num, i) => {
-      return temp.render(status, num, i, width, numbers, orderFunc[order]);
+      const params = temp.render(status, i, numbers, orderFunc[order]);
+      return <div key={i} title={`${num}`} className={`bar ${params.className}`} style={{ height: num, width }}></div>;
     });
   }, [tempNumbers]) : undefined;
 

@@ -54,7 +54,7 @@ const Visualization: React.FC<any> = () => {
         </div>
       </header>
       <Suspense>
-        <Component />
+        <Component key={algorithm} />
       </Suspense>
       <div className='source-code-wrap'>
         {sourceCode}
