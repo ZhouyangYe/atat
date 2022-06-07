@@ -9,6 +9,7 @@ const sortList = Object.values(SORT);
 
 const components = {
   [SORT.MERGE]: lazy(() => import('./MergeSort')),
+  [SORT.QUICK]: lazy(() => import('./QuickSort')),
   [SORT.BUBBLE]: lazy(() => import('./BubbleSort')),
 };
 

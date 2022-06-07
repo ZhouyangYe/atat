@@ -4,6 +4,7 @@ export enum ORDER {
 }
 
 export enum SORT {
-  BUBBLE = 'BubbleSort',
   MERGE = 'MergeSort',
+  QUICK = 'QuickSort',
+  BUBBLE = 'BubbleSort',
 }

@@ -66,6 +66,33 @@
     }
   }
 
+  .tree-panel {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .tree-level {
+      width: 100%;
+      display: flex;
+      height: 5px;
+
+      .tree-node {
+        height: 100%;
+        box-sizing: border-box;
+        border: 1px solid #666;
+        background-color: aquamarine;
+
+        &.active {
+          background-color: rgba(234, 253, 57, 0.3);
+        }
+
+        &:hover {
+          background-color: #fff;
+        }
+      }
+    }
+  }
+
   .panel {
     width: 100%;
     text-align: center;
@@ -74,7 +101,7 @@
     align-items: flex-end;
 
     .bar {
-      display: inline-block;
+      flex-grow: 1;
       box-sizing: border-box;
       width: 0.5%;
       border: 1px solid #666;

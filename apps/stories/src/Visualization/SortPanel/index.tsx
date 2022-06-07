@@ -8,10 +8,11 @@ interface Params<T> {
   initState: T;
   sort: (numbers: number[], stat: T, compareFunc: (num1: number, num2: number) => number) => boolean;
   render: (stat: T, index: number, nums: number[]) => { className: string; };
+  renderTree?: (stat: T, nums: number[]) => { tree: [number, number][][], current: { depth: number; index: number } };
   temp?: {
     numbers: number[];
     render: (stat: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
-  }
+  };
 }
 
 const orderFunc = {
@@ -40,7 +41,7 @@ const orderFunc = {
 };
 let timer: NodeJS.Timeout, delay = 0;
 
-function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
+function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Params<T>) {
   const [status, setStatus] = useState<T>({ ...initState });
   const [tempNumbers, setTempNumbers] = useState<number[]>(temp ? new Array(200).fill(0) : []);
   const [numbers, setNumbers] = useState(new Array(200).fill(0).map(() => Math.ceil(Math.random() * 200)));
@@ -52,17 +53,30 @@ function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (ref.current) {
-      const width = ref.current.clientWidth;
-      if (width < 800) {
-        const num = Math.floor(width / 5);
-        if (temp) setTempNumbers(new Array(num).fill(0));
-        setNumbers(new Array(num).fill(0).map(() => Math.ceil(Math.random() * 200)));
-        setWidth(`${100 / num}%`);
+    const handleResize = () => {
+      if (ref.current) {
+        const width = ref.current.clientWidth;
+        if (width < 800) {
+          const num = Math.floor(width / 5);
+          if (temp) {
+            setTempNumbers(new Array(num).fill(0));
+            temp.numbers.length = 0;
+          }
+          setNumbers(new Array(num).fill(0).map(() => Math.ceil(Math.random() * 200)));
+          setWidth(`${100 / num}%`);
+          setDone(true);
+          setPaused(true);
+          setStatus({ ...initState });
+        }
       }
-    }
+    };
+
+    handleResize();
+
+    window.addEventListener('resize', handleResize, false);
 
     return () => {
+      window.removeEventListener('resize', handleResize, false);
       clearTimeout(timer);
       if (temp) temp.numbers.length = 0;
     };
@@ -74,7 +88,11 @@ function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
     const stat = { ...status };
     const shouldContinue = sort(numbers, stat, orderFunc[order]);
     setNumbers([...numbers]);
-    if (temp) setTempNumbers([...temp.numbers]);
+    if (temp) {
+      setTempNumbers(tempNumbers.map((num, i) => {
+        return temp.numbers[i] === undefined ? num : temp.numbers[i];
+      }));
+    }
     timer = setTimeout(() => {
       setStatus({ ...stat });
     }, delay);
@@ -98,6 +116,22 @@ function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
       return <div key={i} title={`${num}`} className={`bar ${params.className}`} style={{ height: num, width }}></div>;
     });
   }, [tempNumbers]) : undefined;
+
+  const treeGraph = renderTree ? useMemo(() => {
+    const { tree, current } = renderTree(status, numbers);
+    return tree.map((level, depth) => (
+      <div key={depth} className='tree-level'>
+        {level.map((node, i) => (
+          <div
+            key={i}
+            className={`tree-node ${depth === current.depth && i === current.index ? 'active' : ''}`}
+            title={`${node[0]} - ${node[1]}`}
+            style={{ width: `${(node[1] - node[0] + 1) * parseFloat(width)}%` }}
+          ></div>
+        ))}
+      </div>
+    ));
+  }, [numbers]) : undefined;
 
   const handleToggle = useCallback(() => {
     if (!paused) {
@@ -153,12 +187,22 @@ function SortPanel<T>({ desc, initState, temp, sort, render }: Params<T>) {
         </div>
         <div className='delay'>Delay: <input value={delayValue} onChange={handleDelay} /></div>
       </header>
-      {temp && (
-        <div className='panel'>
-          {tempList}
-        </div>
+      {renderTree && (
+        <>
+          <div className='tree-panel'>
+            {treeGraph}
+          </div>
+          <h3>Path tree</h3>
+        </>
       )}
-      <h3>Temp array</h3>
+      {temp && (
+        <>
+          <div className='panel'>
+            {tempList}
+          </div>
+          <h3>Temp array</h3>
+        </>
+      )}
       <div className='panel' ref={ref}>
         {list}
       </div>

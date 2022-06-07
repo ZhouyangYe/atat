@@ -52,4 +52,4 @@ TODOs:
   40. blog system
   41. todo list
   42. HMR
-  43. lazy load
+  43. lazy load ✔
