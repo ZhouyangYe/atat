@@ -23,7 +23,6 @@ let timer: NodeJS.Timeout;
 const BasePage: React.FC<Param> = ({ className, children }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState(!prevPage ? State.SHOW : pages.indexOf(className) < pages.indexOf(prevPage) ? State.HIDE_LEFT : State.HIDE_RIGHT);
-  const [minHeight, setMinHeight] = useState<string | number>(0);
 
   prevPage = className;
 
@@ -52,7 +51,6 @@ const BasePage: React.FC<Param> = ({ className, children }) => {
       }, 300);
     });
 
-    setMinHeight(`calc(100% - ${header.clientHeight}px)`);
     setState(State.SHOW);
 
     return () => {
@@ -75,7 +73,7 @@ const BasePage: React.FC<Param> = ({ className, children }) => {
   }, []);
 
   return (
-    <div ref={ref} style={{ minHeight }} className={`base-page ${state} ${className}`}>
+    <div ref={ref} className={`base-page ${state} ${className}`}>
       {children}
     </div>
   );

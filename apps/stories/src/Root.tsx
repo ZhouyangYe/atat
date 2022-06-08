@@ -12,10 +12,14 @@ import './Root.less';
 
 const RootComponent: React.FC = () => {
   const onClick = useCallback(() => {
-    const basePage = document.querySelectorAll<HTMLDivElement>('.base-page');
+    const
+     basePage = document.querySelectorAll<HTMLDivElement>('.base-page'),
+     app = document.querySelector<HTMLDivElement>('#app')!,
+     header = document.querySelector<HTMLDivElement>('#blog-header')!;
     basePage.forEach((dom) => {
       dom.style.opacity = '0';
     });
+    app.scrollTop = header.clientHeight;
   }, []);
 
   return (
