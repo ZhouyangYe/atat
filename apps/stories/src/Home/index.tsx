@@ -2,7 +2,6 @@ import React from 'react';
 import BasePage from '@/BasePage';
 import SourceCode from '@/utils/SourceCode';
 
-import 'highlight.js/styles/atom-one-dark.css';
 import 'atat-common/lib/modules/message/index.css';
 import './index.less';
 

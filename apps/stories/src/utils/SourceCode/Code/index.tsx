@@ -2,6 +2,7 @@ import hljs from 'highlight.js';
 import { EXT } from 'atat-common/lib/utils';
 import React, { useLayoutEffect, useMemo } from 'react';
 
+import 'highlight.js/styles/atom-one-dark.css';
 import './index.less';
 
 interface Params {

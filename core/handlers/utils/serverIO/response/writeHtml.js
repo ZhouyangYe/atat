@@ -15,8 +15,11 @@ const writeHtml = (res) => {
         $ = cheerio.load(data),
         headTags = $('head').html().trim();
 
-      let externalLinks = $('external').html();
-      externalLinks = externalLinks ? externalLinks.trim() : '';
+      const external = $('external');
+      let externalStyle = external && external.find('css').html();
+      externalStyle = externalStyle ? externalStyle.trim() : '';
+      let externaljs = external && external.find('js').html();
+      externaljs = externaljs ? externaljs.trim() : '';
 
       $('body').find('external').remove();
       const bodyTags = $('body').html().trim();
@@ -30,13 +33,14 @@ const writeHtml = (res) => {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" type="image/png" href="./favicon.png" />
+  ${config.MODE === MODE.PROD ? externalStyle : ''}
   <link rel="stylesheet" href="./dist/main.css" media="all">
   ${headTags}
 </head>
 
 <body>
   ${bodyTags}
-  ${config.MODE === MODE.PROD ? externalLinks : ''}
+  ${config.MODE === MODE.PROD ? externaljs : ''}
   <script src="./dist/main.js"></script>
 </body>
 

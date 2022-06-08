@@ -11,6 +11,7 @@ module.exports = {
   externals: {
     'react': 'React',
     'react-dom': 'ReactDOM',
+    'highlight.js': 'hljs',
   },
   resolve: {
     extensions: [".tsx"],
