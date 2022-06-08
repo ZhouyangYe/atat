@@ -8,7 +8,10 @@ interface Params<T> {
   initState: T;
   sort: (numbers: number[], stat: T, compareFunc: (num1: number, num2: number) => number) => boolean;
   render: (stat: T, index: number, nums: number[]) => { className: string; };
-  renderTree?: (stat: T, nums: number[]) => { tree: [number, number][][], current: { depth: number; index: number } };
+  tree?: {
+    data: [number, number][][];
+    render: (stat: T, depth: number, index: number, nums: number[]) => { className: string; };
+  };
   temp?: {
     numbers: number[];
     render: (stat: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
@@ -41,10 +44,9 @@ const orderFunc = {
 };
 let timer: NodeJS.Timeout, delay = 0;
 
-function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Params<T>) {
+function SortPanel<T>({ desc, initState, temp, sort, render, tree }: Params<T>) {
   const [status, setStatus] = useState<T>({ ...initState });
-  const [tempNumbers, setTempNumbers] = useState<number[]>(temp ? new Array(200).fill(0) : []);
-  const [numbers, setNumbers] = useState(new Array(200).fill(0).map(() => Math.ceil(Math.random() * 200)));
+  const [numbers, setNumbers] = useState<number[]>([]);
   const [delayValue, setDelayValue] = useState(delay);
   const [order, setOrder] = useState(ORDER.ASCEND);
   const [done, setDone] = useState(true);
@@ -56,18 +58,22 @@ function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Param
     const handleResize = () => {
       if (ref.current) {
         const width = ref.current.clientWidth;
-        if (width < 800) {
-          const num = Math.floor(width / 5);
-          if (temp) {
-            setTempNumbers(new Array(num).fill(0));
-            temp.numbers.length = 0;
+
+        const num = Math.floor(width / 5);
+        if (temp) {
+          temp.numbers.length = num;
+          for (let i = 0; i < num; i++) {
+            temp.numbers[i] = 0;
           }
-          setNumbers(new Array(num).fill(0).map(() => Math.ceil(Math.random() * 200)));
-          setWidth(`${100 / num}%`);
-          setDone(true);
-          setPaused(true);
-          setStatus({ ...initState });
         }
+        if (tree) {
+          tree.data.length = 0;
+        }
+        setNumbers(new Array(num).fill(0).map(() => Math.ceil(Math.random() * 200)));
+        setWidth(`${100 / num}%`);
+        setDone(true);
+        setPaused(true);
+        setStatus({ ...initState });
       }
     };
 
@@ -79,6 +85,7 @@ function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Param
       window.removeEventListener('resize', handleResize, false);
       clearTimeout(timer);
       if (temp) temp.numbers.length = 0;
+      if (tree) tree.data.length = 0;
     };
   }, []);
 
@@ -88,11 +95,6 @@ function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Param
     const stat = { ...status };
     const shouldContinue = sort(numbers, stat, orderFunc[order]);
     setNumbers([...numbers]);
-    if (temp) {
-      setTempNumbers(tempNumbers.map((num, i) => {
-        return temp.numbers[i] === undefined ? num : temp.numbers[i];
-      }));
-    }
     timer = setTimeout(() => {
       setStatus({ ...stat });
     }, delay);
@@ -111,24 +113,27 @@ function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Param
   }, [numbers]);
 
   const tempList = temp ? useMemo(() => {
-    return tempNumbers.map((num, i) => {
+    return temp.numbers.map((num, i) => {
       const params = temp.render(status, i, numbers, orderFunc[order]);
       return <div key={i} title={`${num}`} className={`bar ${params.className}`} style={{ height: num, width }}></div>;
     });
-  }, [tempNumbers]) : undefined;
+  }, [numbers]) : undefined;
 
-  const treeGraph = renderTree ? useMemo(() => {
-    const { tree, current } = renderTree(status, numbers);
-    return tree.map((level, depth) => (
+  const treeGraph = tree ? useMemo(() => {
+    return tree.data.map((level, depth) => (
       <div key={depth} className='tree-level'>
-        {level.map((node, i) => (
-          <div
-            key={i}
-            className={`tree-node ${depth === current.depth && i === current.index ? 'active' : ''}`}
-            title={`${node[0]} - ${node[1]}`}
-            style={{ width: `${(node[1] - node[0] + 1) * parseFloat(width)}%` }}
-          ></div>
-        ))}
+        {level.map((node, i) => {
+          const { className } = tree.render(status, depth, i, numbers);
+
+          return (
+            <div
+              key={i}
+              className={`tree-node ${className}`}
+              title={`${node[0]} - ${node[1]}`}
+              style={{ width: `${(node[1] - node[0] + 1) * parseFloat(width)}%` }}
+            ></div>
+          );
+        })}
       </div>
     ));
   }, [numbers]) : undefined;
@@ -169,8 +174,13 @@ function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Param
     if (!done) return;
     const { length } = numbers;
     if (temp) {
-      temp.numbers.length = 0;
-      setTempNumbers(new Array(length).fill(0));
+      temp.numbers.length = length;
+      for (let i = 0; i < length; i++) {
+        temp.numbers[i] = 0;
+      }
+    }
+    if (tree) {
+      tree.data.length = 0;
     }
     setNumbers(new Array(length).fill(0).map(() => Math.ceil(Math.random() * 200)));
     setStatus({ ...initState });
@@ -187,7 +197,7 @@ function SortPanel<T>({ desc, initState, temp, sort, render, renderTree }: Param
         </div>
         <div className='delay'>Delay: <input value={delayValue} onChange={handleDelay} /></div>
       </header>
-      {renderTree && (
+      {tree && (
         <>
           <div className='tree-panel'>
             {treeGraph}

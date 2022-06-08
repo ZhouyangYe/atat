@@ -8,6 +8,29 @@ interface QuickSortState {
   pointer2: number;
 }
 
+const treeData: [number, number][][] = [];
+
+const updateTreeData = (depth: number, range: [number, number]) => {
+  if (!treeData[depth]) {
+    treeData[depth] = [];
+    if (range[0] !== 0) {
+      treeData[depth] = [[0, range[0] - 1], ...treeData[depth]];
+    }
+    treeData[depth] = [...treeData[depth], range];
+  } else {
+    const
+      level = treeData[depth],
+      last = level[level.length - 1];
+
+    if (last[0] < range[0]) {
+      if (range[0] > last[1] + 1) {
+        treeData[depth] = [...level, [last[1] + 1, range[0] - 1]];
+      }
+      treeData[depth] = [...treeData[depth], range];
+    }
+  }
+}
+
 const swap = (arr: number[], i1: number, i2: number) => {
   const temp = arr[i1];
   arr[i1] = arr[i2];
@@ -21,6 +44,8 @@ const quickSort = (arr: number[], state: QuickSortState, compare: (num1: number,
 
   const
     range = state.range[state.range.length - 1]
+
+  updateTreeData(state.range.length - 1, range);
 
   if (range === undefined) {
     return false;
@@ -104,53 +129,31 @@ const QuickSort: React.FC<any> = () => {
     };
   }, []);
 
-  let treeData: [number, number][][] = [];
-
-  const renderTree = useCallback((status: QuickSortState, nums: number[]) => {
-    if (status.range === undefined) {
-      treeData = [];
-    }
-
+  const renderTree = useCallback((status: QuickSortState, d: number, i: number, nums: number[]) => {
     const
       ranges = status.range ?? [[0, nums.length - 1]],
-      depth = ranges.length - 1,
-      range = ranges[depth];
+      depth = ranges.length - 1;
+
+    let className = '';
 
     if (depth < 0) {
       return {
-        tree: treeData,
-        current: { depth: 0, index: 0 },
+        className,
       };
     }
 
-    if (!treeData[depth]) {
-      treeData[depth] = [range];
-      if (range[0] !== 0) {
-        treeData[depth].unshift([0, range[0] - 1]);
-      }
-    } else {
-      const
-        level = treeData[depth],
-        last = level[level.length - 1];
-      if (last[0] < range[0]) {
-        if (range[0] > last[1] + 1) {
-          level.push([last[1] + 1, range[0] - 1]);
-        }
-        level.push(range);
-      }
+    if (d === depth && i === treeData[depth].length - 1) {
+      className = 'active';
     }
-
-    const current = { depth, index: treeData[depth].length - 1 };
 
     return {
-      tree: treeData,
-      current,
-    }
+      className,
+    };
   }, []);
 
   return (
     <Suspense>
-      <SortPanel desc='Quick sort, 时间复杂度平均O(nlogn)' initState={state} sort={quickSort} render={renderResult} renderTree={renderTree} />
+      <SortPanel desc='Quick sort, 时间复杂度平均O(nlogn)' initState={state} sort={quickSort} render={renderResult} tree={{ data: treeData, render: renderTree }} />
     </Suspense>
   );
 };
