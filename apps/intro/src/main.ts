@@ -118,19 +118,65 @@ const handleCat = () => {
     e.stopPropagation();
   };
 
-  const offsetPos = 155;
+  const offsetPos1 = 200, offsetPos2 = 155;
 
-  const x = -108, y = -73;
+  const x1 = -153, y1 = -118;
+  const x2 = -108, y2 = -73;
   hole.onclick = () => {
     hole.classList.remove('hide');
-    cat.style.left = `${x + offsetPos}px`;
-    cat.style.top = `${y + offsetPos}px`;
+    cat.style.left = `${x1 + offsetPos1}px`;
+    cat.style.top = `${y1 + offsetPos1}px`;
   };
   hole.onmouseleave = () => {
     hole.classList.add('hide');
-    cat.style.left = `${x}px`;
-    cat.style.top = `${y}px`;
+    cat.style.left = `${x2}px`;
+    cat.style.top = `${y2}px`;
   }
+
+  hole.addEventListener('click', (e) => {
+    e.stopPropagation();
+  }, false);
+
+  hole.addEventListener('contextmenu', (e) => {
+    e.stopPropagation();
+  }, false);
+
+  let disabled = false;
+  window.addEventListener('click', () => {
+    if (disabled) return;
+    disabled = true;
+    if (cat.classList.contains('hide') && !hole.classList.contains('hidden')) {
+      const
+        currentX = cat.offsetLeft,
+        currentY = cat.offsetTop,
+        delta = 45;
+      cat.style.left = `${currentX - delta}px`;
+      cat.style.top = `${currentY - delta}px`;
+    }
+    hole.classList.add('hidden');
+
+    setTimeout(() => {
+      disabled = false;
+    }, 200);
+  }, false);
+
+  window.addEventListener('contextmenu', () => {
+    if (disabled) return;
+    disabled = true;
+    if (cat.classList.contains('hide') && hole.classList.contains('hidden')) {
+      const
+        currentX = cat.offsetLeft,
+        currentY = cat.offsetTop,
+        delta = 45;
+      cat.style.left = `${currentX + delta}px`;
+      cat.style.top = `${currentY + delta}px`;
+    }
+    hole.classList.remove('hidden');
+
+    setTimeout(() => {
+      disabled = false;
+    }, 200);
+  }, false);
 
   handle.onmousedown = (e) => {
     e.preventDefault();
@@ -193,14 +239,15 @@ const handleCat = () => {
         };
         hole.onmouseleave = () => {
           hole.classList.add('hide');
-          cat.style.left = `${currentX - offsetPos}px`;
-          cat.style.top = `${currentY - offsetPos}px`;
+          cat.classList.add('hide');
+          cat.style.left = `${currentX - offsetPos2}px`;
+          cat.style.top = `${currentY - offsetPos2}px`;
         }
         setTimeout(() => {
           hole.classList.add('hide');
           cat.classList.add('hide');
-          cat.style.left = `${currentX - offsetPos}px`;
-          cat.style.top = `${currentY - offsetPos}px`;
+          cat.style.left = `${currentX - offsetPos2}px`;
+          cat.style.top = `${currentY - offsetPos2}px`;
         }, 200);
       } else {
         hole.classList.add('hide');

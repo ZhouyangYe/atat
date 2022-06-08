@@ -202,7 +202,7 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
           <a className={order === ORDER.ASCEND ? 'active' : ''} onClick={handleAscend}>Asc</a>
           <a className={order === ORDER.DESCEND ? 'active' : ''} onClick={handleDescend}>Desc</a>
         </div>
-        <div className='delay'>Delay: <input value={delayValue} onChange={handleDelay} />ms</div>
+        <div className='delay'>Delay: <input value={delayValue} onChange={handleDelay} /> ms</div>
       </header>
       {tree && (
         <>

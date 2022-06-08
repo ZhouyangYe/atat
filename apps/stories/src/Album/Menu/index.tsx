@@ -82,14 +82,14 @@ const Menu: React.FC<Params> = ({ setWidth, width, panelWidth = 0 }) => {
 
   return (
     <div className='album-menu'>
-      <div className='title'>宽度：</div>
-      <div
-        ref={ref}
-        className='bar'
-        onMouseDown={handleDown}
-        onTouchStart={handleTouch}
-      >
-        <div className='switch' style={{ left: left - 6 }}></div>
+      <div className='wrap' onTouchStart={handleTouch} >
+        <div
+          ref={ref}
+          className='bar'
+          onMouseDown={handleDown}
+        >
+          <div className='switch' style={{ left: left - 6 }}></div>
+        </div>
       </div>
     </div>
   );

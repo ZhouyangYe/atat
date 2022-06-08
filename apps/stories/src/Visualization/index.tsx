@@ -24,12 +24,22 @@ const Visualization: React.FC<any> = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useState(true);
   const [algorithm, setAlgorithm] = useState(SORT.MERGE);
-  const [height, setHeight] = useState(43);
+  const [height, setHeight] = useState(40);
 
   useEffect(() => {
-    if (ref.current) {
-      setHeight(ref.current.clientHeight);
-    }
+    const handleResize = () => {
+      setHeight(ref.current!.clientHeight);
+    };
+    window.addEventListener('resize', handleResize, false);
+    handleResize();
+    setTimeout(() => {
+      // fix mobile clientHeight bug
+      handleResize();
+    }, 300);
+
+    return () => {
+      window.removeEventListener('resize', handleResize, false);
+    };
   }, []);
 
   const handleToggle = useCallback(() => {
@@ -46,7 +56,7 @@ const Visualization: React.FC<any> = () => {
 
   return (
     <BasePage className='visualization'>
-      <header style={{ height: collapsed ? 42 : height }} >
+      <header style={{ height: collapsed ? 40 : height }} >
         <img onClick={handleToggle} src={collapsed ? '@resources/static/icons/expand.svg' : '@resources/static/icons/collapse.svg'} />
         <div ref={ref} className='menu'>
           {sortList.map((item) => (

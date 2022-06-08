@@ -18,7 +18,6 @@ const Home: React.FC<any> = () => {
   const [height, setHeight] = useState<number>(0);
   const [items, setItems] = useState<React.ReactElement[]>();
   const panelRef = useRef<HTMLUListElement>(null);
-  const articleRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     getAlbum().then((res) => {
@@ -68,7 +67,7 @@ const Home: React.FC<any> = () => {
           longest = shortest;
         }
 
-        return <Picture ref={articleRef} key={article.id} article={article} width={picWidth} height={picHeight} left={left} top={top} />;
+        return <Picture key={article.id} article={article} width={picWidth} height={picHeight} left={left} top={top} />;
       });
 
       setHeight(columns[longest]);
