@@ -149,7 +149,28 @@ const MergeSort: React.FC<any> = () => {
 
   return (
     <Suspense>
-      <SortPanel desc='Merge sort, 时间复杂度O(nlogn)' initState={state} sort={mergeSort} render={renderResult} temp={{ numbers: tempArray, render: renderTemp }} />
+      <SortPanel
+        desc='Merge sort, 时间复杂度O(nlogn)'
+        info={[
+          { className: 'pointer1', text: 'Pointer 1' },
+          { className: 'pointer2', text: 'Pointer 2' },
+          { className: 'range1', text: 'Range 1' },
+          { className: 'range2', text: 'Range 2' },
+          { className: 'range', text: 'Temp arr range' },
+        ]}
+        initState={state}
+        sort={mergeSort}
+        render={renderResult}
+        temp={{
+          info: [
+            { className: 'pointer1', text: 'Pointer 1' },
+            { className: 'pointer2', text: 'Pointer 2' },
+            { className: 'range', text: 'Temp arr range' },
+          ],
+          numbers: tempArray,
+          render: renderTemp,
+        }}
+      />
     </Suspense>
   );
 };

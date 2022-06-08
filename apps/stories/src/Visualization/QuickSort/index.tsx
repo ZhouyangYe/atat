@@ -135,6 +135,19 @@ const QuickSort: React.FC<any> = () => {
       depth = ranges.length - 1;
 
     let className = '';
+    const range = treeData[d][i];
+
+    const parent = d === 0 ? [] : treeData[d - 1].find((r) => {
+      return range[0] >= r[0] && range[1] <= r[1];
+    });
+
+    if (range[0] === range[1] && range[0] !== parent![0] && range[1] !== parent![1]) {
+      className = 'pointer3';
+    }
+
+    if (!parent || (range[0] === parent[0] && range[1] === parent[1]) || (range[0] === range[1] && (range[0] === parent[0] || range[1] === parent[1]))) {
+      className = 'inactive';
+    }
 
     if (depth < 0) {
       return {
@@ -142,7 +155,9 @@ const QuickSort: React.FC<any> = () => {
       };
     }
 
-    if (d === depth && i === treeData[depth].length - 1) {
+    const index = treeData[depth].length - 1;
+
+    if (d === depth && i === index) {
       className = 'active';
     }
 
@@ -153,7 +168,27 @@ const QuickSort: React.FC<any> = () => {
 
   return (
     <Suspense>
-      <SortPanel desc='Quick sort, 时间复杂度平均O(nlogn)' initState={state} sort={quickSort} render={renderResult} tree={{ data: treeData, render: renderTree }} />
+      <SortPanel
+        desc='Quick sort, 时间复杂度平均O(nlogn)'
+        info={[
+          { className: 'pointer1', text: 'Pointer 1' },
+          { className: 'pointer2', text: 'Pointer 2' },
+          { className: 'pointer3', text: 'Pivot' },
+          { className: 'range', text: 'Range' },
+        ]}
+        initState={state}
+        sort={quickSort}
+        render={renderResult}
+        tree={{
+          info: [
+            { className: 'active', text: 'Current section' },
+            { className: 'inactive', text: 'Not traversed' },
+            { className: 'pointer3', text: 'Pivot' },
+          ],
+          data: treeData,
+          render: renderTree,
+        }}
+      />
     </Suspense>
   );
 };

@@ -3,16 +3,24 @@ import { ORDER } from '../enum';
 
 import './index.less';
 
+interface Info {
+  className: string;
+  text: string;
+}
+
 interface Params<T> {
   desc: string;
   initState: T;
   sort: (numbers: number[], stat: T, compareFunc: (num1: number, num2: number) => number) => boolean;
-  render: (stat: T, index: number, nums: number[]) => { className: string; };
+  render: (stat: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
+  info: Info[];
   tree?: {
+    info: Info[];
     data: [number, number][][];
     render: (stat: T, depth: number, index: number, nums: number[]) => { className: string; };
   };
   temp?: {
+    info: Info[];
     numbers: number[];
     render: (stat: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
   };
@@ -44,7 +52,7 @@ const orderFunc = {
 };
 let timer: NodeJS.Timeout, delay = 0;
 
-function SortPanel<T>({ desc, initState, temp, sort, render, tree }: Params<T>) {
+function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Params<T>) {
   const [status, setStatus] = useState<T>({ ...initState });
   const [numbers, setNumbers] = useState<number[]>([]);
   const [delayValue, setDelayValue] = useState(delay);
@@ -107,15 +115,15 @@ function SortPanel<T>({ desc, initState, temp, sort, render, tree }: Params<T>) 
 
   const list = useMemo(() => {
     return numbers.map((num, i) => {
-      const params = render(status, i, numbers);
+      const params = render(status, i, numbers, orderFunc[order]);
       return <div key={i} title={`${num}`} className={`bar ${params.className}`} style={{ height: num, width }}></div>;
     });
   }, [numbers]);
 
   const tempList = temp ? useMemo(() => {
     return temp.numbers.map((num, i) => {
-      const params = temp.render(status, i, numbers, orderFunc[order]);
-      return <div key={i} title={`${num}`} className={`bar ${params.className}`} style={{ height: num, width }}></div>;
+      const { className } = temp.render(status, i, numbers, orderFunc[order]);
+      return <div key={i} title={`${num}`} className={`bar ${className}`} style={{ height: num, width }}></div>;
     });
   }, [numbers]) : undefined;
 
@@ -124,7 +132,6 @@ function SortPanel<T>({ desc, initState, temp, sort, render, tree }: Params<T>) 
       <div key={depth} className='tree-level'>
         {level.map((node, i) => {
           const { className } = tree.render(status, depth, i, numbers);
-
           return (
             <div
               key={i}
@@ -195,10 +202,18 @@ function SortPanel<T>({ desc, initState, temp, sort, render, tree }: Params<T>) 
           <a className={order === ORDER.ASCEND ? 'active' : ''} onClick={handleAscend}>Asc</a>
           <a className={order === ORDER.DESCEND ? 'active' : ''} onClick={handleDescend}>Desc</a>
         </div>
-        <div className='delay'>Delay: <input value={delayValue} onChange={handleDelay} /></div>
+        <div className='delay'>Delay: <input value={delayValue} onChange={handleDelay} />ms</div>
       </header>
       {tree && (
         <>
+          <div className='info-bar'>{
+            tree.info.map((inf, i) => (
+              <div key={i} className='group'>
+                <div className={`box ${inf.className}`}></div>
+                <div className='text'>{inf.text}</div>
+              </div>
+            ))
+          }</div>
           <div className='tree-panel'>
             {treeGraph}
           </div>
@@ -207,12 +222,28 @@ function SortPanel<T>({ desc, initState, temp, sort, render, tree }: Params<T>) 
       )}
       {temp && (
         <>
+          <div className='info-bar'>{
+            temp.info.map((inf, i) => (
+              <div key={i} className='group'>
+                <div className={`box ${inf.className}`}></div>
+                <div className='text'>{inf.text}</div>
+              </div>
+            ))
+          }</div>
           <div className='panel'>
             {tempList}
           </div>
           <h3>Temp array</h3>
         </>
       )}
+      <div className='info-bar'>{
+        info.map((inf, i) => (
+          <div key={i} className='group'>
+            <div className={`box ${inf.className}`}></div>
+            <div className='text'>{inf.text}</div>
+          </div>
+        ))
+      }</div>
       <div className='panel' ref={ref}>
         {list}
       </div>
