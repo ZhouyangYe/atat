@@ -28,7 +28,9 @@ const RootComponent: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/articles" element={<Articles />} />
+        <Route path='/articles/:id' element={<Articles />} />
         <Route path='/album' element={<Album />} />
+        <Route path='/album/:id' element={<Album />} />
         <Route path='/visualization' element={<Visualization />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
