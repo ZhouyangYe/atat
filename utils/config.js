@@ -3,7 +3,8 @@ const path = require('path');
 
 const config = {
   MODE: undefined,
-  WEB_PORT: undefined,
+  HTTP_PORT: undefined,
+  HTTPS_PORT: undefined,
   MAJIANG_PORT: undefined,
   PINGPONG_PORT: undefined,
   WEB_BASE_FOLDER: undefined,
