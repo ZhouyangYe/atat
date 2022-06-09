@@ -4,6 +4,7 @@ const ignore_list = [
   'dist',
   'node_modules',
   'common/lib',
+  'utils/ssl',
 ];
 
 const forbidden_list = [

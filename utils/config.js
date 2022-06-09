@@ -14,6 +14,8 @@ const config = {
   PASSWORD: undefined,
   DATABASE: undefined,
   LIMIT: undefined,
+  KEY: undefined,
+  CERT: undefined,
 };
 
 fs.readFileSync(path.resolve(__dirname, '../server.config'), 'utf-8').split(/\r?\n/).forEach((line) => {
