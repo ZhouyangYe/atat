@@ -1,4 +1,5 @@
 const { METHOD_TYPE, METHOD_MODE } = require('@/core/enum');
+const config = require('@/utils/config');
 const decorateRequest = require('./serverIO/request');
 const decorateResponse = require('./serverIO/response');
 
@@ -9,9 +10,19 @@ const handlers = {
 const serverMiddleware = [];
 
 const testUrl = (req, pattern, url) => {
+  const isRegex = typeof pattern === 'object';
+
   // support query
   const
-    path = url.split('?')[0],
+    path = url.split('?')[0];
+  
+  req.path = path;
+
+  if (isRegex) {
+    return pattern.test(path);
+  }
+
+  const
     units = path.split('/').slice(1),
     pUnits = pattern.split('/').slice(1),
     params = {};
@@ -63,12 +74,8 @@ const getMethod = (type) => {
   const method = (pattern, cb, middleware = [], mode = METHOD_MODE.API) => {
     const combinedMiddleware = [...serverMiddleware, ...middleware];
     const handler = (req, res) => {
-      const isRegex = typeof pattern === 'object';
-
       if (
-        req.method.toLowerCase() !== type ||
-        (isRegex && !pattern.test(req.url)) ||
-        (!isRegex && !testUrl(req, pattern, req.url))
+        req.method.toLowerCase() !== type || !testUrl(req, pattern, req.url)
       ) {
         return false;
       }
@@ -96,7 +103,7 @@ const decorateIO = (req, res) => {
 }
 
 const mainHandler = (req, res) => {
-  const list = /^\/api\/.*/.test(req.url) ? handlers[METHOD_MODE.API] : handlers[METHOD_MODE.PAGE];
+  const list = new RegExp(`^/${config.API_BASE_URL}/.*`).test(req.url) ? handlers[METHOD_MODE.API] : handlers[METHOD_MODE.PAGE];
   for (const index in list) {
     const found = list[index](req, res);
     if (found) return;

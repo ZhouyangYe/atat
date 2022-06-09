@@ -84,6 +84,7 @@ const handleCat = () => {
   const cat = hole.querySelector<HTMLDivElement>('#cat')!;
   const home = cat.querySelector<HTMLDivElement>('#home')!;
   const handle = cat.querySelector<HTMLDivElement>('.handle')!;
+  let disabled = false, timer: NodeJS.Timeout;
 
   const
     catWidth = cat.clientWidth, catHeight = cat.clientHeight;
@@ -126,11 +127,21 @@ const handleCat = () => {
     hole.classList.remove('hide');
     cat.style.left = `${x1 + offsetPos1}px`;
     cat.style.top = `${y1 + offsetPos1}px`;
+    disabled = true;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      disabled = false;
+    }, 200);
   };
   hole.onmouseleave = () => {
     hole.classList.add('hide');
     cat.style.left = `${x2}px`;
     cat.style.top = `${y2}px`;
+    disabled = true;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      disabled = false;
+    }, 200);
   }
 
   hole.addEventListener('click', (e) => {
@@ -141,7 +152,6 @@ const handleCat = () => {
     e.stopPropagation();
   }, false);
 
-  let disabled = false;
   window.addEventListener('click', () => {
     if (disabled) return;
     disabled = true;
@@ -236,18 +246,33 @@ const handleCat = () => {
           hole.classList.remove('hide');
           cat.style.left = `${currentX}px`;
           cat.style.top = `${currentY}px`;
+          disabled = true;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            disabled = false;
+          }, 200);
         };
         hole.onmouseleave = () => {
           hole.classList.add('hide');
           cat.classList.add('hide');
           cat.style.left = `${currentX - offsetPos2}px`;
           cat.style.top = `${currentY - offsetPos2}px`;
+          disabled = true;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            disabled = false;
+          }, 200);
         }
+        disabled = true;
         setTimeout(() => {
           hole.classList.add('hide');
           cat.classList.add('hide');
           cat.style.left = `${currentX - offsetPos2}px`;
           cat.style.top = `${currentY - offsetPos2}px`;
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            disabled = false;
+          }, 200);
         }, 200);
       } else {
         hole.classList.add('hide');

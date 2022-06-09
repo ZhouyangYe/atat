@@ -45,7 +45,7 @@
     "figlet": "^1.4.0",
     "highlight.js": "^11.5.1",
     "mysql": "^2.18.1",
-    "node-cmd": "^3.0.0",
+    "node-cmd": "^5.0.0",
     "node-emoji": "^1.10.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

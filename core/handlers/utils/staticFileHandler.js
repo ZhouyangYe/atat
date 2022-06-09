@@ -6,14 +6,15 @@ const { WEB_BASE_FOLDER, RESOURCES_BASE_FOLDER } = config;
 
 module.exports = (req, res) => {
   let filePath = '';
-  const ext = req.url.split('.').pop();
+  const url = req.path;
+  const ext = url.split('.').pop();
 
-  if (/@node_modules\//.test(req.url)) { // serve files in node_modules
-    filePath = `node_modules/${req.url.split('@node_modules/').slice(1)}`;
-  } else if (/@resources\//.test(req.url)) { // serve files in resources
-    filePath = `${RESOURCES_BASE_FOLDER}/${req.url.split('@resources/').slice(1)}`;
+  if (/@node_modules\//.test(url)) { // serve files in node_modules
+    filePath = `node_modules/${url.split('@node_modules/').slice(1)}`;
+  } else if (/@resources\//.test(url)) { // serve files in resources
+    filePath = `${RESOURCES_BASE_FOLDER}/${url.split('@resources/').slice(1)}`;
   } else { // serve files in apps
-    filePath = `${WEB_BASE_FOLDER}${req.url}`;
+    filePath = `${WEB_BASE_FOLDER}${url}`;
   }
 
   fs.readFile(filePath, function (err, data) {

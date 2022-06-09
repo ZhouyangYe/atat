@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './Header';
 import Home from './Home';
@@ -13,13 +13,27 @@ import './Root.less';
 const RootComponent: React.FC = () => {
   const onClick = useCallback(() => {
     const
-     basePage = document.querySelectorAll<HTMLDivElement>('.base-page'),
-     app = document.querySelector<HTMLDivElement>('#app')!,
-     header = document.querySelector<HTMLDivElement>('#blog-header')!;
+      basePage = document.querySelectorAll<HTMLDivElement>('.base-page'),
+      app = document.querySelector<HTMLDivElement>('#app')!,
+      header = document.querySelector<HTMLDivElement>('#blog-header')!;
     basePage.forEach((dom) => {
       dom.style.opacity = '0';
     });
-    app.scrollTop = header.clientHeight;
+    const height = header.clientHeight;
+    app.onscroll = () => {
+      const scrollTop = app.scrollTop;
+      if (scrollTop >= height) {
+        app.onscroll = () => {
+          if (app.scrollTop < height) {
+            basePage.forEach((dom) => {
+              dom.style.opacity = '1';
+            });
+            app.onscroll = null;
+          }
+        }
+      }
+    }
+    app.scrollTop = height;
   }, []);
 
   return (

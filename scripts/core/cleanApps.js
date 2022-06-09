@@ -1,10 +1,11 @@
-const cmd = require('node-cmd');
+const path = require('path');
+const { Worker } = require('worker_threads');
 const cliCursor = require('cli-cursor');
 const chalk = require('chalk');
 const emoji = require('node-emoji');
 const { getCurrentLine, handleErrors } = require('./common');
 const { writeOnLine, startTimer } = require('../utils');
-const { common, pointers, successIcon, failIcon, errorMessage, node_modules } = require('../enum');
+const { pointers, successIcon, failIcon, errorMessage } = require('../enum');
 
 /**
  * @description Remove build dist folder from apps
@@ -38,14 +39,21 @@ const cleanApps = (apps) => {
     });
 
     return new Promise((res, rej) => {
-      // remove dist or lib node_modules based on app name
-      const command = app === common ? 'rm -rf ./apps/common/lib' : app === node_modules ? 'rm -rf ./node_modules' : `rm -rf ./apps/${app}/dist`;
-      cmd.get(command, (err) => {
+      const worker = new Worker(path.resolve(__dirname, './cleanWorker.js'), {
+        workerData: {
+          app,
+        },
+      })
+
+      worker.on('message', (data) => {
+        const { err, app: name } = data;
+
         if (err) {
-          rej({ err, app });
+          rej({ err, app: name });
           return;
         }
-        res(app);
+
+        res(name);
       });
     });
   }).forEach(promise => {
