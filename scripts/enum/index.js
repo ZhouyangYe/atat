@@ -6,6 +6,7 @@ const COMMANDS = {
   DEV: 'dev',
   CLEAN: 'clean',
   PASSWORD: 'password',
+  FONT: 'font',
 };
 
 const WEBPACK_MODE = {

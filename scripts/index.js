@@ -1,6 +1,6 @@
 require('../utils/overrideRequire');
 const { COMMANDS, appList, common, node_modules, BUILD_MODE } = require('./enum');
-const { buildAll, buildSome, cleanApps, updatePassword } = require('./core');
+const { buildAll, buildSome, cleanApps, updatePassword, compressFont } = require('./core');
 const { clearScreen, modifyConsole } = require('./utils');
 
 modifyConsole();
@@ -57,6 +57,13 @@ switch (command) {
       console.error('Please enter new password.');
     } else {
       updatePassword(subArgs[0]);
+    }
+    break;
+  case COMMANDS.FONT:
+    if (!subArgs.length) {
+      console.error('Please enter filename.');
+    } else {
+      compressFont(subArgs[0]);
     }
     break;
   default:
