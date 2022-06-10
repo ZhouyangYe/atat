@@ -24,7 +24,7 @@ const Header: React.FC<Params> = ({ onClick }) => {
   useLayoutEffect(() => {
     const page = location.pathname.split('/')[1];
     const key = page === '' ? PAGE.HOME : page as PAGE;
-    setBgColor(colorMapping[key]);
+    setBgColor(colorMapping[key] || colorMapping[PAGE.NOTFOUND]);
   }, [location]);
 
   const handleActive = useCallback(({ isActive }: { isActive: boolean }) => {
