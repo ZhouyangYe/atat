@@ -302,6 +302,7 @@ const handleCat = () => {
 };
 
 const render = (app: HTMLElement): void => {
+  let moveDisabled = false;
   const catResize = handleCat();
   const scrollableContainer = new ScrollableContainer(app);
   const container = scrollableContainer.getContainer();
@@ -377,8 +378,23 @@ const render = (app: HTMLElement): void => {
       },
     ],
   });
-  const scrollDom = scroll.getDom();
-  const resumeBox = scrollDom.querySelector<HTMLAnchorElement>('.box-6 a')!;
+  let scrollTimer: NodeJS.Timeout, scrollTimer2: NodeJS.Timeout;
+  const
+    scrollDom = scroll.getDom(),
+    resumeBox = scrollDom.querySelector<HTMLAnchorElement>('.box-6 a')!;
+  scrollDom.addEventListener('mouseenter', () => {
+    clearTimeout(scrollTimer);
+    clearTimeout(scrollTimer2);
+    moveDisabled = true;
+  }, false);
+  scrollDom.addEventListener('mouseleave', () => {
+    moveDisabled = true;
+    clearTimeout(scrollTimer);
+    clearTimeout(scrollTimer2);
+    scrollTimer = setTimeout(() => {
+      moveDisabled = false;
+    }, 3000);
+  }, false);
   resumeBox.onclick = () => {
     resume.show();
   };
@@ -404,25 +420,47 @@ const render = (app: HTMLElement): void => {
     const deltaX = clientX - prevX, deltaY = clientY - prevY;
     prevX = clientX;
     prevY = clientY;
+
+    if (moveDisabled) {
+      return;
+    }
+
     if (deltaX < -40) {
       door.show();
       lamp.show();
       audio.hide();
       scroll.hide();
       crystal.hide();
-    }
-    if (deltaY < -40) {
+
+      moveDisabled = true;
+  
+      scrollTimer2 = setTimeout(() => {
+        moveDisabled = false;
+      }, 1000);
+    } else if (deltaY < -40) {
       audio.show();
       scroll.show();
       door.hide();
       lamp.hide();
       crystal.hide();
+
+      moveDisabled = true;
+  
+      scrollTimer2 = setTimeout(() => {
+        moveDisabled = false;
+      }, 1000);
     } else if (deltaY > 40) {
       crystal.show();
       audio.hide();
       scroll.hide();
       door.hide();
       lamp.hide();
+
+      moveDisabled = true;
+  
+      scrollTimer2 = setTimeout(() => {
+        moveDisabled = false;
+      }, 1000);
     }
   };
   document.addEventListener('mousemove', handleMouseMove, false);
