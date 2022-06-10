@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import BasePage from '@/BasePage';
 import SourceCode from '@/utils/SourceCode';
 
@@ -6,9 +6,27 @@ import 'atat-common/lib/modules/message/index.css';
 import './index.less';
 
 const Home: React.FC<any> = () => {
+  const [ maxHeight, setMaxHeight ] = useState<string>();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (ref.current) {
+        setMaxHeight(`calc(${ref.current.clientHeight}px - 98px)`);
+      }
+    };
+    window.addEventListener('resize', handleResize, false);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize, false);
+    };
+  }, []);
+
   return (
     <BasePage className='home'>
-      <aside>
+      <aside ref={ref}>
         <p>
           这个网站是自己开发的一个个人网站, 使用了包括TypeScript, JavaScript, NodeJs, HTML, CSS, LESS, React, WebGL, THREE.js, Webpack, MySQL等一系列web相关技术。想要练习一些自己感兴趣的技术的时候就会把它们(强行<img src='@resources/static/materials/doge.png' />)使用在这个网站上用于练手。顺便作为开发技术博客的素材。
         </p>
@@ -17,7 +35,7 @@ const Home: React.FC<any> = () => {
         </p>
       </aside>
       <main>
-        <SourceCode />
+        <SourceCode maxHeight={maxHeight} />
       </main>
     </BasePage>
   );

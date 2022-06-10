@@ -16,7 +16,7 @@ interface FileData {
 interface Params {
   root?: string;
   filter?: string[];
-  maxHeight?: number;
+  maxHeight?: number | string;
   minHeight?: number;
 }
 

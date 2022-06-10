@@ -12,7 +12,8 @@ const CONTENT_TYPE_MAPPING = {
   'ico': 'image/x-icon',
   'map': 'application/json',
   'json': 'application/json',
-  "fbx": 'application/octet-stream'
+  'fbx': 'application/octet-stream',
+  'ttf': 'font/ttf',
 };
 
 const METHOD_TYPE = {

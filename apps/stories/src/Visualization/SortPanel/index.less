@@ -117,18 +117,15 @@
     .group {
       line-height: 12px;
       font-size: 12px;
+      margin-left: 8px;
 
       .box {
+        margin-right: 6px;
         border: 1px solid #666;
-        margin: 0 6px 0 8px;
         border-radius: 2px;
         display: inline-block;
         height: 6px;
         width: 20px;
-
-        @media only screen and (max-width: 700px) {
-          margin-left: 0;
-        }
       }
 
       .text {
@@ -136,9 +133,7 @@
       }
 
       &:first-child {
-        .box {
-          margin-left: 0;
-        }
+        margin-left: 0;
       }
     }
   }

@@ -5,7 +5,11 @@
   background-color: rgba(245, 245, 245, 0.6);
   padding: 1.6em;
   display: flex;
-  margin-bottom: 1.6em;
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   &:hover {
     cursor: pointer;
@@ -15,9 +19,9 @@
   }
 
   .thumbnail {
-    max-width: 20em;
-    min-width: 20em;
-    height: 23em;
+    max-width: 16em;
+    min-width: 16em;
+    height: 20em;
     margin-right: 1.8em;
     background-size: cover;
   }
@@ -31,24 +35,25 @@
       margin-bottom: 1em;
 
       span {
-        font-size: 2.5em;
+        font-size: 2.2em;
       }
     }
 
     p {
       font-size: inherit;
-      max-height: 19em;
+      max-height: 16em;
       overflow-y: auto;
       margin: 0;
       line-height: 3em;
 
       span {
-        font-size: 2em;
+        font-size: 1.6em;
       }
     }
   }
 
   @media only screen and (max-width: 700px) {
-    font-size: 5px;
+    font-size: 7px;
+    margin-bottom: 6px;
   }
 }

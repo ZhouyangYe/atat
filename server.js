@@ -20,7 +20,7 @@ const httpsServer = https.createServer({
 // redirect from http to https
 const httpServer = http.createServer((req, res) => {
   const hostname = req.headers.host.split(':')[0];
-  const redirectPort = hostname === 'localhost' ? `:${HTTPS_PORT}` : '';
+  const redirectPort = hostname === 'localhost' || HTTP_PORT !== '80' ? `:${HTTPS_PORT}` : '';
   res.writeHead(301, { 'Location': `https://${hostname}${redirectPort}${req.url}` });
   res.end();
 });
