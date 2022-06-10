@@ -24,6 +24,10 @@ export enum EXT {
   BMP = 'bmp',
   SVG = 'svg',
   ICO = 'ico',
+  EOT = 'eot',
+  TTF = 'ttf',
+  WOFF = 'woff',
+  CONFIG = 'config',
 }
 
 export const getExt = (filename: string): EXT => {

@@ -3,3 +3,4 @@ dist
 lib
 resources/dynamic
 /data.json
+resources/static/font/compressed

@@ -35,6 +35,10 @@ const iconMap = {
   [EXT.BMP]: '@resources/static/icons/image.svg',
   [EXT.SVG]: '@resources/static/icons/image.svg',
   [EXT.ICO]: '@resources/static/icons/image.svg',
+  [EXT.EOT]: '@resources/static/icons/font.svg',
+  [EXT.TTF]: '@resources/static/icons/font.svg',
+  [EXT.WOFF]: '@resources/static/icons/font.svg',
+  [EXT.CONFIG]: '@resources/static/icons/config.svg',
 };
 
 const File: React.FC<Params> = ({ ext, filename, onclick }) => {

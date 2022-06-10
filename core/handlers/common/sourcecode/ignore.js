@@ -11,7 +11,7 @@ const forbidden_list = [
   ...ignore_list,
   './data.json',
   'server.config',
-  /(\.jpeg|\.jpg|\.png|\.gif|\.bmp|\.map|\.otf|\.woff|\.ttf|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
+  /(\.jpeg|\.jpg|\.png|\.gif|\.bmp|\.map|\.otf|\.woff|\.ttf|\.eot|\.mp3|\.mp4|\.svg|\.ico|\.fbx)$/,
 ];
 
 const test = (path, disableRead = true) => {

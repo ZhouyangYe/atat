@@ -21,7 +21,7 @@ const compressFont = (name) => {
       }))
       .use(Fontmin.ttf2eot())
       .use(Fontmin.ttf2woff())
-      .dest(path.resolve(fontPath, 'dist'))
+      .dest(path.resolve(fontPath, 'compressed'))
       .run((e) => {
         if (e) {
           console.error(err, true);
