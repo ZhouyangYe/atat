@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { PAGE } from '@/enum';
 
@@ -36,10 +36,26 @@ const Header: React.FC<Params> = ({ onClick }) => {
       <nav style={{ backgroundColor: bgColor }}>
         <a className='main' href="/intro"><img src="@resources/static/icons/home.svg" /></a>
         <div ref={ref} className='links'>
-          <NavLink className={handleActive} to='/'><div><span>主页</span> <span className='dot'>·</span> Home<div className='underline'></div></div></NavLink>
-          <NavLink className={handleActive} to='/articles'><div><span>日志</span> <span className='dot'>·</span> Articles<div className='underline'></div></div></NavLink>
-          <NavLink className={handleActive} to='/album'><div><span>相册</span> <span className='dot'>·</span> Album<div className='underline'></div></div></NavLink>
-          <NavLink className={handleActive} to='/visualization'><div><span>可视化</span> <span className='dot'>·</span> Visualization<div className='underline'></div></div></NavLink>
+          <NavLink className={handleActive} to='/'>
+            <div>
+              <span className='ch'>主页</span> <span className='dot'>·</span> Home<div className='underline'></div>
+            </div>
+          </NavLink>
+          <NavLink className={handleActive} to='/articles'>
+            <div>
+              <span className='ch'>日志</span> <span className='dot'>·</span> Articles<div className='underline'></div>
+            </div>
+          </NavLink>
+          <NavLink className={handleActive} to='/album'>
+            <div>
+              <span className='ch'>相册</span> <span className='dot'>·</span> Album<div className='underline'></div>
+            </div>
+          </NavLink>
+          <NavLink className={handleActive} to='/visualization'>
+            <div>
+              <span className='ch'>可视化</span> <span className='dot'>·</span> Visualization<div className='underline'></div>
+            </div>
+          </NavLink>
         </div>
       </nav>
       <div className='content'>
