@@ -39,7 +39,7 @@ const Home: React.FC<any> = () => {
   useEffect(() => {
     if (panelWidth && articles) {
       const list = articles.map((article, i) => {
-        const padding = 6, margin = 30, titleHeight = 52;
+        const padding = 6, margin = 20, titleHeight = 52;
         const picWidth = width - padding * 2, picHeight = picWidth * article.picture.ratio;
         const columnNum = Math.trunc(Math.abs(panelWidth - width) / (width + margin) + 1), gap = Math.floor((panelWidth - columnNum * width) / (columnNum - 1));
 
