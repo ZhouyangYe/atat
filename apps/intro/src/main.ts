@@ -425,7 +425,7 @@ const render = (app: HTMLElement): void => {
       return;
     }
 
-    if (deltaX < -40) {
+    if (deltaX < -60) {
       door.show();
       lamp.show();
       audio.hide();
@@ -437,7 +437,7 @@ const render = (app: HTMLElement): void => {
       scrollTimer2 = setTimeout(() => {
         moveDisabled = false;
       }, 1000);
-    } else if (deltaY < -40) {
+    } else if (deltaY < -60) {
       audio.show();
       scroll.show();
       door.hide();
@@ -449,7 +449,7 @@ const render = (app: HTMLElement): void => {
       scrollTimer2 = setTimeout(() => {
         moveDisabled = false;
       }, 1000);
-    } else if (deltaY > 40) {
+    } else if (deltaY > 60) {
       crystal.show();
       audio.hide();
       scroll.hide();
