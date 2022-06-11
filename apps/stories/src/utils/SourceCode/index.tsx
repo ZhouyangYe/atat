@@ -132,7 +132,8 @@ const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight
     } else {
       newPath = undefined;
     }
-    setPath(newPath?.join('^'));
+    const result = newPath?.join('^');
+    setPath(result === '' ? undefined : result);
   }, [path]);
 
   return (
