@@ -42,9 +42,13 @@
     p {
       font-size: inherit;
       max-height: 16em;
-      overflow-y: auto;
+      overflow: hidden;
       margin: 0;
       line-height: 3em;
+
+      &:hover {
+        overflow-y: auto;
+      }
 
       span {
         font-size: 1.6em;
