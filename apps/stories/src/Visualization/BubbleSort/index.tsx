@@ -35,7 +35,7 @@ const BubbleSort: React.FC<any> = () => {
     let className = '';
     const length1 = nums.length - 1, length2 = length1 - status.round;
 
-    if (status.round === 0 && status.pointer === 0 && compare(nums[0], nums[1]) > 0) {
+    if (status.round === 0 && status.pointer === 0 && compare(nums[0], nums[1]) < 0) {
       if (i === 0) {
         className = 'pointer1';
       } else if (i === 1) {
