@@ -41,6 +41,9 @@ const quickSort = (arr: number[], state: QuickSortState, compare: (num1: number,
   if (state.range === undefined) {
     state.range = [[0, arr.length - 1]];
   }
+  if (!state.range?.length) {
+    return false;
+  }
 
   const
     range = state.range[state.range.length - 1]
