@@ -54,14 +54,14 @@ switch (command) {
     break;
   case COMMANDS.PASSWORD:
     if (!subArgs.length) {
-      console.error('Please enter new password.');
+      console.error('Please enter new password.', true);
     } else {
       updatePassword(subArgs[0]);
     }
     break;
   case COMMANDS.FONT:
     if (!subArgs.length) {
-      console.error('Please enter filename.');
+      console.error('Please enter filename.', true);
     } else {
       compressFont(subArgs[0]);
     }
