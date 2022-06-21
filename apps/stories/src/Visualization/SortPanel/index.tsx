@@ -12,17 +12,17 @@ interface Params<T> {
   desc: string;
   initState: T;
   sort: (numbers: number[], stat: T, compareFunc: (num1: number, num2: number) => number) => boolean;
-  render: (stat: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
+  render: (stat: T, currentState: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
   info: Info[];
   tree?: {
     info: Info[];
     data: [number, number][][];
-    render: (stat: T, depth: number, index: number, nums: number[]) => { className: string; };
+    render: (stat: T, currentState: T, depth: number, index: number, nums: number[]) => { className: string; };
   };
   temp?: {
     info: Info[];
     numbers: number[];
-    render: (stat: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
+    render: (stat: T, currentState: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
   };
 }
 
@@ -61,6 +61,7 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
   const [paused, setPaused] = useState(true);
   const [width, setWidth] = useState(`0.5%`);
   const ref = useRef<HTMLDivElement>(null);
+  const currentStatus = useRef<T>(initState);
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -81,6 +82,7 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
         setWidth(`${100 / num}%`);
         setDone(true);
         setPaused(true);
+        currentStatus.current = { ...initState };
         setStatus({ ...initState });
       }
     };
@@ -102,6 +104,7 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
 
     const stat = { ...status };
     const shouldContinue = sort(numbers, stat, orderFunc[order]);
+    currentStatus.current = { ...stat };
     setNumbers([...numbers]);
     timer = setTimeout(() => {
       setStatus({ ...stat });
@@ -115,14 +118,14 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
 
   const list = useMemo(() => {
     return numbers.map((num, i) => {
-      const params = render(status, i, numbers, orderFunc[order]);
+      const params = render(status, currentStatus.current, i, numbers, orderFunc[order]);
       return <div key={i} title={`${num}`} className={`bar ${params.className}`} style={{ height: num, width }}></div>;
     });
   }, [numbers]);
 
   const tempList = temp ? useMemo(() => {
     return temp.numbers.map((num, i) => {
-      const { className } = temp.render(status, i, numbers, orderFunc[order]);
+      const { className } = temp.render(status, currentStatus.current, i, numbers, orderFunc[order]);
       return <div key={i} title={`${num}`} className={`bar ${className}`} style={{ height: num, width }}></div>;
     });
   }, [numbers]) : undefined;
@@ -131,7 +134,7 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
     return tree.data.map((level, depth) => (
       <div key={depth} className='tree-level'>
         {level.map((node, i) => {
-          const { className } = tree.render(status, depth, i, numbers);
+          const { className } = tree.render(status, currentStatus.current, depth, i, numbers);
           return (
             <div
               key={i}
@@ -189,6 +192,7 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
     if (tree) {
       tree.data.length = 0;
     }
+    currentStatus.current = { ...initState };
     setNumbers(new Array(length).fill(0).map(() => Math.ceil(Math.random() * 200)));
     setStatus({ ...initState });
   }, [done, width]);

@@ -28,10 +28,10 @@ const bubbleSort = (arr: number[], state: BubbleSortState, compare: (num1: numbe
   return state.round < length1;
 };
 
-const state = { round: 0, pointer: 0 };
+const state: BubbleSortState = { round: 0, pointer: 0 };
 
 const BubbleSort: React.FC<any> = () => {
-  const renderResult = useCallback((status: BubbleSortState, i: number, nums: number[], compare: (num1: number, num2: number) => number) => {
+  const renderResult = useCallback((status: BubbleSortState, currentState: BubbleSortState, i: number, nums: number[], compare: (num1: number, num2: number) => number) => {
     let className = '';
     const length1 = nums.length - 1, length2 = length1 - status.round;
 
@@ -75,7 +75,8 @@ const BubbleSort: React.FC<any> = () => {
         ]}
         initState={state}
         sort={bubbleSort}
-        render={renderResult} />
+        render={renderResult}
+      />
     </Suspense>
   );
 };

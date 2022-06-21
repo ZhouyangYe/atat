@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getFileInfo, IFileInfo } from 'atat-common/lib/services/stories';
 import message from 'atat-common/lib/modules/message';
 import { EXT, getExt } from 'atat-common/lib/utils';
@@ -24,6 +24,22 @@ const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight
   const [loading, setLoading] = useState(true);
   const [element, setElement] = useState<FileData>();
   const [path, setPath] = useState<string | undefined>(root);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [mHeight, setMHeight] = useState<string | number>(maxHeight);
+  const ref = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (document.fullscreenElement) {
+        setMHeight(`calc(100vh - ${headerRef.current?.clientHeight}px - 28px)`);
+        setFullscreen(true);
+        return;
+      }
+      setFullscreen(false);
+    };
+    ref.current!.addEventListener('fullscreenchange', handleFullscreenChange, false);
+  }, []);
 
   const content = useMemo(() => {
     if (!element) {
@@ -62,7 +78,7 @@ const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight
   }, [element]);
 
   const links = useMemo(() => {
-    const r = <span key="root" className="path" onClick={() => {
+    const r = <span key="root" className="path-unit" onClick={() => {
       setPath(root);
     }}>/root</span>;
 
@@ -75,7 +91,7 @@ const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight
     const result = paths.map((f, i) => (
       <span
         key={f}
-        className="path"
+        className="path-unit"
         onClick={() => {
           setPath(root ? `${root}^${paths.slice(0, i + 1).join('^')}` : paths.slice(0, i + 1).join('^'));
         }}
@@ -136,16 +152,28 @@ const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight
     setPath(result === '' ? undefined : result);
   }, [path]);
 
+  const handleFullScreen = useCallback(() => {
+    if (fullscreen) {
+      document.exitFullscreen();
+    } else {
+      if (ref.current?.requestFullscreen) {
+        ref.current.requestFullscreen();
+      }
+    }
+  }, [fullscreen]);
+
   return (
-    <div className='source-code'>
-      <div className='header'>
-        <h2>源码 · Souce code</h2>
+    <div ref={ref} className={`source-code ${fullscreen ? 'fullscreen' : ''}`}>
+      <div ref={headerRef} className='header'>
+        <h2><img onClick={handleFullScreen} src={`@resources/static/icons/${fullscreen ? 'fullscreen-exit': 'fullscreen'}.svg`} /><span>源码 · Souce code</span></h2>
         <div className='content'>
           <img onClick={handleBack} src="@resources/static/icons/back.svg" />
-          {links}
+          <div className='path'>
+            {links}
+          </div>
         </div>
       </div>
-      <div className='code' style={{ maxHeight, minHeight }}>
+      <div className='code' style={{ maxHeight: fullscreen ? mHeight : maxHeight, minHeight }}>
         {loading ? <Loading /> : content}
       </div>
     </div>

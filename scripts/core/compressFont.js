@@ -24,7 +24,7 @@ const compressFont = (name) => {
       .dest(path.resolve(fontPath, 'compressed'))
       .run((e) => {
         if (e) {
-          console.error(err, true);
+          console.error(e, true);
           return;
         }
         console.info(`Done: ${path.resolve(fontPath, name)}`, true);

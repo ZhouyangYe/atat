@@ -113,7 +113,7 @@ const quickSort = (arr: number[], state: QuickSortState, compare: (num1: number,
 const state: QuickSortState = { pointer1: 0, pointer2: 1, range: undefined };
 
 const QuickSort: React.FC<any> = () => {
-  const renderResult = useCallback((status: QuickSortState, i: number, nums: number[]) => {
+  const renderResult = useCallback((status: QuickSortState, currentState: QuickSortState, i: number, nums: number[]) => {
     let className = '';
     const range = status.range ? status.range[status.range.length - 1] : [0, nums.length - 1];
 
@@ -132,7 +132,7 @@ const QuickSort: React.FC<any> = () => {
     };
   }, []);
 
-  const renderTree = useCallback((status: QuickSortState, d: number, i: number, nums: number[]) => {
+  const renderTree = useCallback((status: QuickSortState, currentState: QuickSortState, d: number, i: number, nums: number[]) => {
     const
       ranges = status.range ?? [[0, nums.length - 1]],
       depth = ranges.length - 1;

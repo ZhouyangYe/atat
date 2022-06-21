@@ -92,10 +92,10 @@ const mergeSort = (arr: number[], state: MergeSortState, compare: (num1: number,
   return true;
 };
 
-const state = { level: 0, sectionIndex: 0, tempPointer: 0, pointer1: 0, pointer2: 1, start: 0, mid: 0, end: 1, };
+const state: MergeSortState = { level: 0, sectionIndex: 0, tempPointer: 0, pointer1: 0, pointer2: 1, start: 0, mid: 0, end: 1, };
 
 const MergeSort: React.FC<any> = () => {
-  const renderResult = useCallback((status: MergeSortState, i: number) => {
+  const renderResult = useCallback((status: MergeSortState, currentState: MergeSortState, i: number) => {
     const
       pointer1 = status.pointer1 > status.mid ? null : status.pointer1,
       pointer2 = status.pointer2 > status.end ? null : status.pointer2;
@@ -120,7 +120,7 @@ const MergeSort: React.FC<any> = () => {
     };
   }, []);
 
-  const renderTemp = useCallback((status: MergeSortState, i: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => {
+  const renderTemp = useCallback((status: MergeSortState, currentState: MergeSortState, i: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => {
     const
       pointer1 = status.pointer1 > status.mid ? null : status.pointer1,
       pointer2 = status.pointer2 > status.end ? null : status.pointer2;

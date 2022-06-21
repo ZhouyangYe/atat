@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { scene, camera, clock, app, renderer, controls, stats, gameState } from './utils';
-import { addCharactor } from './core/charactor';
+import { addCharacter } from './core/character';
 import { addAmbientLight, addPointLight } from './core/light';
 import { addTerrain } from './core/terrain';
 import { handleKeyup } from './core/handlers';
@@ -12,7 +12,7 @@ const loadingPage = document.querySelector<HTMLDivElement>('#loading'), progress
 let mixer: THREE.AnimationMixer | undefined = undefined;
 let object: THREE.Group | undefined = undefined;
 let loading = true;
-addCharactor('@resources/static/model/dancing.fbx').then((result) => {
+addCharacter('@resources/static/model/dancing.fbx').then((result) => {
   mixer = result.mixer;
   object = result.object;
 });

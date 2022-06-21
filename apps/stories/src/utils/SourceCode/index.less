@@ -2,6 +2,15 @@
   position: relative;
   color: #fff;
 
+  &.fullscreen {
+    background-color: rgb(46, 46, 46);
+    padding: 6px;
+
+    code {
+
+    }
+  }
+
   .header {
     margin-bottom: 16px;
     border-bottom: 1px solid #eee;
@@ -19,12 +28,31 @@
       font-weight: 500;
       font-size: 18px;
       text-align: center;
+      height: 23px;
+      line-height: 23px;
+
+      img {
+        margin-right: 8px;
+        height: 20px;
+        vertical-align: bottom;
+        cursor: pointer;
+      }
+
+      span {
+        height: 20px;
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
 
     .content {
       @height: 36px;
       height: @height;
       line-height: @height;
+      white-space: nowrap;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
 
       img {
         cursor: pointer;
@@ -33,13 +61,21 @@
         margin-right: 16px;
       }
 
-      span {
-        font-size: 18px;
-        vertical-align: middle;
+      .path {
+        flex-grow: 1;
+        white-space: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        box-sizing: border-box;
+
+        span {
+          font-size: 18px;
+          vertical-align: middle;
+        }
       }
     }
 
-    .path {
+    .path-unit {
       cursor: pointer;
 
       &:hover {

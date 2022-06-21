@@ -11,6 +11,7 @@ const components = {
   [SORT.MERGE]: lazy(() => import('./MergeSort')),
   [SORT.QUICK]: lazy(() => import('./QuickSort')),
   [SORT.BUBBLE]: lazy(() => import('./BubbleSort')),
+  [SORT.INSERTION]: lazy(() => import('./InsertionSort')),
 };
 
 const getFiles = (name: string) => {

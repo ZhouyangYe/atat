@@ -7,4 +7,5 @@ export enum SORT {
   MERGE = 'MergeSort',
   QUICK = 'QuickSort',
   BUBBLE = 'BubbleSort',
+  INSERTION = 'InsertionSort',
 }
