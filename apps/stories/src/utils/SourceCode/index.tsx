@@ -173,7 +173,7 @@ const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight
           </div>
         </div>
       </div>
-      <div className='code' style={{ maxHeight: fullscreen ? mHeight : maxHeight, minHeight }}>
+      <div className='code' style={{ maxHeight: fullscreen ? mHeight : maxHeight, minHeight: fullscreen ? mHeight : minHeight }}>
         {loading ? <Loading /> : content}
       </div>
     </div>
