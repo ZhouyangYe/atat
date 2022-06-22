@@ -150,7 +150,7 @@ class Scroll {
         }
         box.onmouseout = (e) => {
           e.stopPropagation();
-          box.style.background = 'rgba(255,255,255,0.9)';
+          box.style.background = 'rgba(246, 246, 255, 0.9)';
         }
       });
       this.scroll.style.height = `${boxes.length * (boxes[0].offsetHeight + 4 / 10) + title.offsetHeight + 30 / 10} rem`;
@@ -160,6 +160,7 @@ class Scroll {
       if (index < 0) {
         index = 0;
       }
+      clearInterval(oTimer);
       oTimer = setInterval(() => {
         if (index === length) {
           clearInterval(oTimer);
@@ -181,6 +182,7 @@ class Scroll {
       if (index >= length) {
         index = length - 1;
       }
+      clearInterval(oTimer);
       oTimer = setInterval(function () {
         if (index < 0) {
           clearInterval(oTimer);

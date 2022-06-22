@@ -22,6 +22,7 @@ html {
       height: 100vh;
 
       section {
+        @delay: 0.3s;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         -khtml-user-select: none;
@@ -35,12 +36,183 @@ html {
         background-repeat: no-repeat;
         background-size: cover;
         height: 100vh;
+        position: relative;
 
         a.reference {
           color: rgba(0, 139, 139, 0.6);
         }
 
         z-index: 1;
+
+        .poem {
+          position: absolute;
+          top: calc((100vh - 200px) / 3.5);
+          left: calc((100vw - 180px) / 5.5);
+          display: flex;
+          font-size: 25px;
+          text-shadow: 1px 1px 3px rgb(0, 86, 107);
+          color: #000;
+          font-family: "楷体";
+
+          .sentence {
+            margin-right: 36px;
+            display: flex;
+            flex-direction: column;
+
+            span {
+              position: relative;
+              margin-bottom: 6px;
+              display: inline-block;
+              transition: top 1s ease, opacity 1s ease;
+              top: 366px;
+              opacity: 0;
+            }
+          }
+
+          .sentence:nth-child(1) {
+            span:nth-of-type(2) {
+              transition-delay: @delay;
+            }
+
+            span:nth-of-type(3) {
+              transition-delay: 2 * @delay;
+            }
+
+            span:nth-of-type(4) {
+              transition-delay: 3 * @delay;
+            }
+
+            span:nth-of-type(5) {
+              transition-delay: 4 * @delay;
+            }
+
+            span:nth-of-type(6) {
+              transition-delay: 5 * @delay;
+            }
+
+            span:nth-of-type(7) {
+              transition-delay: 6 * @delay;
+            }
+          }
+
+          .sentence:nth-child(2) {
+            span:nth-of-type(1) {
+              transition-delay: 7 * @delay;
+            }
+
+            span:nth-of-type(2) {
+              transition-delay: 8 * @delay;
+            }
+
+            span:nth-of-type(3) {
+              transition-delay: 9 * @delay;
+            }
+          }
+
+          .sentence:nth-child(3) {
+            span:nth-of-type(1) {
+              transition-delay: 10 * @delay;
+            }
+
+            span:nth-of-type(2) {
+              transition-delay: 11 * @delay;
+            }
+
+            span:nth-of-type(3) {
+              transition-delay: 12 * @delay;
+            }
+          }
+
+          &.show {
+            .sentence {
+              span {
+                top: 0;
+                opacity: 1;
+              }
+            }
+          }
+        }
+
+        &#content {
+          .poem {
+            left: auto;
+            right: calc((100vw - 180px) / 5.5);
+
+            .sentence:nth-child(3n + 1) {
+              span:nth-of-type(1) {
+                transition-delay: 10 * @delay;
+              }
+
+              span:nth-of-type(2) {
+                transition-delay: 11 * @delay;
+              }
+
+              span:nth-of-type(3) {
+                transition-delay: 12 * @delay;
+              }
+
+              span:nth-of-type(4) {
+                transition-delay: 13 * @delay;
+              }
+
+              span:nth-of-type(5) {
+                transition-delay: 14 * @delay;
+              }
+
+              span:nth-of-type(6) {
+                transition-delay: 15 * @delay;
+              }
+
+              span:nth-of-type(7) {
+                transition-delay: 16 * @delay;
+              }
+            }
+
+            .sentence:nth-child(3n + 2) {
+              span:nth-of-type(1) {
+                transition-delay: 3 * @delay;
+              }
+
+              span:nth-of-type(2) {
+                transition-delay: 4 * @delay;
+              }
+
+              span:nth-of-type(3) {
+                transition-delay: 5 * @delay;
+              }
+
+              span:nth-of-type(4) {
+                transition-delay: 6 * @delay;
+              }
+
+              span:nth-of-type(5) {
+                transition-delay: 7 * @delay;
+              }
+
+              span:nth-of-type(6) {
+                transition-delay: 8 * @delay;
+              }
+
+              span:nth-of-type(7) {
+                transition-delay: 9 * @delay;
+              }
+            }
+
+            .sentence:nth-child(3n + 3) {
+              span:nth-of-type(1) {
+                transition-delay: 0s;
+              }
+
+              span:nth-of-type(2) {
+                transition-delay: @delay;
+              }
+
+              span:nth-of-type(3) {
+                transition-delay: 2 * @delay;
+              }
+            }
+          }
+        }
       }
 
       #about {
@@ -55,10 +227,9 @@ html {
           height: @l;
           border-radius: 100%;
           display: none;
-          background-image: url('@resources/dynamic/images/profile/profile.jpg');
           background-size: cover;
           margin: 0 auto 40px;
-          box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+          box-shadow: 1px 1px 6px rgba(25, 25, 26, 0.9);
         }
 
         .why {
@@ -125,6 +296,7 @@ html {
 
           .profile {
             display: block;
+            background-image: url('@resources/dynamic/images/profile/profile.jpg');
           }
 
           .why {
@@ -132,7 +304,7 @@ html {
             color: rgba(255, 255, 255, 0.6);
             line-height: 25px;
             font-size: 18px;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+            font-family: "楷体", Arial, Helvetica, sans-serif;
 
             &>div {
               background: linear-gradient(-30deg, rgba(255, 255, 255, 0) 25%, @color 40%, @color 45%, rgba(255, 255, 255, 0) 75%, rgba(255, 255, 255, 0) 100%) -2000px 0px no-repeat;
@@ -144,6 +316,7 @@ html {
             a.reference {
               color: rgba(181, 250, 242, 0.6);
               font-size: 16px;
+              text-decoration: underline;
             }
 
             .resume {

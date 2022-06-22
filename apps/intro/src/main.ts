@@ -13,6 +13,17 @@ import Resume from 'atat-common/lib/modules/resume';
 const createWelcomeSection = () => {
   const welcomeSection = document.createElement('section');
   welcomeSection.id = 'welcome';
+  
+  const poem = '男儿到死心如铁 看试手 补天裂';
+  const sentences = poem.split(' ');
+  welcomeSection.innerHTML = `
+    <div class="poem">
+      ${sentences.map((sentence) => {
+        const words = sentence.split('');
+        return `<div class="sentence"><span>${words.join('</span><span>')}</span></div>`;
+      }).join('')}
+    </div>
+  `;
 
   return welcomeSection;
 };
@@ -75,6 +86,17 @@ const createAboutSection = () => {
 const createContentSection = () => {
   const contentSection = document.createElement('section');
   contentSection.id = 'content';
+  
+  const poem = '朝如青丝暮成雪 高堂明镜悲白发 君不见 奔流到海不复回 黄河之水天上来 君不见';
+  const sentences = poem.split(' ');
+  contentSection.innerHTML = `
+    <div class="poem">
+      ${sentences.map((sentence) => {
+        const words = sentence.split('');
+        return `<div class="sentence"><span>${words.join('</span><span>')}</span></div>`;
+      }).join('')}
+    </div>
+  `;
 
   return contentSection;
 };
@@ -308,9 +330,9 @@ const render = (app: HTMLElement): void => {
   const container = scrollableContainer.getContainer();
   const { resize } = scrollableContainer;
 
-  const welcomeSection = createWelcomeSection();
+  const welcomeSection = createWelcomeSection(), poem = welcomeSection.querySelector<HTMLDivElement>('.poem')!;
   const aboutSection = createAboutSection(), aboutResume = aboutSection.querySelector<HTMLDivElement>('.resume .reference')!;
-  const contentSection = createContentSection();
+  const contentSection = createContentSection(), poem2 = contentSection.querySelector<HTMLDivElement>('.poem')!;
 
   const door = new Door({ href: '/home' });
   const doorDom = door.getDom();
@@ -482,6 +504,20 @@ const render = (app: HTMLElement): void => {
   // recalculate size after container has been filled
   resize();
   resume.resize();
+  poem.classList.add('show');
+
+  let containerHeight = container.clientHeight, windowHeight = window.innerHeight;
+  scrollableContainer.onScroll = (top) => {
+    if (top === 0) {
+      poem.classList.add('show');
+      return;
+    } else if (containerHeight + top === windowHeight) {
+      poem2.classList.add('show');
+      return;
+    }
+    poem.classList.remove('show');
+    poem2.classList.remove('show');
+  };
 
   const handleDoubleClick = () => {
     if (window.innerWidth < 700) {
@@ -546,6 +582,8 @@ const render = (app: HTMLElement): void => {
     resize();
     resume.resize();
     catResize();
+    containerHeight = container.clientHeight;
+    windowHeight = window.innerHeight;
   };
 };
 

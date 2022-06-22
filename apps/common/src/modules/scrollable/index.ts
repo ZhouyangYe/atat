@@ -27,6 +27,9 @@ class ScrollableContainer {
 
   private config: IConfig;
 
+  /** scroll handler */
+  onScroll?: (scrollTop: number) => void;
+
   /** scrollable container */
   private dom: HTMLElement;
 
@@ -231,6 +234,9 @@ class ScrollableContainer {
       const barRatio = y / delta;
       const barTop = deltaHeight * barRatio;
       this.scrollBar.style.top = `${barTop}px`;
+      if (this.onScroll) {
+        this.onScroll(y);
+      }
 
       scrollTo(y);
     };
@@ -266,6 +272,9 @@ class ScrollableContainer {
         const barRatio = top / deltaHeight;
         y = getTop(barRatio * delta);
         this.scrollBar.style.top = `${top}px`;
+        if (this.onScroll) {
+          this.onScroll(y);
+        }
         scrollTo(y);
       };
       document.addEventListener('mousemove', handleMouseMove, false);

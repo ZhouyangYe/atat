@@ -1,17 +1,36 @@
 import React, { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import BasePage from '@/BasePage';
 import SourceCode from '@/utils/SourceCode';
+import { Loading } from '@/utils';
 import { SORT } from './enum';
+import ErrorBoundary from '@/utils/ErrorBoundary';
 
 import './index.less';
 
 const sortList = Object.values(SORT);
 
+const retry = (fn: () => Promise<any>, retriesLeft = 5, interval = 1000): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    fn()
+      .then(resolve)
+      .catch((error) => {
+        setTimeout(() => {
+          if (retriesLeft === 1) {
+            reject(error);
+            return;
+          }
+
+          retry(fn, retriesLeft - 1, interval).then(resolve, reject);
+        }, interval);
+      });
+  });
+}
+
 const components = {
-  [SORT.MERGE]: lazy(() => import('./MergeSort')),
-  [SORT.QUICK]: lazy(() => import('./QuickSort')),
-  [SORT.BUBBLE]: lazy(() => import('./BubbleSort')),
-  [SORT.INSERTION]: lazy(() => import('./InsertionSort')),
+  [SORT.MERGE]: lazy(() => retry(() => import('./MergeSort'))),
+  [SORT.QUICK]: lazy(() => retry(() => import('./QuickSort'))),
+  [SORT.BUBBLE]: lazy(() => retry(() => import('./BubbleSort'))),
+  [SORT.INSERTION]: lazy(() => retry(() => import('./InsertionSort'))),
 };
 
 const getFiles = (name: string) => {
@@ -65,9 +84,11 @@ const Visualization: React.FC<any> = () => {
           ))}
         </div>
       </header>
-      <Suspense>
-        <Component key={algorithm} />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<Loading />}>
+          <Component key={algorithm} />
+        </Suspense>
+      </ErrorBoundary>
       <div className='source-code-wrap'>
         {sourceCode}
       </div>
