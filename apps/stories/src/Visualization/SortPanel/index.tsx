@@ -102,7 +102,7 @@ function SortPanel<T>({ desc, info, initState, temp, sort, render, tree }: Param
   useEffect(() => {
     if (paused || done) return;
 
-    const stat = { ...status };
+    const stat = { ...currentStatus.current };
     const shouldContinue = sort(numbers, stat, orderFunc[order]);
     currentStatus.current = { ...stat };
     setNumbers([...numbers]);
