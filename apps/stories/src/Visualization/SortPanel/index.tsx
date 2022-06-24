@@ -12,17 +12,17 @@ interface Params<T> {
   desc: string;
   initState: T;
   sort: (numbers: number[], stat: T, compareFunc: (num1: number, num2: number) => number) => boolean;
-  render: (stat: T, currentState: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
+  render: (prevStat: T, currentState: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
   info: Info[];
   tree?: {
     info: Info[];
     data: [number, number][][];
-    render: (stat: T, currentState: T, depth: number, index: number, nums: number[]) => { className: string; };
+    render: (prevStat: T, currentState: T, depth: number, index: number, nums: number[]) => { className: string; };
   };
   temp?: {
     info: Info[];
     numbers: number[];
-    render: (stat: T, currentState: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
+    render: (prevStat: T, currentState: T, index: number, nums: number[], compareFunc: (num1: number, num2: number) => number) => { className: string; };
   };
 }
 
