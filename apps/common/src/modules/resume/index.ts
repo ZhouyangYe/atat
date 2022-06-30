@@ -77,6 +77,7 @@ class Resume {
     },
   };
   onSave: (resume: IResume) => void;
+  onToggle: (open: boolean) => void;
 
   getDom(): HTMLDivElement {
     return this.resume;
@@ -109,6 +110,7 @@ class Resume {
   show(): void {
     this.resume.style.top = '0';
     this.resume.className = 'show';
+    if (this.onToggle) this.onToggle(true);
   }
 
   resize(): void {
@@ -927,6 +929,7 @@ class Resume {
 
     close!.onclick = () => {
       this.resume.className = 'hide';
+      if (this.onToggle) this.onToggle(false);
       setTimeout(() => {
         this.resume.style.top = '-100vh';
       }, 600);

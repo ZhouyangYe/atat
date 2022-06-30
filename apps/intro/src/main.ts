@@ -331,7 +331,7 @@ const render = (app: HTMLElement): void => {
   const { resize } = scrollableContainer;
 
   const welcomeSection = createWelcomeSection(), poem = welcomeSection.querySelector<HTMLDivElement>('.poem')!;
-  const aboutSection = createAboutSection(), aboutResume = aboutSection.querySelector<HTMLDivElement>('.resume .reference')!;
+  const aboutSection = createAboutSection(), aboutResume = aboutSection.querySelector<HTMLDivElement>('.resume .reference')!, about = aboutSection.querySelector<HTMLDivElement>('.why>div')!;
   const contentSection = createContentSection(), poem2 = contentSection.querySelector<HTMLDivElement>('.poem')!;
 
   const door = new Door({ href: '/home' });
@@ -339,18 +339,6 @@ const render = (app: HTMLElement): void => {
 
   const star = new BouncingStar(container);
   const starDom = star.getDom();
-
-  const resume = new Resume({ show: window.location.hash === '#resume' });
-  const resumeDom = resume.getDom();
-
-  getResumeData().then((res) => {
-    if (!res.success) {
-      message.error('Failed to get resume.');
-      return;
-    }
-
-    resume.setResumeData(res.data);
-  });
 
   const audio = new Audio({
     src: '/@resources/dynamic/audios/sword.mp3',
@@ -417,6 +405,37 @@ const render = (app: HTMLElement): void => {
       moveDisabled = false;
     }, 3000);
   }, false);
+
+  const resume = new Resume({ show: window.location.hash === '#resume' });
+  const resumeDom = resume.getDom();
+
+  resume.onToggle = (open: boolean) => {
+    if (open) {
+      doorDom.style.display = 'none';
+      scrollDom.style.display = 'none';
+      poem.style.display = 'none';
+      aboutSection.style.height = `${about.clientHeight}px`;
+      about.style.display = 'none';
+      poem2.style.display = 'none';
+    } else {
+      doorDom.style.display = 'block';
+      scrollDom.style.display = 'block';
+      poem.style.display = 'flex';
+      aboutSection.style.height = 'auto';
+      about.style.display = 'block';
+      poem2.style.display = 'flex';
+    }
+  }
+
+  getResumeData().then((res) => {
+    if (!res.success) {
+      message.error('Failed to get resume.');
+      return;
+    }
+
+    resume.setResumeData(res.data);
+  });
+
   resumeBox.onclick = () => {
     resume.show();
   };
