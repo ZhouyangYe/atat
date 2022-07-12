@@ -503,6 +503,22 @@
       top: 0;
       transition: top 0.2s ease;
 
+      .photo {
+        position: relative;
+        width: 100px;
+        float: right;
+        z-index: 666;
+        padding: 6px;
+        background-color: #fff;
+        border: 1px solid #eaeaea;
+
+        img {
+          display: block;
+          box-sizing: border-box;
+          width: 100%;
+        }
+      }
+
       &>.container {
         padding: 18px;
       }
@@ -530,7 +546,7 @@
 
       h1, h2, h3 {
         position: relative;
-        margin: 16px 0 6px;
+        margin: 15px 0 6px;
 
         &:hover {
           .options {
@@ -566,7 +582,7 @@
         padding: 15px;
 
         h1, h2, h3 {
-          margin-top: 15px;
+          margin-top: 14px;
         }
 
         h1 {

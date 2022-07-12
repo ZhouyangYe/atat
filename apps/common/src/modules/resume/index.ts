@@ -225,6 +225,7 @@ class Resume {
     if (this.theme === THEME.PLAIN) {
       return `
         <div class='container ${this.lan}'>
+          <div class='photo'><img src='/@resources/static/resume/photo.jpg'></div>
           <h1 id='name' class='name'>
             ${resume.name}
             ${this.renderTools(`<div class='options'><img data-name='${SECTION.NAME}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
@@ -275,7 +276,7 @@ class Resume {
               <ul>
                 ${e.disc.map((d) => {
                   return `
-                    <li>${d}</li>
+                    <li> - ${d}</li>
                   `;
                 }).join('')}
               </ul>
