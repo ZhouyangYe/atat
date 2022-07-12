@@ -44,6 +44,13 @@ interface ILocale {
   close: string;
   lan: string;
   resume?: IResumeLan
+  blue: string;
+  plain: string;
+}
+
+enum THEME {
+  BLUE = 'blue',
+  PLAIN = 'plain',
 }
 
 class Resume {
@@ -56,6 +63,7 @@ class Resume {
   private resume: HTMLDivElement;
   private content: HTMLDivElement;
   private lan = LANGUAGE.CH;
+  private theme = THEME.BLUE;
   private locale: { ch: ILocale; en: ILocale } = {
     ch: {
       revert: '恢复',
@@ -65,6 +73,8 @@ class Resume {
       close: '关闭',
       lan: 'English',
       resume: undefined,
+      blue: '蓝色',
+      plain: '简洁',
     },
     en: {
       revert: 'Revert',
@@ -74,6 +84,8 @@ class Resume {
       close: 'Close',
       lan: '中文',
       resume: undefined,
+      blue: 'Blue',
+      plain: 'Plain',
     },
   };
   onSave: (resume: IResume) => void;
@@ -198,6 +210,10 @@ class Resume {
     }
   }
 
+  private getOtherTheme(t: THEME): THEME {
+    return t === THEME.BLUE ? THEME.PLAIN : THEME.BLUE;
+  }
+
   private getText(str: [string, string]): string {
     const i = this.lan === LANGUAGE.CH ? 0 : 1;
     return str[i];
@@ -205,6 +221,125 @@ class Resume {
 
   private getResumeContent(): string {
     const resume = this.locale[this.lan].resume!;
+
+    if (this.theme === THEME.PLAIN) {
+      return `
+        <div class='container ${this.lan}'>
+          <h1 id='name' class='name'>
+            ${resume.name}
+            ${this.renderTools(`<div class='options'><img data-name='${SECTION.NAME}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
+          </h1>
+          <p class='profession'>${resume.title}</p><span> / </span>
+          <p class='web'>${resume.web}</p>
+          <h2 id='contact' class='contact'>
+            ${this.getText(['联系方式', 'Contact'])}
+            ${this.renderTools(`<div class='options'><img data-name='${SECTION.CONTACT}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
+          </h2>
+          <p class='info'><span class='highlight'>${this.getText(['电话', 'Phone'])}:</span> ${resume.contact.phone}</p><span> / </span>
+          <p class='info email'><span class='highlight'>${this.getText(['邮箱', 'Email'])}:</span> ${resume.contact.email}</p><span> / </span>
+          <p class='info'><span class='highlight'>${this.getText(['微信', 'WeChat'])}:</span> ${resume.contact.wechat}</p><span> / </span>
+          <p class='info'><span class='highlight'>${this.getText(['住址', 'Address'])}:</span> ${resume.contact.location}</p><span> / </span>
+          <p class='info'><span class='highlight'>Github:</span> ${resume.contact.github}</p>
+          <h2 id='title' class='title'>
+            ${this.getText(['关于', 'About'])}
+            ${this.renderTools(`<div class='options'><img data-name='${SECTION.ABOUT}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
+          </h2>
+          ${resume.about.map((a, i) => {
+            return `
+              <p class='about-${i} about'>${a}</p>
+            `;
+          }).join('')}
+          <h2 id='experience' class='experience'>
+            ${this.getText(['工作经历', 'EXPERIENCE'])}
+            ${this.renderTools(`<div class='options'><img data-name='${SECTION.EXPERIENCE}' data-action='${ACTION.ADD}' src='/@resources/static/icons/add.svg'></div>`)}
+          </h2>
+          ${resume.experience.map((e, i) => {
+            return `
+              <h3 class='index-${i}'>
+                ${e.title}${e.time !== '\\empty' ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : ''}
+                ${e.time !== '\\empty' ? `
+                  <span class='extra'>${e.time}</span>
+                ` : ''}${e.time !== '\\empty' ? '&nbsp;/&nbsp;' : ''}
+                ${e.company !== '\\empty' ? `
+                  <span class='extra'>${e.company}</span>
+                ` : ''}
+                ${this.renderTools(`
+                  <div class='options'>
+                    <img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'>
+                    <img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.DELETE}' src='/@resources/static/icons/delete.svg'>
+                    ${i === 0 ? '' : `<img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.UP}' src='/@resources/static/icons/up.svg'>`}
+                    ${i === resume.experience.length - 1 ? '' : `<img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.DOWN}' src='/@resources/static/icons/down.svg'>`}
+                  </div>
+                `)}
+              </h3>
+              <ul>
+                ${e.disc.map((d) => {
+                  return `
+                    <li>${d}</li>
+                  `;
+                }).join('')}
+              </ul>
+            `;
+          }).join('')}
+          <h2 id='education' class='education'>
+            ${this.getText(['教育经历', 'EDUCATION'])}
+            ${this.renderTools(`<div class='options'><img data-name='${SECTION.EDUCATION}' data-action='${ACTION.ADD}' src='/@resources/static/icons/add.svg'></div>`)}
+          </h2>
+          ${resume.education.map((e, i) => {
+            return `
+              <h3 class='index-${i}'>
+                ${e.major}
+                ${this.renderTools(`
+                  <div class='options'>
+                    <img data-name='${SECTION.EDUCATION}' data-index='${i}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'>
+                    <img data-name='${SECTION.EDUCATION}' data-index='${i}' data-action='${ACTION.DELETE}' src='/@resources/static/icons/delete.svg'>
+                    ${i === 0 ? '' : `<img data-name='${SECTION.EDUCATION}' data-index='${i}' data-action='${ACTION.UP}' src='/@resources/static/icons/up.svg'>`}
+                    ${i === resume.education.length - 1 ? '' : `<img data-name='${SECTION.EDUCATION}' data-index='${i}' data-action='${ACTION.DOWN}' src='/@resources/static/icons/down.svg'>`}
+                  </div>
+                `)}
+              </h3>
+              <p>
+                <span>${e.time}</span>
+              </p>
+              <p class='last'>
+                <span>${e.school}</span>
+              </p>
+            `;
+          }).join('')}
+          <h2>
+            ${this.getText(['个人能力', 'Skills'])}
+          </h2>
+          <p class='personality'>${resume.skill.map((s) => `<span>${s}</span>`).join(`<span class='comma'>${this.lan === LANGUAGE.CH ? '，' : ', '}</span>`)}</p>
+          <h2 id='skills' class='skills'>
+            ${this.getText(['职业技能', 'Tech skill'])}
+            ${this.renderTools(`<div class='options'><img data-name='${SECTION.TECHSKILL}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
+          </h2>
+          <p class='skills'>
+            ${resume.techSkill.skill.map((ts) => {
+              return `<span>${ts}</span>`;
+            }).join(`<span class='comma'>${this.lan === LANGUAGE.CH ? '，' : ', '}</span>`)}
+          </p>
+          <p class='skills'>
+            <span>${this.getText(['熟悉', 'Familiar with'])}: </span>
+            ${resume.techSkill.familiar.map((ts) => {
+              return `<span>${ts}</span>`;
+            }).join(`<span class='comma'>${this.lan === LANGUAGE.CH ? '，' : ', '}</span>`)}
+          </p>
+          <h2 id='interests' class='bottom'>
+            ${this.getText(['兴趣爱好', 'Hobby'])}
+            ${this.renderTools(`<div class='options'><img data-name='${SECTION.INTERESTS}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'></div>`)}
+          </h2>
+          <div class='interests'>
+            ${resume.interests.map((i) => {
+              return `
+                <span>${i}</span>
+              `;
+            }).join(`<span class='comma'>${this.lan === LANGUAGE.CH ? '，' : ', '}</span>`)}
+          </div>
+        </div>
+      `;
+    }
+
     return `
       <div class='main ${this.lan}'>
         <h2 id='experience' class='experience'>
@@ -345,12 +480,15 @@ class Resume {
         </div>
       `)}
       <main class='wrap'>
-        <div class='content'></div>
+        <div class='content blue'></div>
         <div class='loading-bar'>${new Array(10).fill('wave').map((className) => `<div class="${className}"></div>`).join('')}</div>
         <div class='scroll-bar'></div>
       </main>
       <footer>
-        <div class='language'>English</div>
+        <div class='lButton'>
+          <div class='language'>English</div>
+          <div class='theme'>简洁</div>
+        </div>
         <div class='button'>
           ${this.renderTools(`<div class='revert'>${this.locale[this.lan].revert}</div>`)}
           <div class='save'>${this.locale[this.lan].save}</div>
@@ -376,6 +514,7 @@ class Resume {
 
     const
       language = this.resume.querySelector<HTMLDivElement>('.language'),
+      theme = this.resume.querySelector<HTMLDivElement>('.theme'),
       save = this.resume.querySelector<HTMLDivElement>('.save'),
       close = this.resume.querySelector<HTMLDivElement>('.close'),
       revert = this.resume.querySelector<HTMLDivElement>('.revert'),
@@ -896,6 +1035,16 @@ class Resume {
       };
     }
 
+    theme!.onclick = () => {
+      if (this.loading) return;
+      const text = this.locale[this.lan];
+      theme!.innerHTML = text[this.theme];
+      this.theme = this.getOtherTheme(this.theme);
+      content!.innerHTML = this.getResumeContent();
+      content!.className = `content ${this.theme}`;
+      this.resize();
+    }
+
     language!.onclick = () => {
       if (this.loading) return;
       this.lan = this.lan === LANGUAGE.CH ? LANGUAGE.EN : LANGUAGE.CH;
@@ -903,6 +1052,7 @@ class Resume {
       language!.innerHTML = text.lan;
       save!.innerHTML = text.save;
       close!.innerHTML = text.close;
+      theme!.innerHTML = text[this.getOtherTheme(this.theme)];
       if (ok) ok.innerHTML = text.ok;
       if (cancel) cancel.innerHTML = text.cancel;
       if (revert) revert.innerHTML = text.revert;
