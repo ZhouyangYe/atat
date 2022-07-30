@@ -6,9 +6,9 @@ import './index.less';
 
 const colorMapping = {
   [PAGE.HOME]: 'rgba(0, 66, 97, 0.6)',
-  [PAGE.ARTICLES]: 'rgba(22, 133, 46, 0.6)',
-  [PAGE.ALBUM]: 'rgba(109, 0, 0, 0.6)',
-  [PAGE.VISUALIZATION]: 'rgba(231, 133, 67, 0.6)',
+  [PAGE.ARTICLES]: 'rgba(109, 0, 0, 0.6)',
+  [PAGE.ALBUM]: 'rgba(22, 133, 46, 0.6)',
+  [PAGE.VISUALIZATION]: 'rgba(136, 54, 0, 0.6)',
   [PAGE.NOTFOUND]: 'rgba(0, 0, 0, 0.6)',
 };
 

@@ -1,25 +1,21 @@
 import { doAnimationInterval } from 'atat-common/lib/utils';
 import * as physics from './physics';
-import * as rayTracing from './raytracing';
+import * as shaderToy from './shaderToy';
 
 import './styles';
+
+const buttons = document.querySelectorAll<HTMLDivElement>('.btn');
 
 let canvas: HTMLCanvasElement;
 let cancel: () => void;
 
 const list = [
   physics,
-  rayTracing,
+  shaderToy,
 ];
 
-const testcase = list[1];
-
-const restart = () => {
-  if (cancel) cancel();
-  document.removeChild(canvas);
-
-  start();
-}
+let testcase = list[0];
+buttons[0].classList.add('active');
 
 const start = () => {
   canvas = testcase.canvas;
@@ -36,4 +32,22 @@ const start = () => {
   cancel = doAnimationInterval(render, 0);
 };
 
+const restart = () => {
+  if (cancel) cancel();
+  document.body.removeChild(canvas);
+
+  start();
+}
+
 start();
+
+buttons.forEach((button, i) => {
+  button.onclick = () => {
+    testcase = list[i];
+    buttons.forEach((btn) => {
+      btn.classList.remove('active');
+    });
+    button.classList.add('active');
+    restart();
+  };
+});

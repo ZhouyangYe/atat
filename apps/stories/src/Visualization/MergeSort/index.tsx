@@ -1,6 +1,6 @@
 import React, { useCallback, lazy, Suspense } from 'react';
 
-const SortPanel = lazy(() => import('../SortPanel'));
+const SortPanel = lazy(() => import('../Panels/SortPanel'));
 
 interface MergeSortState {
   level: number;

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { ORDER } from '../enum';
+import { ORDER } from '../../enum';
 
 import './index.less';
 

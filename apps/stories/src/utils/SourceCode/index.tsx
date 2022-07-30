@@ -49,9 +49,15 @@ const SourceCode: React.FC<Params> = ({ root, filter, maxHeight = 600, minHeight
     if (element.info.isDir) {
       return (
         <>
-          {element.info.files.filter((file) => (
-            path === root && filter ? filter?.includes(file) : true
-          )).sort((file1, file2) => {
+          {element.info.files.filter((file) => {
+            if (!filter) return true;
+
+            if (path === root) {
+              return filter?.includes(file);
+            } else {
+              return filter?.includes(file) || getExt(file) !== EXT.NONE;
+            }
+          }).sort((file1, file2) => {
             const ext1 = getExt(file1), ext2 = getExt(file2);
 
             if (ext1 === ext2) {

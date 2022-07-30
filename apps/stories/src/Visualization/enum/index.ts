@@ -9,3 +9,7 @@ export enum SORT {
   BUBBLE = 'BubbleSort',
   INSERTION = 'InsertionSort',
 }
+
+export enum GRAPHIC {
+  RAYMARCHING = 'RayMarching',
+}

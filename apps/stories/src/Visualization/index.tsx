@@ -2,13 +2,16 @@ import React, { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useStat
 import BasePage from '@/BasePage';
 import SourceCode from '@/utils/SourceCode';
 import { Loading } from '@/utils';
-import { SORT } from './enum';
+import { SORT, GRAPHIC } from './enum';
 import ErrorBoundary from '@/utils/ErrorBoundary';
 
 import './index.less';
 
+type Type = SORT | GRAPHIC;
 const sortList = Object.values(SORT);
+const graphicList = Object.values(GRAPHIC);
 
+// retry if failed to get component
 const retry = (fn: () => Promise<any>, retriesLeft = 5, interval = 1000): Promise<any> => {
   return new Promise((resolve, reject) => {
     fn()
@@ -27,6 +30,7 @@ const retry = (fn: () => Promise<any>, retriesLeft = 5, interval = 1000): Promis
 }
 
 const components = {
+  [GRAPHIC.RAYMARCHING]: lazy(() => retry(() => import('./RayMarching'))),
   [SORT.MERGE]: lazy(() => retry(() => import('./MergeSort'))),
   [SORT.QUICK]: lazy(() => retry(() => import('./QuickSort'))),
   [SORT.BUBBLE]: lazy(() => retry(() => import('./BubbleSort'))),
@@ -35,7 +39,9 @@ const components = {
 
 const getFiles = (name: string) => {
   if ((sortList as string[]).includes(name)) {
-    return ['SortPanel', name];
+    return ['Panels', 'SortPanel', name];
+  } else if ((graphicList as string[]).includes(name)) {
+    return ['Panels', 'ShaderPanel', name];
   }
   return undefined;
 };
@@ -43,7 +49,7 @@ const getFiles = (name: string) => {
 const Visualization: React.FC<any> = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useState(true);
-  const [algorithm, setAlgorithm] = useState(SORT.MERGE);
+  const [algorithm, setAlgorithm] = useState<Type>(GRAPHIC.RAYMARCHING);
   const [height, setHeight] = useState(40);
 
   useEffect(() => {
@@ -79,7 +85,7 @@ const Visualization: React.FC<any> = () => {
       <header style={{ height: collapsed ? 40 : height }} >
         <img onClick={handleToggle} src={collapsed ? '@resources/static/icons/expand.svg' : '@resources/static/icons/collapse.svg'} />
         <div ref={ref} className='menu'>
-          {sortList.map((item) => (
+          {[...graphicList,...sortList].map((item) => (
             <a key={item} className={algorithm === item ? 'active' : ''} onClick={() => { setAlgorithm(item) }}>{item}</a>
           ))}
         </div>
