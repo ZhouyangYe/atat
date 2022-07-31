@@ -1,4 +1,5 @@
 import React, { lazy, Suspense } from 'react';
+import { Loading } from '@/utils';
 
 const ShaderPanel = lazy(() => import('../Panels/ShaderPanel'));
 
@@ -66,7 +67,7 @@ const RayMarching: React.FC<any> = () => {
   `;
 
   return (
-    <Suspense>
+    <Suspense fallback={<Loading />}>
       <ShaderPanel desc='Ray marching算法渲染球体。' vertexShader={vertexShader} fragmentShader={fragmentShader} />
     </Suspense>
   );
