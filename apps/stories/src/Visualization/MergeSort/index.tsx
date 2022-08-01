@@ -1,4 +1,5 @@
-import React, { useCallback, lazy, Suspense } from 'react';
+import React, { useCallback, lazy } from 'react';
+import Async from '@/utils/Async';
 
 const SortPanel = lazy(() => import('../Panels/SortPanel'));
 
@@ -148,7 +149,7 @@ const MergeSort: React.FC<any> = () => {
   }, []);
 
   return (
-    <Suspense>
+    <Async>
       <SortPanel
         desc='Merge sort, 时间复杂度O(nlogn)'
         info={[
@@ -171,7 +172,7 @@ const MergeSort: React.FC<any> = () => {
           render: renderTemp,
         }}
       />
-    </Suspense>
+    </Async>
   );
 };
 
