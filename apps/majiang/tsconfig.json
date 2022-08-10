@@ -10,13 +10,16 @@
     "esModuleInterop": true,
     "module": "esnext",
     "target": "es6",
+    "jsx": "preserve",
     "baseUrl": ".",
     "rootDir": "src",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": []
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*.vue",
+    "./src/**/*.ts"
   ]
 }

@@ -61,7 +61,7 @@ class Login {
     this.speed.x = (Math.random() * 2 - 1) * 100;
     this.login.style.left = `${randomLeft}px`;
     this.login.style.top = '-200px';
-    this.login.style.zIndex = '1000';
+    this.login.style.zIndex = '998';
     this.cancelAnimation = doAnimationInterval(() => {
       let left = this.login.offsetLeft, top = this.login.offsetTop;
 

@@ -12,6 +12,22 @@ const getAppPath = (name, subPath) => {
 
 // build path related configs
 const buildCommonConfig = (config, name) => {
+  // pick the last one if there are multiple ts loaders
+  const unifiedRules = [], rules = config.module.rules;
+  let tsLoaderAdded = false;
+  for (let i = rules.length - 1; i >= 0; i--) {
+    if (rules[i].loader === 'ts-loader') {
+      if (!tsLoaderAdded) {
+        unifiedRules.push(rules[i]);
+        tsLoaderAdded = true;
+        continue;
+      }
+      continue;
+    }
+    unifiedRules.push(rules[i]);
+  }
+  config.module.rules = unifiedRules;
+
   if (!config.output) { // if output is not set, use the default output path and filename
     config.output = {
       path: getAppPath(name, '/dist'), // default output path

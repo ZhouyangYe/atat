@@ -8,7 +8,7 @@
   "editor.formatOnSave": false,
   "typescript.validate.enable": true,
   "javascript.validate.enable": true,
-  "eslint.workingDirectories": [{ "mode": "auto" }, "./apps", "./apps/stories"],
+  "eslint.workingDirectories": [{ "mode": "auto" }, "./apps", "./apps/stories", "./apps/majiang"],
   "window.zoomLevel": 0,
   "explorer.openEditors.visible": 0,
   "explorer.enableDragAndDrop": false,
@@ -43,5 +43,8 @@
   },
   "files.associations": {
     "*.js": "javascript"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "michelemelluso.code-beautifier"
   }
 }
