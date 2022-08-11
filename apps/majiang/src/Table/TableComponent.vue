@@ -2,17 +2,13 @@
 </style>
 
 <template>
-  <MajiangTable />
+  <div>{{ msg }}</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import MajiangTable from './Table/TableComponent.vue';
 
 export default defineComponent({
-  components: {
-    MajiangTable,
-  },
   data() {
     return {
       msg: 'Hello Vue',

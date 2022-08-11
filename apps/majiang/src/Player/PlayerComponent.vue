@@ -2,16 +2,17 @@
 </style>
 
 <template>
-  <MajiangTable />
+  <div>{{ msg }}</div>
+  <Tile :name="msg" />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import MajiangTable from './Table/TableComponent.vue';
+import Tile from './Tile/TileComponent.vue';
 
 export default defineComponent({
   components: {
-    MajiangTable,
+    Tile,
   },
   data() {
     return {

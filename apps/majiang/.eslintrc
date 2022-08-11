@@ -1,12 +1,9 @@
-require("@rushstack/eslint-patch/modern-module-resolution")
-
-module.exports = {
+{
   "parser": "vue-eslint-parser",
   "extends": [
-    "plugin:vue/vue3-essential",
     "eslint:recommended",
-    '@vue/eslint-config-typescript/recommended',
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/vue3-recommended"
   ],
   "root": true,
   "env": {
@@ -26,6 +23,8 @@ module.exports = {
     "@typescript-eslint/no-use-before-define": 1,
     "no-var": 1,
     "no-magic-numbers": "warn",
-    "no-undef": "error"
+    "no-undef": "error",
+    "vue/component-tags-order": 0,
+    "vue/max-attributes-per-line": 0
   }
 }
