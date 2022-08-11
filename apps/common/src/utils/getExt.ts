@@ -28,6 +28,7 @@ export enum EXT {
   TTF = 'ttf',
   WOFF = 'woff',
   CONFIG = 'config',
+  VUE = 'vue',
 }
 
 export const getExt = (filename: string): EXT => {

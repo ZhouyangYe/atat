@@ -39,6 +39,7 @@ const iconMap = {
   [EXT.TTF]: '@resources/static/icons/font.svg',
   [EXT.WOFF]: '@resources/static/icons/font.svg',
   [EXT.CONFIG]: '@resources/static/icons/config.svg',
+  [EXT.VUE]: '@resources/static/icons/vue.svg',
 };
 
 const File: React.FC<Params> = ({ ext, filename, onclick }) => {

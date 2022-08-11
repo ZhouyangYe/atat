@@ -8,11 +8,18 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Tile from './Tile/TileComponent.vue';
+import { TileType } from '../enum';
 
 export default defineComponent({
-  components: {
-    Tile,
+  name: 'PlayerComponent',
+  props: {
+    tiles: {
+      type: Array,
+      required: false,
+      default: () => {
+        return [];
+      },
+    },
   },
   data() {
     return {

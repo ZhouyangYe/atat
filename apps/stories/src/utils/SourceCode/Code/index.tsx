@@ -24,6 +24,8 @@ const Code: React.FC<Params> = ({ ext, data }) => {
         return `language-${ext}`;
       case EXT.ESLINT:
         return `language-json`;
+      case EXT.VUE:
+        return `language-html`;
       default:
         return 'language-plaintext';
     }
