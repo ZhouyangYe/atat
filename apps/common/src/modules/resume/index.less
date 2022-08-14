@@ -243,6 +243,8 @@
             line-height: @h;
             display: inline-block;
             vertical-align: top;
+            z-index: 888;
+            background-color: #fff;
 
             img {
               height: @h;
@@ -275,6 +277,8 @@
             line-height: @h;
             display: inline-block;
             vertical-align: top;
+            z-index: 888;
+            background-color: #fff;
 
             img {
               height: @h;
@@ -385,8 +389,11 @@
             line-height: @h;
             display: block;
             position: absolute;
-            top: 6px;
+            top: 1px;
+            padding: 2px;
             right: 0;
+            z-index: 888;
+            background-color: #fff;
 
             img {
               height: @h;
@@ -523,6 +530,10 @@
         padding: 18px;
       }
 
+      .about {
+        text-align: justify;
+      }
+
       .options {
         @h: 18px;
         opacity: 0;
@@ -531,8 +542,11 @@
         line-height: @h;
         display: block;
         position: absolute;
-        top: 6px;
+        top: 1px;
+        padding: 2px;
         right: 0;
+        z-index: 888;
+        background-color: #fff;
 
         img {
           height: @h;
@@ -567,6 +581,10 @@
 
       h3 {
         margin: 12px 0 6px;
+
+        .work-info {
+          float: right;
+        }
 
         &.index-0 {
           margin-top: 0;
@@ -622,6 +640,7 @@
         li {
           margin-bottom: 6px;
           font-size: 15px;
+          text-align: justify;
         }
       }
 

@@ -257,13 +257,15 @@ class Resume {
           ${resume.experience.map((e, i) => {
             return `
               <h3 class='index-${i}'>
-                ${e.title}${e.time !== '\\empty' ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : ''}
-                ${e.time !== '\\empty' ? `
-                  <span class='extra'>${e.time}</span>
-                ` : ''}${e.time !== '\\empty' ? '&nbsp;/&nbsp;' : ''}
-                ${e.company !== '\\empty' ? `
-                  <span class='extra'>${e.company}</span>
-                ` : ''}
+                ${e.title}
+                <span class='work-info'>
+                  ${e.time !== '\\empty' ? `
+                    <span class='extra'>${e.time}</span>
+                  ` : ''}${e.time !== '\\empty' ? '&nbsp;/&nbsp;' : ''}
+                  ${e.company !== '\\empty' ? `
+                    <span class='extra'>${e.company}</span>
+                  ` : ''}
+                </span>
                 ${this.renderTools(`
                   <div class='options'>
                     <img data-name='${SECTION.EXPERIENCE}' data-index='${i}' data-action='${ACTION.EDIT}' src='/@resources/static/icons/edit.svg'>
