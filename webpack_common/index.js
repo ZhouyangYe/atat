@@ -1,10 +1,10 @@
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require('terser-webpack-plugin');
 const { WEBPACK_MODE } = require('../scripts/enum');
 
-const cssMinifyPlugin = new OptimizeCSSAssetsPlugin({}); // minify css
+const cssMinifyPlugin = new CssMinimizerPlugin(); // minify css
 
 const jsMinifyPlugin = new TerserPlugin({ // uglify js
   parallel: true,
