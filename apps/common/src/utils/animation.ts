@@ -1,4 +1,4 @@
-export const doAnimationDuration = (fn: () => void, duration = 0): () => void => {
+export const doAnimationDuration = (fn: (t?: number) => void, duration = 0): () => void => {
   let timer: number | undefined = undefined;
   let start: number | undefined = undefined;
   let stop = false;
@@ -6,7 +6,7 @@ export const doAnimationDuration = (fn: () => void, duration = 0): () => void =>
   function step(timestamp: number): void {
     if (!start) start = timestamp;
     const progress = timestamp - start;
-    fn();
+    fn(timestamp);
     if (progress < duration && !stop) {
       timer = window.requestAnimationFrame(step);
     }
@@ -20,7 +20,7 @@ export const doAnimationDuration = (fn: () => void, duration = 0): () => void =>
   };
 };
 
-export const doAnimationInterval = (fn: () => void, interval = 0): () => void => {
+export const doAnimationInterval = (fn: (t?: number) => void, interval = 0): () => void => {
   let timer: number | undefined = undefined;
   let stop = false;
   let start: number | undefined = undefined;
@@ -28,15 +28,15 @@ export const doAnimationInterval = (fn: () => void, interval = 0): () => void =>
   function step(timestamp: number): void {
     if (!start) {
       start = timestamp;
-      fn();
+      fn(timestamp);
     }
 
     if (interval === 0) {
-      fn();
+      fn(timestamp);
     } else {
       const progress = timestamp - start;
       if (progress >= interval) {
-        fn();
+        fn(timestamp);
         start = timestamp;
       }
     }

@@ -10,8 +10,8 @@ let canvas: HTMLCanvasElement;
 let cancel: () => void;
 
 const list = [
-  physics,
   shaderToy,
+  physics,
 ];
 
 let testcase = list[0];
@@ -25,8 +25,8 @@ const start = () => {
 
   testcase.init(width, height);
 
-  const render = () => {
-    testcase.render();
+  const render = (timestamp: number) => {
+    testcase.render(timestamp);
   };
 
   cancel = doAnimationInterval(render, 0);
